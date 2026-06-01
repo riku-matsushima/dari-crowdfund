@@ -1312,8 +1312,11 @@
 
     // Stripe決済ページへリダイレクト
     // ※ Stripe の return_url に dari_thanks.html を設定してください
-    const stripeUrl = STRIPE_LINKS[state.plan];
-    if (stripeUrl && !stripeUrl.includes('YOUR_')) {
+    const baseUrl = STRIPE_LINKS[state.plan];
+    if (baseUrl && !baseUrl.includes('YOUR_')) {
+      // 金額をURLパラメータで渡す（単位は円の最小単位「銭」= 円×100）
+      const amountInYen = state.amount;
+      const stripeUrl = baseUrl + '?prefilled_amount=' + (amountInYen * 100);
       window.location.href = stripeUrl;
     } else {
       // 開発中はthanksページに直接飛ぶ
