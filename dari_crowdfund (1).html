@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARI — GBB2026 CROWDFUNDING</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #F05A00;
+    --red-dim: #8A3200;
+    --bg: #080808;
+    --bg2: #111;
+    --line: #1E1E1E;
+    --line-bold: #2A2A2A;
+    --text: #FFFFFF;
+    --muted: #888;
+    --mono: 'Space Mono', monospace;
+    --cond: 'Barlow Condensed', sans-serif;
+    --display: 'Inter', sans-serif;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.12) 3px,
+      rgba(0,0,0,0.12) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* titles rendered above scanline overlay so they appear clean */
+  .hero-title,
+  .hero-subtitle,
+  .section-title,
+  .stat-val,
+  .tier-price,
+  .tier-name,
+  .brow.total .brow-label,
+  .footer-logo {
+    position: relative;
+    z-index: 10000;
+    mix-blend-mode: normal;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--cond);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 52px;
+    border-bottom: 1px solid var(--line-bold);
+    background: var(--bg);
+  }
+
+  nav .nav-left {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  nav .nav-right {
+    display: flex;
+    gap: 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  nav .nav-right a {
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    padding: 0 1.5rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid var(--line-bold);
+    transition: color 0.15s, background 0.15s;
+  }
+
+  nav .nav-right a:hover { color: var(--text); background: var(--bg2); }
+  nav .nav-right a.cta { color: var(--red); }
+  nav .nav-right a.cta:hover { background: var(--red); color: #fff; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 7rem 2rem 0;
+    border-bottom: 1px solid var(--line-bold);
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .logo-wrap { margin-bottom: 2rem; }
+  .logo-wrap img {
+    width: min(500px, 70vw);
+    height: auto;
+    display: block;
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(5rem, 14vw, 13rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title .accent { color: var(--red); }
+
+  .hero-subtitle {
+    font-family: var(--display);
+    font-size: clamp(1.2rem, 3vw, 2.8rem);
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 3rem;
+  }
+
+  .hero-bottom {
+    border-top: 1px solid var(--line-bold);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+  }
+
+  .hero-desc {
+    padding: 2rem 2rem 2rem 0;
+    border-right: 1px solid var(--line-bold);
+  }
+
+  .hero-desc p {
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 480px;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-desc p strong { color: var(--text); font-weight: 600; }
+
+  .hero-desc .subnote {
+    margin-top: 1rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-cta a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0 3rem;
+    transition: all 0.15s;
+    border-bottom: 1px solid var(--line-bold);
+    white-space: nowrap;
+  }
+
+  .hero-cta a:last-child { border-bottom: none; }
+  .hero-cta a.primary { background: var(--red); color: #fff; }
+  .hero-cta a.primary:hover { background: #FF6A10; }
+  .hero-cta a.secondary { color: var(--muted); }
+  .hero-cta a.secondary:hover { color: var(--text); background: var(--bg2); }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--line-bold);
+  }
+
+  .stat {
+    padding: 2rem;
+    border-right: 1px solid var(--line-bold);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-val {
+    font-family: var(--display);
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-val.red { color: var(--red); }
+
+  .progress-wrap {
+    height: 10px;
+    background: var(--line-bold);
+    position: relative;
+    overflow: visible;
+    border-bottom: 1px solid var(--line-bold);
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--red);
+    transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 0 12px var(--red), 0 0 28px rgba(240,90,0,0.5);
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    bottom: -4px;
+    width: 3px;
+    background: #fff;
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--red), 0 0 40px var(--red);
+    opacity: 0.9;
+    animation: pulse-line 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-line {
+    0%, 100% { opacity: 0.9; box-shadow: 0 0 8px #fff, 0 0 18px var(--red); }
+    50% { opacity: 1; box-shadow: 0 0 16px #fff, 0 0 32px var(--red), 0 0 56px rgba(240,90,0,0.6); }
+  }
+
+  .progress-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+    padding: 0.4rem 2rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-bold);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-label span { color: var(--muted); }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    height: 140px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line-bold);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    gap: 1rem;
+  }
+
+  .section-divider::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line-bold);
+  }
+
+  .section-divider-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #222;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line-bold);
+  }
+
+  /* SECTION */
+  .section {
+    border-bottom: 1px solid var(--line-bold);
+  }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: stretch;
+    border-bottom: 1px solid var(--line-bold);
+    margin-bottom: 0;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    padding: 1.5rem 1.2rem;
+    border-right: 1px solid var(--line-bold);
+    text-transform: uppercase;
+  }
+
+  .section-title-wrap {
+    padding: 5rem 2rem 4.5rem;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .section-body {
+    padding: 3rem 2rem;
+  }
+
+  /* TIERS */
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 0;
+  }
+
+  .tier {
+    padding: 3rem 2rem;
+    border-right: 1px solid var(--line-bold);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .tier:last-child { border-right: none; }
+  .tier:hover { background: #0e0e0e; }
+
+  .tier-top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--line-bold);
+  }
+
+  .tier.featured .tier-top-bar { background: var(--red); }
+  .tier:hover .tier-top-bar { background: var(--red); }
+
+  .tier-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .tier.featured .tier-tag { color: var(--red); }
+
+  .tier-price {
+    font-family: var(--display);
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .tier-price-tilde {
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--red);
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  .tier-price-note {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 0.3rem;
+    margin-bottom: 2rem;
+  }
+
+  .tier-name {
+    font-family: var(--cond);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line-bold);
+    padding-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .tier-perks {
+    list-style: none;
+    flex: 1;
+    margin-bottom: 2.5rem;
+  }
+
+  .tier-perks li {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.4;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .tier-perks li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--red-dim);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .tier-perks li.dim { color: #2e2e2e; }
+  .tier-perks li.dim::before { color: #1e1e1e; }
+
+  .tier-btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    border: 1px solid var(--line-bold);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .tier-btn:hover, .tier.featured .tier-btn {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+  }
+
+  /* BREAKDOWN */
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--line-bold);
+  }
+
+  .breakdown-left {
+    padding: 4rem 2rem;
+    border-right: 1px solid var(--line-bold);
+  }
+
+  .breakdown-left p {
+    font-size: 19px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.02em;
+  }
+
+  .breakdown-left p strong { color: var(--text); font-weight: 600; }
+
+  .breakdown-right {
+    padding: 4rem 2rem;
+  }
+
+  .brow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brow:first-child { border-top: 1px solid var(--line-bold); }
+
+  .brow-label {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .brow-amount {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .brow.total {
+    border-bottom: none;
+    border-top: 1px solid var(--line-bold);
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+  }
+
+  .brow.total .brow-label {
+    font-family: var(--cond);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  .brow.total .brow-amount {
+    font-size: 15px;
+    color: var(--red);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 0;
+    border-top: 1px solid var(--line-bold);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+  }
+
+  .footer-left {
+    padding: 2rem;
+  }
+
+  .footer-logo {
+    font-family: var(--cond);
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .footer-right {
+    border-left: 1px solid var(--line-bold);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-right span {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .tiers-grid { grid-template-columns: 1fr 1fr; }
+    .tier:nth-child(2) { border-right: none; }
+    .tier:nth-child(3) { border-right: 1px solid var(--line-bold); border-top: 1px solid var(--line-bold); }
+    .tier:nth-child(4) { border-right: none; border-top: 1px solid var(--line-bold); }
+    .breakdown-grid { grid-template-columns: 1fr; }
+    .breakdown-left { border-right: none; border-bottom: 1px solid var(--line-bold); }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(3) { border-right: none; border-top: 1px solid var(--line-bold); grid-column: span 2; }
+    nav .nav-right a:not(.cta) { display: none; }
+    .hero-bottom { grid-template-columns: 1fr; }
+    .hero-desc { border-right: none; border-bottom: 1px solid var(--line-bold); }
+    .hero-cta { flex-direction: row; }
+    .hero-cta a { border-bottom: none; border-left: 1px solid var(--line-bold); }
+    .hero-cta a:first-child { border-left: none; }
+    footer { grid-template-columns: 1fr; }
+    .footer-right { border-left: none; border-top: 1px solid var(--line-bold); }
+  }
+
+  @media (max-width: 480px) {
+    .tiers-grid { grid-template-columns: 1fr; }
+    .tier { border-right: none; border-top: 1px solid var(--line-bold); }
+    .tier:first-child { border-top: none; }
+    .stats-bar { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-top: 1px solid var(--line-bold); }
+    .stat:first-child { border-top: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">DARI / DARI — GBB2026</div>
+  <div class="nav-right">
+    <a href="#tiers">SUPPORT</a>
+    <a href="#breakdown">BUDGET</a>
+    <a href="#tiers" class="cta">支援する →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">// BEATBOX TAG TEAM × GRAND BEATBOX BATTLE 2026 × POLAND</div>
+  <div class="logo-wrap">
+    <img src="/mnt/user-data/uploads/crt_effect2_00163.png" alt="DARI">
+  </div>
+  <div class="hero-title">
+    GBB<br><span class="accent">2026</span>
+  </div>
+  <div class="hero-subtitle">GRAND BEATBOX BATTLE — 渡航費 CROWDFUNDING</div>
+
+  <div class="hero-bottom">
+    <div class="hero-desc">
+      <p>
+        ビートボックスタッグチーム <strong>Dari</strong> が、世界最大のビートボックス大会 <strong>GBB2026</strong>（ポーランド開催）に出場する。その渡航費の支援を募ります。
+      </p>
+      <p class="subnote">// 現地ではビートボクサーとのコラボ・MV撮影も予定。</p>
+    </div>
+    <div class="hero-cta">
+      <a class="primary" href="dari_order.html">支援する</a>
+      <a class="secondary" href="#breakdown">資金の使い道</a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-label">// TARGET</div>
+    <div class="stat-val">¥300,000</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">// EVENT</div>
+    <div class="stat-val red">GBB2026</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">// DESTINATION</div>
+    <div class="stat-val">POLAND</div>
+  </div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-fill" id="progressBar"></div>
+</div>
+<div class="progress-label">
+  <span>// FUNDING PROGRESS</span>
+  <span id="progressPct">34% FUNDED</span>
+</div>
+
+<div class="section-divider">
+  <span class="section-divider-label">— ◆ —</span>
+</div>
+
+<section class="section" id="tiers">
+  <div class="section-header">
+    <div class="section-num">01 — Support</div>
+    <div class="section-title-wrap">
+      <div class="section-title">BACK<br>DARI UP</div>
+    </div>
+  </div>
+
+  <div class="tiers-grid">
+
+    <div class="tier">
+      <div class="tier-top-bar"></div>
+      <div class="tier-tag">Entry</div>
+      <div class="tier-price">¥500<span class="tier-price-tilde">〜</span></div>
+      <div class="tier-price-note">以上であればいくらでも</div>
+      <div class="tier-name">CREDIT</div>
+      <ul class="tier-perks">
+        <li>MVクレジット掲載（名前 or ハンドル）</li>
+        <li>支援者専用サンクスポスト</li>
+      </ul>
+      <a class="tier-btn" href="dari_order.html?plan=credit">支援する →</a>
+    </div>
+
+    <div class="tier">
+      <div class="tier-top-bar"></div>
+      <div class="tier-tag">Digital</div>
+      <div class="tier-price">¥3,000<span class="tier-price-tilde">〜</span></div>
+      <div class="tier-price-note">以上であればいくらでも</div>
+      <div class="tier-name">DIGITAL</div>
+      <ul class="tier-perks">
+        <li>MVクレジット掲載（名前 or ハンドル）</li>
+        <li>有料note（ビートボックス解説 / FL Studioデモファイル等）</li>
+        <li>MV先行視聴リンク</li>
+        <li>GBB遠征 裏側動画（限定公開）</li>
+      </ul>
+      <a class="tier-btn" href="dari_order.html?plan=digital">支援する →</a>
+    </div>
+
+    <div class="tier">
+      <div class="tier-top-bar"></div>
+      <div class="tier-tag">Merch</div>
+      <div class="tier-price">¥10,000<span class="tier-price-tilde">〜</span></div>
+      <div class="tier-price-note">以上であればいくらでも</div>
+      <div class="tier-name">T-SHIRT</div>
+      <ul class="tier-perks">
+        <li>MVクレジット掲載（名前 or ハンドル）</li>
+        <li class="dim">デジタル特典すべて含む</li>
+        <li>DARIオリジナルTシャツ（選択可）または A3ポスター</li>
+        <li>受注生産・今後も販売継続</li>
+      </ul>
+      <a class="tier-btn" href="dari_order.html?plan=tshirt">支援する →</a>
+    </div>
+
+    <div class="tier">
+      <div class="tier-top-bar"></div>
+      <div class="tier-tag">Premium</div>
+      <div class="tier-price">¥20,000<span class="tier-price-tilde">〜</span></div>
+      <div class="tier-price-note">以上であればいくらでも</div>
+      <div class="tier-name">HOODIE</div>
+      <ul class="tier-perks">
+        <li>MVクレジット掲載（名前 or ハンドル）</li>
+        <li class="dim">デジタル特典 + Tシャツ含む</li>
+        <li>DARIオリジナルパーカー（選択可）</li>
+        <li>Tシャツ + ポスターセットも選択肢あり</li>
+      </ul>
+      <a class="tier-btn" href="dari_order.html?plan=hoodie">支援する →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider">
+  <span class="section-divider-label">— ◆ —</span>
+</div>
+
+<section class="section" id="breakdown">
+  <div class="section-header">
+    <div class="section-num">02 — Budget</div>
+    <div class="section-title-wrap">
+      <div class="section-title">WHERE<br>IT GOES</div>
+    </div>
+  </div>
+
+  <div class="breakdown-grid">
+    <div class="breakdown-left">
+      <p>
+        集まった資金は<strong>すべて渡航費に充てます。</strong>
+      </p>
+      <p>
+        ポーランドまでの航空券（2名分）だけで約30万円。宿泊・現地の費用は自己負担。このクラファンは渡航の航空券代のみを対象にしています。
+      </p>
+      <p>
+        目標に達した時点でクローズ。余剰は受け取りません。
+      </p>
+    </div>
+    <div class="breakdown-right">
+      <div class="brow">
+        <span class="brow-label">航空券（2名分）</span>
+        <span class="brow-amount">¥300,000</span>
+      </div>
+      <div class="brow">
+        <span class="brow-label">宿泊・現地費用</span>
+        <span class="brow-amount" style="color:var(--muted)">自己負担</span>
+      </div>
+      <div class="brow total">
+        <span class="brow-label">CROWDFUNDING TARGET</span>
+        <span class="brow-amount">¥300,000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    <span class="footer-logo">DARI</span>
+    <span class="footer-copy">© 2026 DARI / DARI — ALL RIGHTS RESERVED</span>
+  </div>
+  <div class="footer-right">
+    <span>DARI × GBB2026 × POLAND</span>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('progressBar').style.width = '34%';
+    }, 500);
+  });
+</script>
+
+</body>
+</html>

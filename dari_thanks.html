@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARI — ありがとうございます</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@100;200;300;400;600;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #F05A00;
+    --red-dim: #8A3200;
+    --bg: #080808;
+    --bg2: #111;
+    --line: #1E1E1E;
+    --line-bold: #2A2A2A;
+    --text: #FFFFFF;
+    --muted: #888;
+    --mono: 'Space Mono', monospace;
+    --cond: 'Barlow Condensed', sans-serif;
+    --display: 'Inter', sans-serif;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.12) 3px,
+      rgba(0,0,0,0.12) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--cond);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 52px;
+    border-bottom: 1px solid var(--line-bold);
+    background: var(--bg);
+  }
+  nav .nav-left {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  nav .nav-right a {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 1.5rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid var(--line-bold);
+    transition: color 0.15s, background 0.15s;
+  }
+  nav .nav-right a:hover { color: var(--text); background: var(--bg2); }
+
+  /* MAIN */
+  .page {
+    padding-top: 52px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HERO BLOCK */
+  .hero {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--line-bold);
+  }
+
+  .hero-left {
+    padding: 5rem 3rem 4rem;
+    border-right: 1px solid var(--line-bold);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hero-right {
+    padding: 5rem 3rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* Animated check */
+  .check-wrap {
+    margin-bottom: 3rem;
+  }
+
+  .check-ring {
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    opacity: 0;
+    animation: ring-in 0.5s ease forwards 0.2s;
+    box-shadow: 0 0 24px rgba(240,90,0,0.3);
+  }
+
+  .check-ring svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--red);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  .check-path {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: draw-check 0.4s ease forwards 0.7s;
+  }
+
+  @keyframes ring-in {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes draw-check {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.4s;
+  }
+
+  .big-title {
+    font-family: var(--display);
+    font-size: clamp(4rem, 9vw, 8rem);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.55s;
+    position: relative;
+    z-index: 10000;
+  }
+
+  .big-title .accent { color: var(--red); }
+
+  .message {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 400px;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.7s;
+  }
+
+  .message strong { color: var(--text); font-weight: 600; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RIGHT SIDE — what's next */
+  .next-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 0.85s;
+  }
+
+  .next-items {
+    list-style: none;
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 1s;
+  }
+
+  .next-item {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .next-item:last-child { border-bottom: 1px solid var(--line); }
+
+  .next-num {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    padding-top: 2px;
+  }
+
+  .next-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    color: var(--text);
+  }
+  .next-text span {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* BOTTOM STRIP */
+  .bottom-strip {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    border-top: 1px solid var(--line-bold);
+    opacity: 0;
+    animation: fade-up 0.6s ease forwards 1.1s;
+  }
+
+  .strip-msg {
+    padding: 1.8rem 2rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #555;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--line-bold);
+  }
+
+  .strip-msg span { color: var(--red); }
+
+  .strip-link {
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--line-bold);
+    transition: color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .strip-link:hover { color: var(--text); background: var(--bg2); }
+
+  .strip-back {
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+  .strip-back:hover { color: var(--text); background: var(--bg2); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line-bold);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+  }
+  .footer-left {
+    padding: 1.5rem 2rem;
+  }
+  .footer-logo {
+    font-family: var(--cond);
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 10000;
+  }
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .footer-right {
+    border-left: 1px solid var(--line-bold);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .footer-right span {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #555;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* GLOW accent */
+  .glow-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--red), transparent);
+    box-shadow: 0 0 20px var(--red), 0 0 60px rgba(240,90,0,0.3);
+    opacity: 0;
+    animation: fade-in 0.6s ease forwards 0.1s;
+  }
+  @keyframes fade-in { to { opacity: 1; } }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { border-right: none; border-bottom: 1px solid var(--line-bold); padding: 3rem 1.5rem; }
+    .hero-right { padding: 3rem 1.5rem; }
+    .big-title { font-size: clamp(3.5rem, 15vw, 6rem); }
+    .bottom-strip { grid-template-columns: 1fr; }
+    .strip-link { border-right: none; border-top: 1px solid var(--line-bold); padding: 1.2rem 2rem; }
+    .strip-back { border-top: 1px solid var(--line-bold); padding: 1.2rem 2rem; }
+    footer { grid-template-columns: 1fr; }
+    .footer-right { border-left: none; border-top: 1px solid var(--line-bold); }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-bar"></div>
+
+<nav>
+  <div class="nav-left">DARI / GBB2026 — PAYMENT COMPLETE</div>
+  <div class="nav-right">
+    <a href="dari_crowdfund.html">← TOP</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="hero">
+    <div class="hero-left">
+      <div>
+        <div class="check-wrap">
+          <div class="check-ring">
+            <svg viewBox="0 0 32 32">
+              <polyline class="check-path" points="6,17 13,24 26,10"/>
+            </svg>
+          </div>
+        </div>
+        <div class="eyebrow">// PAYMENT CONFIRMED</div>
+        <div class="big-title">
+          THANK<br>
+          <span class="accent">YOU.</span>
+        </div>
+        <p class="message">
+          支援、ありがとうございます。<br>
+          あなたの応援が、<strong>DARIをポーランドへ連れて行きます。</strong><br><br>
+          確認メールが届きます。グッズがある場合は発送準備ができ次第ご連絡します。
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="next-label">// WHAT HAPPENS NEXT</div>
+      <ul class="next-items">
+        <li class="next-item">
+          <span class="next-num">01</span>
+          <div class="next-text">
+            <strong>確認メール</strong>
+            <span>Stripeから支払い完了のメールが届きます。記録として保管してください。</span>
+          </div>
+        </li>
+        <li class="next-item">
+          <span class="next-num">02</span>
+          <div class="next-text">
+            <strong>MVクレジット記載</strong>
+            <span>入力いただいた名前（またはハンドル名）をMVのクレジットに掲載します。</span>
+          </div>
+        </li>
+        <li class="next-item">
+          <span class="next-num">03</span>
+          <div class="next-text">
+            <strong>グッズ発送（該当者のみ）</strong>
+            <span>Tシャツ・パーカーは受注生産のため、準備完了後に別途ご連絡します。</span>
+          </div>
+        </li>
+        <li class="next-item">
+          <span class="next-num">04</span>
+          <div class="next-text">
+            <strong>GBB2026 へ出発</strong>
+            <span>ポーランドでの戦いをSNSでリアルタイム発信します。一緒に応援してください。</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bottom-strip">
+    <div class="strip-msg">// DARI × GBB2026 × POLAND — <span>SUPPORTED BY YOU</span></div>
+    <a class="strip-link" href="#">SNSでシェア →</a>
+    <a class="strip-back" href="dari_crowdfund.html">← クラファンページに戻る</a>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <span class="footer-logo">DARI</span>
+      <span class="footer-copy">© 2026 DARI / DARI — ALL RIGHTS RESERVED</span>
+    </div>
+    <div class="footer-right">
+      <span>DARI × GBB2026 × POLAND</span>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
