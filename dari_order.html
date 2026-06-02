@@ -1230,7 +1230,13 @@
   // ====================================================
   // 設定：ここを自分の値に書き換える
   // ====================================================
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwXUm93uYELpJazi893Ps3T0m37UOCQQe505ewXjdb_FAFnpo2ygJT2oAcWaZzzmKw/exec';
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxwXUm93uYELpJazi893Ps3T0m37UOCQQe505ewXjdb_FAFnpo2ygJT2oAcWaZzzmKw/exec'; // Google Apps Script のデプロイURL
+  const STRIPE_LINKS = {
+    credit:  'https://buy.stripe.com/6oUbJ378ZfHhbdCeGb2oE00',
+    digital: 'https://buy.stripe.com/28E00lgJz52DgxWbtZ2oE01',
+    tshirt:  'https://buy.stripe.com/fZu3cxalb9iTftS55B2oE02',
+    hoodie:  'https://buy.stripe.com/bJe9AVbpf52DepO1Tp2oE03',
+  };
   // ====================================================
 
   // URLパラメータからプランを自動選択
@@ -1292,19 +1298,31 @@
       email:       document.getElementById('email')?.value || document.getElementById('emailBasic')?.value || '',
     };
 
-    // Google Apps Script にデータ送信
+    // Google Apps Script にデータ送信（GETリクエスト）
     try {
-      const res = await fetch(GAS_URL, {
-        method: 'POST',
-        // no-cors を削除 ← これが重要！レスポンスを読むために必要
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      const params = new URLSearchParams({
+        timestamp:  data.timestamp,
+        planKey:    data.planKey,
+        plan:       data.plan,
+        amount:     String(data.amount),
+        creditName: data.creditName,
+        tshirt:     data.tshirt,
+        hoodie:     data.hoodie,
+        poster:     data.poster,
+        lastName:   data.lastName,
+        firstName:  data.firstName,
+        postcode:   data.postcode,
+        address1:   data.address1,
+        address2:   data.address2,
+        phone:      data.phone,
+        email:      data.email,
       });
 
+      const res  = await fetch(GAS_URL + '?' + params.toString());
       const json = await res.json();
 
       if (json.result === 'success' && json.url) {
-        window.location.href = json.url; // StripeのCheckout画面へ
+        window.location.href = json.url;
       } else {
         throw new Error(json.message || '不明なエラー');
       }
@@ -1315,6 +1333,19 @@
       console.error(e);
     }
 
+    // Stripe決済ページへリダイレクト
+    // ※ Stripe の return_url に dari_thanks.html を設定してください
+    const baseUrl = STRIPE_LINKS[state.plan];
+    if (baseUrl && !baseUrl.includes('YOUR_')) {
+      // 金額をURLパラメータで渡す（単位は円の最小単位「銭」= 円×100）
+      const amountInYen = state.amount;
+      const stripeUrl = baseUrl + '?prefilled_amount=' + (amountInYen * 100);
+      window.location.href = stripeUrl;
+    } else {
+      // 開発中はthanksページに直接飛ぶ
+      alert('【開発モード】\nSTRIPE_LINKS と GAS_URL を設定してください。\n\nデモとしてサンクスページへ移動します。');
+      window.location.href = 'dari_thanks.html';
+    }
   }
 </script>
 
