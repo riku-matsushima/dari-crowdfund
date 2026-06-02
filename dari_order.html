@@ -1282,6 +1282,7 @@
     // フォームデータを収集
     const data = {
       timestamp:   new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
+      planKey:     state.plan,        // ← これを追加（'credit'/'digital'/'tshirt'/'hoodie'）
       plan:        state.planName,
       amount:      state.amount,
       creditName:  document.getElementById('creditName')?.value || '',
@@ -1299,15 +1300,25 @@
 
     // Google Apps Script にデータ送信
     try {
-      await fetch(GAS_URL, {
+      const res = await fetch(GAS_URL, {
         method: 'POST',
-        mode: 'no-cors',
+        // no-cors を削除 ← これが重要！レスポンスを読むために必要
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
+
+      const json = await res.json();
+
+      if (json.result === 'success' && json.url) {
+        window.location.href = json.url; // StripeのCheckout画面へ
+      } else {
+        throw new Error(json.message || '不明なエラー');
+      }
     } catch (e) {
-      // no-cors のため fetch は常に成功扱い。エラーでも Stripe へ進む。
-      console.warn('GAS送信エラー（続行します）:', e);
+      btn.disabled = false;
+      btn.textContent = '決済へ進む →';
+      alert('エラーが発生しました。もう一度お試しください。\n' + e.message);
+      console.error(e);
     }
 
     // Stripe決済ページへリダイレクト
