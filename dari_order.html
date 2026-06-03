@@ -44,7 +44,6 @@
     min-height: 100vh;
   }
 
-  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -80,7 +79,6 @@
   }
   nav .nav-back:hover { color: var(--text); background: var(--bg2); }
 
-  /* LAYOUT */
   .page-wrap {
     padding-top: 52px;
     display: grid;
@@ -88,12 +86,8 @@
     min-height: calc(100vh - 52px);
   }
 
-  /* LEFT: main selection area */
-  .main-col {
-    border-right: 1px solid var(--line-bold);
-  }
+  .main-col { border-right: 1px solid var(--line-bold); }
 
-  /* RIGHT: order summary */
   .summary-col {
     position: sticky;
     top: 52px;
@@ -103,7 +97,6 @@
     flex-direction: column;
   }
 
-  /* STEP HEADER */
   .step-header {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -122,9 +115,7 @@
     border-right: 1px solid var(--line-bold);
     text-transform: uppercase;
   }
-  .step-title-wrap {
-    padding: 3rem 2rem 2.5rem;
-  }
+  .step-title-wrap { padding: 3rem 2rem 2.5rem; }
   .step-eyebrow {
     font-family: var(--mono);
     font-size: 9px;
@@ -141,10 +132,7 @@
     letter-spacing: -0.02em;
   }
 
-  /* PLAN SELECTOR */
-  .section-block {
-    border-bottom: 1px solid var(--line-bold);
-  }
+  .section-block { border-bottom: 1px solid var(--line-bold); }
   .block-label {
     font-family: var(--mono);
     font-size: 9px;
@@ -156,10 +144,22 @@
     background: var(--bg3);
   }
 
-  .plan-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  /* ── MERCH RULE NOTICE ── */
+  .merch-rule-notice {
+    padding: 1rem 2rem;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--line-bold);
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--orange);
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+    display: none;
   }
+  .merch-rule-notice.visible { display: block; }
+  .merch-rule-notice strong { color: var(--text); }
+
+  .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
 
   .plan-card {
     padding: 2rem;
@@ -198,119 +198,75 @@
     color: #fff;
   }
 
-  .plan-tag {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 0.8rem;
-  }
-  .plan-price {
-    font-family: var(--display);
-    font-size: 2.2rem;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.25rem;
-  }
-  .plan-price-note {
-    font-family: var(--mono);
-    font-size: 8px;
-    color: #555;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
-  .plan-name {
-    font-family: var(--cond);
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-  }
-  .plan-perks {
-    list-style: none;
-  }
-  .plan-perks li {
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--muted);
-    padding: 3px 0 3px 12px;
-    position: relative;
-    line-height: 1.4;
-  }
-  .plan-perks li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--orange-dim);
-  }
+  .plan-tag { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.8rem; }
+  .plan-price { font-family: var(--display); font-size: 2.2rem; font-weight: 900; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+  .plan-price-note { font-family: var(--mono); font-size: 8px; color: #555; letter-spacing: 0.1em; margin-bottom: 1rem; }
+  .plan-name { font-family: var(--cond); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); margin-bottom: 0.5rem; }
+  .plan-perks { list-style: none; }
+  .plan-perks li { font-size: 12px; font-weight: 300; color: var(--muted); padding: 3px 0 3px 12px; position: relative; line-height: 1.4; }
+  .plan-perks li::before { content: '›'; position: absolute; left: 0; color: var(--orange-dim); }
   .plan-perks li.dim { color: #2e2e2e; }
   .plan-perks li.dim::before { color: #1e1e1e; }
 
-  /* AMOUNT INPUT */
-  .amount-input-wrap {
-    padding: 2rem;
-  }
-  .amount-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-  .amount-row {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    border: 1px solid var(--line-bold);
-  }
-  .amount-yen {
-    font-family: var(--display);
-    font-weight: 900;
-    font-size: 1.8rem;
-    padding: 0.6rem 1rem;
-    color: var(--orange);
-    border-right: 1px solid var(--line-bold);
-    background: var(--bg3);
-  }
-  .amount-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-family: var(--display);
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--text);
-    padding: 0.6rem 1rem;
-    width: 100%;
-  }
-  .amount-hint {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: #555;
-    letter-spacing: 0.1em;
-    margin-top: 0.5rem;
-  }
+  .amount-input-wrap { padding: 2rem; }
+  .amount-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .amount-row { display: flex; align-items: center; gap: 0; border: 1px solid var(--line-bold); }
+  .amount-yen { font-family: var(--display); font-weight: 900; font-size: 1.8rem; padding: 0.6rem 1rem; color: var(--orange); border-right: 1px solid var(--line-bold); background: var(--bg3); }
+  .amount-input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--display); font-size: 1.8rem; font-weight: 900; color: var(--text); padding: 0.6rem 1rem; width: 100%; }
+  .amount-hint { font-family: var(--mono); font-size: 9px; color: #555; letter-spacing: 0.1em; margin-top: 0.5rem; }
   .amount-hint span { color: var(--orange); }
 
-  /* MERCH SECTION */
-  .merch-section {
-    border-bottom: 1px solid var(--line-bold);
-    display: none; /* shown via JS */
-  }
+  .merch-section { border-bottom: 1px solid var(--line-bold); display: none; }
   .merch-section.visible { display: block; }
 
-  /* PRODUCT GRID */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
+  /* ── MERCH CHOICE TABS (1択UI) ── */
+  .merch-choice-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--line-bold);
   }
+  .merch-tab {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border-right: 1px solid var(--line-bold);
+    cursor: pointer;
+    transition: background 0.12s;
+    position: relative;
+    background: var(--bg);
+  }
+  .merch-tab:last-child { border-right: none; }
+  .merch-tab:hover { background: var(--bg2); }
+  .merch-tab.active { background: #0e0e0e; }
+  .merch-tab.active::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+  }
+  .merch-tab-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .merch-tab.active .merch-tab-label { color: var(--orange); }
+  .merch-tab-name {
+    font-family: var(--cond);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #444;
+  }
+  .merch-tab.active .merch-tab-name { color: var(--text); }
+
+  /* merch sub-panels */
+  .merch-panel { display: none; }
+  .merch-panel.visible { display: block; }
+
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 
   .product-card {
     border-right: 1px solid var(--line-bold);
@@ -324,31 +280,9 @@
   .product-card:nth-child(3n) { border-right: none; }
   .product-card:hover { background: #0e0e0e; }
   .product-card.selected { background: #0d0d0d; }
-  .product-card.selected::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--orange);
-  }
-  .product-card.disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
+  .product-card.selected::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--orange); }
+  .product-card.disabled { opacity: 0.25; cursor: not-allowed; pointer-events: none; }
 
-  .product-img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    display: block;
-    border-bottom: 1px solid var(--line-bold);
-    background: var(--bg2);
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Placeholder SVG images */
   .product-img-placeholder {
     width: 100%;
     aspect-ratio: 1;
@@ -361,267 +295,86 @@
     overflow: hidden;
   }
 
-  .product-info {
-    padding: 1rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .product-type {
-    font-family: var(--mono);
-    font-size: 8px;
-    color: var(--muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-  }
-  .product-name {
-    font-family: var(--cond);
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0.2rem;
-  }
-  .product-price {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--orange);
-    margin-top: auto;
-    padding-top: 0.5rem;
-  }
+  .product-info { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
+  .product-type { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .product-name { font-family: var(--cond); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .product-price { font-family: var(--mono); font-size: 9px; color: var(--orange); margin-top: auto; padding-top: 0.5rem; }
   .product-check {
-    position: absolute;
-    top: 0.6rem; right: 0.6rem;
+    position: absolute; top: 0.6rem; right: 0.6rem;
     width: 22px; height: 22px;
     border: 1px solid var(--line-bold);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 10px;
-    color: transparent;
+    font-size: 10px; color: transparent;
     background: rgba(8,8,8,0.8);
-    transition: all 0.12s;
-    z-index: 2;
+    transition: all 0.12s; z-index: 2;
   }
-  .product-card.selected .product-check {
-    background: var(--orange);
-    border-color: var(--orange);
-    color: #fff;
-  }
+  .product-card.selected .product-check { background: var(--orange); border-color: var(--orange); color: #fff; }
 
-  /* SIZE SELECTOR */
   .size-row {
     padding: 1.2rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 1rem;
+    border-top: 1px solid var(--line-bold);
     flex-wrap: wrap;
   }
-  .size-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    min-width: 80px;
-  }
-  .size-btns {
-    display: flex;
-    gap: 0;
-    flex-wrap: wrap;
-  }
-  .size-btn {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    padding: 0.5rem 0.9rem;
-    border: 1px solid var(--line-bold);
-    border-left: none;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.12s;
-    background: transparent;
-  }
+  .size-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; white-space: nowrap; min-width: 80px; }
+  .size-btns { display: flex; gap: 0; flex-wrap: wrap; }
+  .size-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; padding: 0.5rem 0.9rem; border: 1px solid var(--line-bold); border-left: none; color: var(--muted); cursor: pointer; transition: all 0.12s; background: transparent; }
   .size-btn:first-child { border-left: 1px solid var(--line-bold); }
   .size-btn:hover { color: var(--text); background: var(--bg2); }
   .size-btn.selected { background: var(--orange); border-color: var(--orange); color: #fff; }
 
-  /* POSTER SIZE */
-  .poster-size-row {
-    padding: 1.2rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border-bottom: 1px solid var(--line);
-  }
-
-  /* SHIPPING */
-  .shipping-form {
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
+  .shipping-form { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
   .form-field.full { grid-column: span 2; }
-  .form-field label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-  .form-field input, .form-field select {
-    background: var(--bg3);
-    border: 1px solid var(--line-bold);
-    color: var(--text);
-    font-family: var(--cond);
-    font-size: 15px;
-    padding: 0.6rem 0.8rem;
-    outline: none;
-    transition: border-color 0.12s;
-    -webkit-appearance: none;
-    appearance: none;
-  }
+  .form-field label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+  .form-field input, .form-field select { background: var(--bg3); border: 1px solid var(--line-bold); color: var(--text); font-family: var(--cond); font-size: 15px; padding: 0.6rem 0.8rem; outline: none; transition: border-color 0.12s; -webkit-appearance: none; appearance: none; }
   .form-field input::placeholder { color: #444; }
-  .form-field input:focus, .form-field select:focus { border-color: var(--orange); }
+  .form-field input:focus { border-color: var(--orange); }
 
-  /* ORDER SUMMARY */
-  .summary-header {
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--line-bold);
-    background: var(--bg3);
-  }
-  .summary-title {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-  .summary-plan-name {
-    font-family: var(--display);
-    font-size: 1.4rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-  }
+  .summary-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--line-bold); background: var(--bg3); }
+  .summary-title { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .summary-plan-name { font-family: var(--display); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.01em; }
 
-  .summary-items {
-    flex: 1;
-    padding: 1.5rem 2rem;
-  }
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 14px;
-  }
+  .summary-items { flex: 1; padding: 1.5rem 2rem; }
+  .summary-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.8rem 0; border-bottom: 1px solid var(--line); font-size: 14px; }
   .summary-row:first-child { border-top: 1px solid var(--line-bold); }
-  .summary-row-label {
-    font-weight: 300;
-    color: var(--muted);
-  }
-  .summary-row-val {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text);
-  }
+  .summary-row-label { font-weight: 300; color: var(--muted); }
+  .summary-row-val { font-family: var(--mono); font-size: 12px; color: var(--text); }
   .summary-row-val.orange { color: var(--orange); }
 
-  .summary-total {
-    padding: 1.5rem 2rem;
-    border-top: 1px solid var(--line-bold);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-  .summary-total-label {
-    font-family: var(--cond);
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .summary-total-val {
-    font-family: var(--display);
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    color: var(--orange);
-  }
+  .summary-total { padding: 1.5rem 2rem; border-top: 1px solid var(--line-bold); display: flex; justify-content: space-between; align-items: baseline; }
+  .summary-total-label { font-family: var(--cond); font-weight: 700; font-size: 1rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .summary-total-val { font-family: var(--display); font-size: 2rem; font-weight: 900; letter-spacing: -0.02em; color: var(--orange); }
 
-  .summary-note {
+  .summary-note { padding: 0 2rem 1rem; font-family: var(--mono); font-size: 9px; color: #555; letter-spacing: 0.1em; line-height: 1.6; }
+
+  /* ── MERCH ITEM BADGE in summary ── */
+  .summary-merch-badge {
     padding: 0 2rem 1rem;
     font-family: var(--mono);
     font-size: 9px;
-    color: #555;
-    letter-spacing: 0.1em;
-    line-height: 1.6;
+    color: var(--orange);
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+    display: none;
+    border-top: 1px solid var(--line);
   }
+  .summary-merch-badge.visible { display: block; }
 
-  .pay-btn {
-    display: block;
-    width: calc(100% - 4rem);
-    margin: 0 2rem 2rem;
-    padding: 1.1rem;
-    background: var(--orange);
-    border: none;
-    color: #fff;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s;
-    text-align: center;
-  }
+  .pay-btn { display: block; width: calc(100% - 4rem); margin: 0 2rem 2rem; padding: 1.1rem; background: var(--orange); border: none; color: #fff; font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; text-align: center; }
   .pay-btn:hover { background: #FF6A10; }
   .pay-btn:disabled { background: #333; color: #555; cursor: not-allowed; }
 
-  .payment-icons {
-    padding: 0 2rem 2rem;
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .pay-icon {
-    font-family: var(--mono);
-    font-size: 8px;
-    letter-spacing: 0.1em;
-    color: #444;
-    border: 1px solid #222;
-    padding: 0.2rem 0.5rem;
-    text-transform: uppercase;
-  }
+  .payment-icons { padding: 0 2rem 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pay-icon { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; color: #444; border: 1px solid #222; padding: 0.2rem 0.5rem; text-transform: uppercase; }
 
-  /* VALIDATION MSG */
-  .validation-msg {
-    padding: 0 2rem 1rem;
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--orange);
-    letter-spacing: 0.1em;
-    display: none;
-  }
+  .validation-msg { padding: 0 2rem 1rem; font-family: var(--mono); font-size: 9px; color: var(--orange); letter-spacing: 0.1em; display: none; }
   .validation-msg.visible { display: block; }
 
-  /* MOBILE */
   @media (max-width: 900px) {
     .page-wrap { grid-template-columns: 1fr; }
-    .summary-col {
-      position: static;
-      height: auto;
-      border-top: 2px solid var(--orange);
-    }
+    .summary-col { position: static; height: auto; border-top: 2px solid var(--orange); }
     .product-grid { grid-template-columns: repeat(2, 1fr); }
     .plan-grid { grid-template-columns: 1fr 1fr; }
   }
@@ -644,7 +397,6 @@
   <!-- ===== LEFT: SELECTION ===== -->
   <div class="main-col">
 
-    <!-- STEP HEADER -->
     <div class="step-header">
       <div class="step-num">01 — Plan</div>
       <div class="step-title-wrap">
@@ -678,22 +430,20 @@
           <div class="plan-name">DIGITAL</div>
           <ul class="plan-perks">
             <li>MVクレジット掲載</li>
-            <li>有料note・FL Studioデモ等</li>
-            <li>MV先行視聴リンク</li>
-            <li>GBB遠征 裏側動画（限定）</li>
+            <li>デジタルコンテンツへのアクセス権（beatboxテクニック解説・遠征記録・制作裏話など、随時更新）</li>
           </ul>
         </div>
 
-        <div class="plan-card" data-plan="tshirt" data-min="10000" data-name="T-SHIRT" onclick="selectPlan(this)">
+        <div class="plan-card" data-plan="tshirt" data-min="10000" data-name="T-SHIRT / POSTER" onclick="selectPlan(this)">
           <div class="plan-check">✓</div>
           <div class="plan-tag">Merch</div>
           <div class="plan-price">¥10,000<span style="font-size:1.4rem;color:var(--orange)">〜</span></div>
           <div class="plan-price-note">以上であればいくらでも</div>
-          <div class="plan-name">T-SHIRT</div>
+          <div class="plan-name">T-SHIRT / POSTER</div>
           <ul class="plan-perks">
             <li>MVクレジット掲載</li>
-            <li class="dim">デジタル特典すべて含む</li>
-            <li>オリジナルTシャツ or A3ポスター</li>
+            <li>デジタルコンテンツへのアクセス権（随時更新）</li>
+            <li>Tシャツ <strong style="color:#666">or</strong> A3ポスター（1点選択）</li>
           </ul>
         </div>
 
@@ -705,9 +455,8 @@
           <div class="plan-name">HOODIE</div>
           <ul class="plan-perks">
             <li>MVクレジット掲載</li>
-            <li class="dim">デジタル特典 + Tシャツ含む</li>
-            <li>オリジナルパーカー（選択可）</li>
-            <li>Tシャツ + ポスターセットも可</li>
+            <li>デジタルコンテンツへのアクセス権（随時更新）</li>
+            <li>パーカー <strong style="color:#666">or</strong> Tシャツ <strong style="color:#666">or</strong> ポスター（1点選択）</li>
           </ul>
         </div>
 
@@ -727,7 +476,198 @@
       </div>
     </div>
 
-        <!-- CREDIT NAME & EMAIL（全プラン共通） -->
+    <!-- BASIC INFO（全プラン共通） -->
+    <!-- ── MERCH 1択セクション ── -->
+    <div class="merch-section" id="sectionMerch">
+
+      <!-- ルール説明バナー -->
+      <div class="merch-rule-notice visible" id="merchRuleNotice">
+        <!-- filled by JS -->
+      </div>
+
+      <!-- タブ（どれを選ぶか） -->
+      <div class="block-label">// STEP 04 — 特典グッズを<strong style="color:var(--orange)">1点</strong>選択（どれか1つ）</div>
+      <div class="merch-choice-tabs" id="merchTabs">
+        <!-- tabs injected by JS -->
+      </div>
+
+      <!-- Tシャツパネル -->
+      <div class="merch-panel" id="panelTshirt">
+        <div style="padding: 0.8rem 2rem; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 9px; color: #555; letter-spacing: 0.12em;">// デザインを選択してください</div>
+        <div class="product-grid">
+
+          <div class="product-card" data-product="tshirt" data-id="ts1" data-name="TYPE-A" onclick="selectMerchItem('tshirt','ts1','TYPE-A',this)">
+            <div class="product-check">✓</div>
+            <div class="product-img-placeholder">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="200" height="200" fill="#111"/>
+                <path d="M60,50 L30,80 L55,85 L55,160 L145,160 L145,85 L170,80 L140,50 L120,65 C115,75 85,75 80,65 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
+                <rect x="80" y="90" width="40" height="40" fill="none" stroke="#F05A00" stroke-width="1"/>
+                <line x1="80" y1="90" x2="120" y2="130" stroke="#F05A00" stroke-width="1" opacity="0.5"/>
+                <line x1="120" y1="90" x2="80" y2="130" stroke="#F05A00" stroke-width="1" opacity="0.5"/>
+                <text x="100" y="175" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">DARI</text>
+              </svg>
+            </div>
+            <div class="product-info">
+              <div class="product-type">T-Shirt</div>
+              <div class="product-name">TYPE-A — GEOMETRIC</div>
+              <div class="product-price">SAMPLE IMAGE</div>
+            </div>
+          </div>
+
+          <div class="product-card" data-product="tshirt" data-id="ts2" data-name="TYPE-B" onclick="selectMerchItem('tshirt','ts2','TYPE-B',this)">
+            <div class="product-check">✓</div>
+            <div class="product-img-placeholder">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="200" height="200" fill="#111"/>
+                <path d="M60,50 L30,80 L55,85 L55,160 L145,160 L145,85 L170,80 L140,50 L120,65 C115,75 85,75 80,65 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
+                <polyline points="75,110 83,95 91,118 99,100 107,115 115,98 123,112 131,105" fill="none" stroke="#F05A00" stroke-width="1.5"/>
+                <circle cx="100" cy="107" r="18" fill="none" stroke="#F05A00" stroke-width="0.8" opacity="0.4"/>
+                <text x="100" y="175" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">DARI</text>
+              </svg>
+            </div>
+            <div class="product-info">
+              <div class="product-type">T-Shirt</div>
+              <div class="product-name">TYPE-B — SOUNDWAVE</div>
+              <div class="product-price">SAMPLE IMAGE</div>
+            </div>
+          </div>
+
+          <div class="product-card" data-product="tshirt" data-id="ts3" data-name="TYPE-C" onclick="selectMerchItem('tshirt','ts3','TYPE-C',this)">
+            <div class="product-check">✓</div>
+            <div class="product-img-placeholder">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="200" height="200" fill="#111"/>
+                <path d="M60,50 L30,80 L55,85 L55,160 L145,160 L145,85 L170,80 L140,50 L120,65 C115,75 85,75 80,65 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
+                <text x="100" y="112" font-family="monospace" font-size="18" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="4">DARI</text>
+                <line x1="72" y1="118" x2="128" y2="118" stroke="#F05A00" stroke-width="0.8"/>
+                <text x="100" y="128" font-family="monospace" font-size="6" fill="#555" text-anchor="middle" letter-spacing="3">GBB2026</text>
+                <text x="100" y="175" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">DARI</text>
+              </svg>
+            </div>
+            <div class="product-info">
+              <div class="product-type">T-Shirt</div>
+              <div class="product-name">TYPE-C — WORDMARK</div>
+              <div class="product-price">SAMPLE IMAGE</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="size-row" id="tsizeRow" style="display:none">
+          <div class="size-label">// SIZE</div>
+          <div class="size-btns" id="tsizeBtns">
+            <button class="size-btn" onclick="selectSize('tshirt','XS',this)">XS</button>
+            <button class="size-btn" onclick="selectSize('tshirt','S',this)">S</button>
+            <button class="size-btn" onclick="selectSize('tshirt','M',this)">M</button>
+            <button class="size-btn" onclick="selectSize('tshirt','L',this)">L</button>
+            <button class="size-btn" onclick="selectSize('tshirt','XL',this)">XL</button>
+            <button class="size-btn" onclick="selectSize('tshirt','XXL',this)">XXL</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- パーカーパネル（¥20,000プランのみ） -->
+      <div class="merch-panel" id="panelHoodie">
+        <div style="padding: 0.8rem 2rem; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 9px; color: #555; letter-spacing: 0.12em;">// デザインを選択してください</div>
+        <div class="product-grid" style="grid-template-columns: repeat(3,1fr)">
+
+          <div class="product-card" data-product="hoodie" data-id="h1" data-name="HOODIE-A" onclick="selectMerchItem('hoodie','h1','HOODIE-A',this)">
+            <div class="product-check">✓</div>
+            <div class="product-img-placeholder">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="200" height="200" fill="#111"/>
+                <path d="M65,50 L30,85 L55,90 L55,165 L145,165 L145,90 L170,85 L135,50 L120,60 L115,72 C110,78 90,78 85,72 L80,60 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
+                <path d="M80,60 C82,50 90,44 100,44 C110,44 118,50 120,60" fill="none" stroke="#F05A00" stroke-width="1" opacity="0.6"/>
+                <circle cx="100" cy="115" r="20" fill="none" stroke="#F05A00" stroke-width="1"/>
+                <text x="100" y="119" font-family="monospace" font-size="9" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="1">DARI</text>
+                <text x="100" y="180" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">HOODIE</text>
+              </svg>
+            </div>
+            <div class="product-info">
+              <div class="product-type">Hoodie</div>
+              <div class="product-name">DARI HOODIE — TYPE A</div>
+              <div class="product-price">SAMPLE IMAGE</div>
+            </div>
+          </div>
+
+          <div class="product-card disabled" style="grid-column: span 2; cursor:default; display:flex; flex-direction:row; align-items:center; justify-content:center; min-height:80px;">
+            <div style="font-family:var(--mono); font-size:9px; color:#333; letter-spacing:0.15em; text-transform:uppercase; text-align:center; padding: 2rem;">
+              // 追加デザインは<br>公開後に選択可能
+            </div>
+          </div>
+
+        </div>
+
+        <div class="size-row" id="hsizeRow" style="display:none">
+          <div class="size-label">// SIZE</div>
+          <div class="size-btns" id="hsizeBtns">
+            <button class="size-btn" onclick="selectSize('hoodie','S',this)">S</button>
+            <button class="size-btn" onclick="selectSize('hoodie','M',this)">M</button>
+            <button class="size-btn" onclick="selectSize('hoodie','L',this)">L</button>
+            <button class="size-btn" onclick="selectSize('hoodie','XL',this)">XL</button>
+            <button class="size-btn" onclick="selectSize('hoodie','XXL',this)">XXL</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ポスターパネル -->
+      <div class="merch-panel" id="panelPoster">
+        <div style="padding: 0.8rem 2rem; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 9px; color: #555; letter-spacing: 0.12em;">// サイズを選択してください</div>
+        <div class="product-grid" style="grid-template-columns: repeat(2,1fr)">
+
+          <div class="product-card" data-product="poster" data-id="p-a3" data-name="POSTER A3" onclick="selectMerchItem('poster','p-a3','POSTER A3',this)">
+            <div class="product-check">✓</div>
+            <div class="product-img-placeholder">
+              <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="200" height="220" fill="#111"/>
+                <rect x="55" y="25" width="90" height="127" fill="#151515" stroke="#F05A00" stroke-width="1"/>
+                <rect x="62" y="32" width="76" height="76" fill="none" stroke="#F05A00" stroke-width="0.5" opacity="0.4"/>
+                <line x1="62" y1="32" x2="138" y2="108" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
+                <line x1="138" y1="32" x2="62" y2="108" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
+                <text x="100" y="125" font-family="monospace" font-size="10" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="2">DARI</text>
+                <text x="100" y="136" font-family="monospace" font-size="6" fill="#555" text-anchor="middle" letter-spacing="2">GBB2026 POLAND</text>
+                <text x="100" y="165" font-family="monospace" font-size="11" fill="#888" text-anchor="middle" letter-spacing="3">A3</text>
+                <text x="100" y="178" font-family="monospace" font-size="7" fill="#444" text-anchor="middle">297 × 420mm</text>
+                <text x="100" y="205" font-family="monospace" font-size="9" fill="#555" text-anchor="middle" letter-spacing="2">POSTER</text>
+              </svg>
+            </div>
+            <div class="product-info">
+              <div class="product-type">Poster</div>
+              <div class="product-name">A3 — 297×420mm</div>
+              <div class="product-price">SAMPLE IMAGE</div>
+            </div>
+          </div>
+
+          <div class="product-card" data-product="poster" data-id="p-a2" data-name="POSTER A2" onclick="selectMerchItem('poster','p-a2','POSTER A2',this)">
+            <div class="product-check">✓</div>
+            <div class="product-img-placeholder">
+              <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="200" height="220" fill="#111"/>
+                <rect x="45" y="15" width="110" height="155" fill="#151515" stroke="#F05A00" stroke-width="1"/>
+                <rect x="54" y="22" width="92" height="92" fill="none" stroke="#F05A00" stroke-width="0.5" opacity="0.4"/>
+                <line x1="54" y1="22" x2="146" y2="114" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
+                <line x1="146" y1="22" x2="54" y2="114" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
+                <text x="100" y="133" font-family="monospace" font-size="10" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="2">DARI</text>
+                <text x="100" y="144" font-family="monospace" font-size="6" fill="#555" text-anchor="middle" letter-spacing="2">GBB2026 POLAND</text>
+                <text x="100" y="172" font-family="monospace" font-size="11" fill="#888" text-anchor="middle" letter-spacing="3">A2</text>
+                <text x="100" y="183" font-family="monospace" font-size="7" fill="#444" text-anchor="middle">420 × 594mm</text>
+                <text x="100" y="205" font-family="monospace" font-size="9" fill="#555" text-anchor="middle" letter-spacing="2">POSTER</text>
+              </svg>
+            </div>
+            <div class="product-info">
+              <div class="product-type">Poster</div>
+              <div class="product-name">A2 — 420×594mm</div>
+              <div class="product-price">SAMPLE IMAGE</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /sectionMerch -->
+
+    <!-- BASIC INFO（全プラン共通） -->
     <div class="section-block" id="sectionCredit" style="display:none">
       <div class="block-label">// STEP 03 — 基本情報を入力</div>
       <div class="shipping-form" style="grid-template-columns:1fr;">
@@ -737,201 +677,14 @@
         </div>
         <div class="form-field full">
           <label>メールアドレス（特典・連絡用）</label>
-          <input type="email" placeholder="dari@example.com" id="emailBasic">
+          <input type="email" placeholder="dari@example.com" id="emailInput">
         </div>
-      </div>
-    </div>
-
-    <!-- MERCH: Tシャツ -->
-    <div class="merch-section" id="sectionTshirt">
-      <div class="block-label">// STEP 03 — Tシャツのデザインを選択</div>
-      <div class="product-grid">
-
-        <div class="product-card" data-product="tshirt" data-id="ts1" data-name="TYPE-A" onclick="selectProduct('tshirt', this)">
-          <div class="product-check">✓</div>
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-              <rect width="200" height="200" fill="#111"/>
-              <!-- T-shirt silhouette -->
-              <path d="M60,50 L30,80 L55,85 L55,160 L145,160 L145,85 L170,80 L140,50 L120,65 C115,75 85,75 80,65 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
-              <!-- Design element -->
-              <rect x="80" y="90" width="40" height="40" fill="none" stroke="#F05A00" stroke-width="1"/>
-              <line x1="80" y1="90" x2="120" y2="130" stroke="#F05A00" stroke-width="1" opacity="0.5"/>
-              <line x1="120" y1="90" x2="80" y2="130" stroke="#F05A00" stroke-width="1" opacity="0.5"/>
-              <text x="100" y="175" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">DARI</text>
-            </svg>
-          </div>
-          <div class="product-info">
-            <div class="product-type">T-Shirt</div>
-            <div class="product-name">TYPE-A — GEOMETRIC</div>
-            <div class="product-price">SAMPLE IMAGE</div>
-          </div>
-        </div>
-
-        <div class="product-card" data-product="tshirt" data-id="ts2" data-name="TYPE-B" onclick="selectProduct('tshirt', this)">
-          <div class="product-check">✓</div>
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-              <rect width="200" height="200" fill="#111"/>
-              <path d="M60,50 L30,80 L55,85 L55,160 L145,160 L145,85 L170,80 L140,50 L120,65 C115,75 85,75 80,65 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
-              <!-- Wave / soundwave design -->
-              <polyline points="75,110 83,95 91,118 99,100 107,115 115,98 123,112 131,105" fill="none" stroke="#F05A00" stroke-width="1.5"/>
-              <circle cx="100" cy="107" r="18" fill="none" stroke="#F05A00" stroke-width="0.8" opacity="0.4"/>
-              <text x="100" y="175" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">DARI</text>
-            </svg>
-          </div>
-          <div class="product-info">
-            <div class="product-type">T-Shirt</div>
-            <div class="product-name">TYPE-B — SOUNDWAVE</div>
-            <div class="product-price">SAMPLE IMAGE</div>
-          </div>
-        </div>
-
-        <div class="product-card" data-product="tshirt" data-id="ts3" data-name="TYPE-C" onclick="selectProduct('tshirt', this)">
-          <div class="product-check">✓</div>
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-              <rect width="200" height="200" fill="#111"/>
-              <path d="M60,50 L30,80 L55,85 L55,160 L145,160 L145,85 L170,80 L140,50 L120,65 C115,75 85,75 80,65 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
-              <!-- Wordmark design -->
-              <text x="100" y="112" font-family="monospace" font-size="18" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="4">DARI</text>
-              <line x1="72" y1="118" x2="128" y2="118" stroke="#F05A00" stroke-width="0.8"/>
-              <text x="100" y="128" font-family="monospace" font-size="6" fill="#555" text-anchor="middle" letter-spacing="3">GBB2026</text>
-              <text x="100" y="175" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">DARI</text>
-            </svg>
-          </div>
-          <div class="product-info">
-            <div class="product-type">T-Shirt</div>
-            <div class="product-name">TYPE-C — WORDMARK</div>
-            <div class="product-price">SAMPLE IMAGE</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Tシャツ サイズ -->
-      <div class="size-row" id="tsizeRow" style="display:none">
-        <div class="size-label">// SIZE</div>
-        <div class="size-btns" id="tsizeBtns">
-          <button class="size-btn" onclick="selectSize('tshirt','XS',this)">XS</button>
-          <button class="size-btn" onclick="selectSize('tshirt','S',this)">S</button>
-          <button class="size-btn" onclick="selectSize('tshirt','M',this)">M</button>
-          <button class="size-btn" onclick="selectSize('tshirt','L',this)">L</button>
-          <button class="size-btn" onclick="selectSize('tshirt','XL',this)">XL</button>
-          <button class="size-btn" onclick="selectSize('tshirt','XXL',this)">XXL</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MERCH: パーカー -->
-    <div class="merch-section" id="sectionHoodie">
-      <div class="block-label">// STEP 04 — パーカーのデザインを選択（¥20,000以上プランのみ）</div>
-      <div class="product-grid" style="grid-template-columns: repeat(3,1fr)">
-
-        <div class="product-card" id="hoodieCard" data-product="hoodie" data-id="h1" data-name="HOODIE-A" onclick="selectProduct('hoodie', this)">
-          <div class="product-check">✓</div>
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-              <rect width="200" height="200" fill="#111"/>
-              <!-- Hoodie silhouette -->
-              <path d="M65,50 L30,85 L55,90 L55,165 L145,165 L145,90 L170,85 L135,50 L120,60 L115,72 C110,78 90,78 85,72 L80,60 Z" fill="#1a1a1a" stroke="#F05A00" stroke-width="1.5"/>
-              <!-- Hood outline -->
-              <path d="M80,60 C82,50 90,44 100,44 C110,44 118,50 120,60" fill="none" stroke="#F05A00" stroke-width="1" opacity="0.6"/>
-              <!-- Design -->
-              <circle cx="100" cy="115" r="20" fill="none" stroke="#F05A00" stroke-width="1"/>
-              <text x="100" y="119" font-family="monospace" font-size="9" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="1">DARI</text>
-              <text x="100" y="180" font-family="monospace" font-size="10" fill="#555" text-anchor="middle" letter-spacing="3">HOODIE</text>
-            </svg>
-          </div>
-          <div class="product-info">
-            <div class="product-type">Hoodie</div>
-            <div class="product-name">DARI HOODIE — TYPE A</div>
-            <div class="product-price">¥20,000プランのみ</div>
-          </div>
-        </div>
-
-        <div class="product-card disabled" style="grid-column: span 2; cursor:default; display:flex; flex-direction:row; align-items:center; justify-content:center; min-height:80px;">
-          <div style="font-family:var(--mono); font-size:9px; color:#333; letter-spacing:0.15em; text-transform:uppercase; text-align:center; padding: 2rem;">
-            // 追加デザインは<br>公開後に選択可能
-          </div>
-        </div>
-
-      </div>
-
-      <!-- パーカー サイズ -->
-      <div class="size-row" id="hsizeRow" style="display:none">
-        <div class="size-label">// SIZE</div>
-        <div class="size-btns">
-          <button class="size-btn" onclick="selectSize('hoodie','S',this)">S</button>
-          <button class="size-btn" onclick="selectSize('hoodie','M',this)">M</button>
-          <button class="size-btn" onclick="selectSize('hoodie','L',this)">L</button>
-          <button class="size-btn" onclick="selectSize('hoodie','XL',this)">XL</button>
-          <button class="size-btn" onclick="selectSize('hoodie','XXL',this)">XXL</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MERCH: ポスター -->
-    <div class="merch-section" id="sectionPoster">
-      <div class="block-label">// STEP 05 — ポスターのサイズを選択</div>
-      <div class="product-grid" style="grid-template-columns: repeat(2,1fr)">
-
-        <div class="product-card" data-product="poster" data-id="p-a3" data-name="POSTER A3" onclick="selectProduct('poster', this)">
-          <div class="product-check">✓</div>
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-              <rect width="200" height="220" fill="#111"/>
-              <!-- A3 poster shape -->
-              <rect x="55" y="25" width="90" height="127" fill="#151515" stroke="#F05A00" stroke-width="1"/>
-              <!-- Design inside poster -->
-              <rect x="62" y="32" width="76" height="76" fill="none" stroke="#F05A00" stroke-width="0.5" opacity="0.4"/>
-              <line x1="62" y1="32" x2="138" y2="108" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
-              <line x1="138" y1="32" x2="62" y2="108" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
-              <text x="100" y="125" font-family="monospace" font-size="10" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="2">DARI</text>
-              <text x="100" y="136" font-family="monospace" font-size="6" fill="#555" text-anchor="middle" letter-spacing="2">GBB2026 POLAND</text>
-              <!-- A3 label -->
-              <text x="100" y="165" font-family="monospace" font-size="11" fill="#888" text-anchor="middle" letter-spacing="3">A3</text>
-              <text x="100" y="178" font-family="monospace" font-size="7" fill="#444" text-anchor="middle">297 × 420mm</text>
-              <text x="100" y="205" font-family="monospace" font-size="9" fill="#555" text-anchor="middle" letter-spacing="2">POSTER</text>
-            </svg>
-          </div>
-          <div class="product-info">
-            <div class="product-type">Poster</div>
-            <div class="product-name">A3 — 297×420mm</div>
-            <div class="product-price">SAMPLE IMAGE</div>
-          </div>
-        </div>
-
-        <div class="product-card" data-product="poster" data-id="p-a2" data-name="POSTER A2" onclick="selectProduct('poster', this)">
-          <div class="product-check">✓</div>
-          <div class="product-img-placeholder">
-            <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-              <rect width="200" height="220" fill="#111"/>
-              <!-- A2 poster shape (taller ratio) -->
-              <rect x="45" y="15" width="110" height="155" fill="#151515" stroke="#F05A00" stroke-width="1"/>
-              <rect x="54" y="22" width="92" height="92" fill="none" stroke="#F05A00" stroke-width="0.5" opacity="0.4"/>
-              <line x1="54" y1="22" x2="146" y2="114" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
-              <line x1="146" y1="22" x2="54" y2="114" stroke="#F05A00" stroke-width="0.5" opacity="0.3"/>
-              <text x="100" y="133" font-family="monospace" font-size="10" font-weight="bold" fill="#F05A00" text-anchor="middle" letter-spacing="2">DARI</text>
-              <text x="100" y="144" font-family="monospace" font-size="6" fill="#555" text-anchor="middle" letter-spacing="2">GBB2026 POLAND</text>
-              <text x="100" y="172" font-family="monospace" font-size="11" fill="#888" text-anchor="middle" letter-spacing="3">A2</text>
-              <text x="100" y="183" font-family="monospace" font-size="7" fill="#444" text-anchor="middle">420 × 594mm</text>
-              <text x="100" y="205" font-family="monospace" font-size="9" fill="#555" text-anchor="middle" letter-spacing="2">POSTER</text>
-            </svg>
-          </div>
-          <div class="product-info">
-            <div class="product-type">Poster</div>
-            <div class="product-name">A2 — 420×594mm</div>
-            <div class="product-price">SAMPLE IMAGE</div>
-          </div>
-        </div>
-
       </div>
     </div>
 
     <!-- SHIPPING FORM -->
     <div class="merch-section" id="sectionShipping">
-      <div class="block-label">// STEP 06 — お届け先を入力</div>
+      <div class="block-label">// STEP 05 — お届け先を入力</div>
       <div class="shipping-form">
         <div class="form-field">
           <label>姓</label>
@@ -957,7 +710,6 @@
           <label>電話番号</label>
           <input type="tel" placeholder="090-0000-0000" id="phone">
         </div>
-
       </div>
     </div>
 
@@ -980,17 +732,9 @@
         <span class="summary-row-label">支援金額</span>
         <span class="summary-row-val orange" id="sumAmount">—</span>
       </div>
-      <div class="summary-row" id="sumRowTshirt" style="display:none">
-        <span class="summary-row-label">Tシャツ</span>
-        <span class="summary-row-val" id="sumTshirt">—</span>
-      </div>
-      <div class="summary-row" id="sumRowHoodie" style="display:none">
-        <span class="summary-row-label">パーカー</span>
-        <span class="summary-row-val" id="sumHoodie">—</span>
-      </div>
-      <div class="summary-row" id="sumRowPoster" style="display:none">
-        <span class="summary-row-label">ポスター</span>
-        <span class="summary-row-val" id="sumPoster">—</span>
+      <div class="summary-row" id="sumRowMerch" style="display:none">
+        <span class="summary-row-label">特典グッズ</span>
+        <span class="summary-row-val" id="sumMerch">—</span>
       </div>
       <div class="summary-row" id="sumRowShipping" style="display:none">
         <span class="summary-row-label">送料</span>
@@ -1030,18 +774,28 @@
 </div><!-- /page-wrap -->
 
 <script>
+  // ============================================================
+  // STATE
+  // ============================================================
   const state = {
     plan: null,
     planMin: 0,
     planName: '',
     amount: 0,
-    tshirt: null,
+    // merch: 1択のみ
+    // type: 'tshirt' | 'hoodie' | 'poster' | null
+    merchType: null,
+    // 選択内容
+    tshirt: null,      // { id, name }
     tshirtSize: null,
-    hoodie: null,
+    hoodie: null,      // { id, name }
     hoodieSize: null,
-    poster: null,
+    poster: null,      // { id, name }
   };
 
+  // ============================================================
+  // PLAN
+  // ============================================================
   function selectPlan(card) {
     document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
@@ -1050,7 +804,9 @@
     state.planMin = parseInt(card.dataset.min);
     state.planName = card.dataset.name;
 
-    // Set amount to minimum
+    // clear merch selection on plan change
+    clearMerch();
+
     const input = document.getElementById('amountInput');
     input.min = state.planMin;
     if (!state.amount || state.amount < state.planMin) {
@@ -1060,72 +816,109 @@
     document.getElementById('amountHint').innerHTML =
       `最低支援額: <span>¥${state.planMin.toLocaleString()}</span>`;
 
-    showMerchSections();
+    showSections();
     updateSummary();
     validateForm();
   }
 
-  function showMerchSections() {
+  // ============================================================
+  // SECTIONS VISIBILITY
+  // ============================================================
+  function showSections() {
     const plan = state.plan;
-    const isTshirtPlan = plan === 'tshirt' || plan === 'hoodie';
-    const isHoodiePlan = plan === 'hoodie';
-    const hasMerch = isTshirtPlan || isHoodiePlan;
+    const hasMerch = plan === 'tshirt' || plan === 'hoodie';
 
-    // credit/digital プランでも基本情報セクションを表示
-    const creditSection = document.getElementById('sectionCredit');
-    creditSection.style.display = 'block';
+    // 基本情報：全プラン（常に表示）
+    document.getElementById('sectionCredit').style.display = 'block';
 
-    document.getElementById('sectionTshirt').classList.toggle('visible', isTshirtPlan);
-    document.getElementById('sectionHoodie').classList.toggle('visible', isTshirtPlan); // show for both, but hoodie disabled for tshirt plan
-    document.getElementById('sectionPoster').classList.toggle('visible', isTshirtPlan);
+    // merchセクション
+    const sectionMerch = document.getElementById('sectionMerch');
+    sectionMerch.classList.toggle('visible', hasMerch);
+
+    // 発送先：merchあり
     document.getElementById('sectionShipping').classList.toggle('visible', hasMerch);
 
-    // Hoodie card: disable if not hoodie plan
-    const hoodieCard = document.getElementById('hoodieCard');
-    if (isHoodiePlan) {
-      hoodieCard.classList.remove('disabled');
+    if (!hasMerch) return;
+
+    // ルール説明
+    const notice = document.getElementById('merchRuleNotice');
+    if (plan === 'tshirt') {
+      notice.innerHTML = `// <strong>グッズ特典（1点選択）</strong>：Tシャツ または ポスター のうち<strong style="color:var(--orange)">いずれか1点</strong>をお選びください。`;
     } else {
-      hoodieCard.classList.add('disabled');
-      // Deselect hoodie if plan changed
-      if (state.hoodie) {
-        state.hoodie = null;
-        state.hoodieSize = null;
-        document.querySelectorAll('[data-product="hoodie"]').forEach(c => c.classList.remove('selected'));
-      }
+      notice.innerHTML = `// <strong>グッズ特典（1点選択）</strong>：パーカー、Tシャツ、ポスター のうち<strong style="color:var(--orange)">いずれか1点</strong>をお選びください。`;
     }
 
-    // Update hoodie section label
-    const hsizeRow = document.getElementById('hsizeRow');
-    if (!isHoodiePlan) {
-      hsizeRow.style.display = 'none';
-    }
+    // タブを構築
+    buildMerchTabs(plan);
   }
 
-  function updateAmount() {
-    const val = parseInt(document.getElementById('amountInput').value) || 0;
-    state.amount = val;
+  // ============================================================
+  // MERCH TABS
+  // ============================================================
+  function buildMerchTabs(plan) {
+    const tabsEl = document.getElementById('merchTabs');
+    tabsEl.innerHTML = '';
+
+    const tabs = plan === 'tshirt'
+      ? [
+          { key: 'tshirt', label: 'Merch', name: 'Tシャツ' },
+          { key: 'poster', label: 'Merch', name: 'ポスター' },
+        ]
+      : [
+          { key: 'hoodie', label: 'Premium', name: 'パーカー' },
+          { key: 'tshirt', label: 'Merch',   name: 'Tシャツ' },
+          { key: 'poster', label: 'Merch',   name: 'ポスター' },
+        ];
+
+    tabs.forEach(t => {
+      const div = document.createElement('div');
+      div.className = 'merch-tab';
+      div.dataset.tabKey = t.key;
+      div.innerHTML = `<div class="merch-tab-label">${t.label}</div><div class="merch-tab-name">${t.name}</div>`;
+      div.onclick = () => switchMerchTab(t.key);
+      tabsEl.appendChild(div);
+    });
+  }
+
+  function switchMerchTab(key) {
+    // clear merch
+    clearMerch();
+    state.merchType = key;
+
+    // update tab active state
+    document.querySelectorAll('.merch-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tabKey === key);
+    });
+
+    // show correct panel
+    ['panelTshirt','panelHoodie','panelPoster'].forEach(id => {
+      document.getElementById(id).classList.remove('visible');
+    });
+    const panelMap = { tshirt: 'panelTshirt', hoodie: 'panelHoodie', poster: 'panelPoster' };
+    document.getElementById(panelMap[key]).classList.add('visible');
+
     updateSummary();
     validateForm();
   }
 
-  function selectProduct(type, card) {
-    // Deselect others of same type
+  // ============================================================
+  // MERCH ITEM SELECTION（1択ロジック）
+  // ============================================================
+  function selectMerchItem(type, id, name, card) {
+    // deselect all cards of this type
     document.querySelectorAll(`[data-product="${type}"]`).forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
-
-    const id = card.dataset.id;
-    const name = card.dataset.name;
 
     if (type === 'tshirt') {
       state.tshirt = { id, name };
       state.tshirtSize = null;
       document.getElementById('tsizeRow').style.display = 'flex';
-      // Reset size buttons
       document.querySelectorAll('#tsizeBtns .size-btn').forEach(b => b.classList.remove('selected'));
     } else if (type === 'hoodie') {
       state.hoodie = { id, name };
       state.hoodieSize = null;
       document.getElementById('hsizeRow').style.display = 'flex';
+      document.querySelectorAll('#hsizeBtns .size-btn').forEach(b => b.classList.remove('selected'));
     } else if (type === 'poster') {
       state.poster = { id, name };
     }
@@ -1134,28 +927,60 @@
     validateForm();
   }
 
+  function clearMerch() {
+    state.merchType = null;
+    state.tshirt = null;
+    state.tshirtSize = null;
+    state.hoodie = null;
+    state.hoodieSize = null;
+    state.poster = null;
+
+    document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.merch-tab').forEach(t => t.classList.remove('active'));
+    ['panelTshirt','panelHoodie','panelPoster'].forEach(id => {
+      document.getElementById(id).classList.remove('visible');
+    });
+    document.getElementById('tsizeRow').style.display = 'none';
+    document.getElementById('hsizeRow').style.display = 'none';
+  }
+
+  // ============================================================
+  // SIZE
+  // ============================================================
   function selectSize(type, size, btn) {
     const container = btn.closest('.size-btns');
     container.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
-
     if (type === 'tshirt') state.tshirtSize = size;
     else if (type === 'hoodie') state.hoodieSize = size;
-
     updateSummary();
     validateForm();
   }
 
+  // ============================================================
+  // AMOUNT
+  // ============================================================
+  function updateAmount() {
+    const val = parseInt(document.getElementById('amountInput').value) || 0;
+    state.amount = val;
+    updateSummary();
+    validateForm();
+  }
+
+  // ============================================================
+  // SUMMARY
+  // ============================================================
   function updateSummary() {
     const s = state;
     if (!s.plan) return;
 
     document.getElementById('summaryPlanName').textContent = s.planName;
-
-    show('sumRowPlan'); document.getElementById('sumPlan').textContent = s.planName;
+    showEl('sumRowPlan');
+    document.getElementById('sumPlan').textContent = s.planName;
 
     if (s.amount >= s.planMin) {
-      show('sumRowAmount');
+      showEl('sumRowAmount');
       document.getElementById('sumAmount').textContent = `¥${s.amount.toLocaleString()}`;
       document.getElementById('summaryTotal').textContent = `¥${s.amount.toLocaleString()}`;
     } else {
@@ -1164,77 +989,70 @@
 
     const hasMerch = s.plan === 'tshirt' || s.plan === 'hoodie';
 
-    if (hasMerch && s.tshirt) {
-      show('sumRowTshirt');
-      document.getElementById('sumTshirt').textContent =
-        s.tshirt.name + (s.tshirtSize ? ` / ${s.tshirtSize}` : ' / サイズ未選択');
-      show('sumRowShipping');
+    if (hasMerch) {
+      let merchLabel = null;
+      if (s.merchType === 'tshirt' && s.tshirt) {
+        merchLabel = `Tシャツ ${s.tshirt.name}` + (s.tshirtSize ? ` / ${s.tshirtSize}` : ' / サイズ未選択');
+      } else if (s.merchType === 'hoodie' && s.hoodie) {
+        merchLabel = `パーカー ${s.hoodie.name}` + (s.hoodieSize ? ` / ${s.hoodieSize}` : ' / サイズ未選択');
+      } else if (s.merchType === 'poster' && s.poster) {
+        merchLabel = `ポスター ${s.poster.name}`;
+      }
+
+      if (merchLabel) {
+        showEl('sumRowMerch');
+        document.getElementById('sumMerch').textContent = merchLabel;
+        showEl('sumRowShipping');
+      } else {
+        hideEl('sumRowMerch');
+        hideEl('sumRowShipping');
+      }
     } else {
-      hide('sumRowTshirt');
+      hideEl('sumRowMerch');
+      hideEl('sumRowShipping');
     }
 
-    if (s.plan === 'hoodie' && s.hoodie) {
-      show('sumRowHoodie');
-      document.getElementById('sumHoodie').textContent =
-        s.hoodie.name + (s.hoodieSize ? ` / ${s.hoodieSize}` : ' / サイズ未選択');
-    } else {
-      hide('sumRowHoodie');
-    }
-
-    if (hasMerch && s.poster) {
-      show('sumRowPoster');
-      document.getElementById('sumPoster').textContent = s.poster.name;
-      show('sumRowShipping');
-    } else {
-      hide('sumRowPoster');
-    }
-
-    if (!hasMerch) hide('sumRowShipping');
-
-    // Update note
-    const note = document.getElementById('summaryNote');
-    if (s.amount >= s.planMin) {
-      note.innerHTML = '// Stripe の決済ページへ移動します。<br>カード・コンビニ・銀行振込等が利用できます。';
-    }
+    document.getElementById('summaryNote').innerHTML =
+      s.amount >= s.planMin
+        ? '// Stripe の決済ページへ移動します。<br>カード・コンビニ・銀行振込等が利用できます。'
+        : '// プランを選択して<br>支援金額を入力すると<br>支払いへ進めます';
   }
 
+  // ============================================================
+  // VALIDATION
+  // ============================================================
   function validateForm() {
     const s = state;
-    if (!s.plan || s.amount < s.planMin) {
-      disable(); return;
-    }
+    if (!s.plan || s.amount < s.planMin) { disable(); return; }
 
     const hasMerch = s.plan === 'tshirt' || s.plan === 'hoodie';
-    if (hasMerch) {
-      // Need tshirt OR poster selected; if tshirt selected, need size
-      const hasTshirt = s.tshirt && s.tshirtSize;
-      const hasPoster = s.poster;
-      const hasHoodie = s.plan === 'hoodie' ? (s.hoodie && s.hoodieSize) : true;
 
-      if (!hasTshirt && !hasPoster) { disable(); return; }
-      if (!hasHoodie && s.plan === 'hoodie') { disable(); return; }
+    if (hasMerch) {
+      // mercTypeが選択されていない
+      if (!s.merchType) { disable(); return; }
+
+      // 各タイプ内の選択チェック
+      if (s.merchType === 'tshirt' && (!s.tshirt || !s.tshirtSize)) { disable(); return; }
+      if (s.merchType === 'hoodie' && (!s.hoodie || !s.hoodieSize)) { disable(); return; }
+      if (s.merchType === 'poster' && !s.poster) { disable(); return; }
     }
 
     enable();
   }
 
-  function disable() {
-    document.getElementById('payBtn').disabled = true;
-  }
-  function enable() {
-    document.getElementById('payBtn').disabled = false;
-  }
-  function show(id) { document.getElementById(id).style.display = 'flex'; }
-  function hide(id) { document.getElementById(id).style.display = 'none'; }
+  function disable() { document.getElementById('payBtn').disabled = true; }
+  function enable()  { document.getElementById('payBtn').disabled = false; }
+  function showEl(id) { document.getElementById(id).style.display = 'flex'; }
+  function hideEl(id) { document.getElementById(id).style.display = 'none'; }
 
-  // ====================================================
-  // 設定：ここを自分の値に書き換える
-  // ====================================================
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwvIZeOjnHZnbZ1yzi-zdSPHw4q8WXm3VmqB3GV61PK4Kh2v5W8KBN58jGOpQK3sDLW/exec'; // Google Apps Script のデプロイURL
+  // ============================================================
+  // GAS URL
+  // ============================================================
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwvIZeOjnHZnbZ1yzi-zdSPHw4q8WXm3VmqB3GV61PK4Kh2v5W8KBN58jGOpQK3sDLW/exec';
 
-  // ====================================================
-
-  // URLパラメータからプランを自動選択
+  // ============================================================
+  // URL PARAM AUTO-SELECT
+  // ============================================================
   window.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const planParam = params.get('plan');
@@ -1247,72 +1065,75 @@
     }
   });
 
+  // ============================================================
+  // UTILS
+  // ============================================================
   function formatPostcode(input) {
     let v = input.value.replace(/[^0-9]/g,'');
     if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3,7);
     input.value = v;
   }
 
+  // ============================================================
+  // PROCEED
+  // ============================================================
   async function proceed() {
     const msg = document.getElementById('validationMsg');
-    const hasMerch = state.plan === 'tshirt' || state.plan === 'hoodie';
+    const s = state;
+    const hasMerch = s.plan === 'tshirt' || s.plan === 'hoodie';
 
-    // バリデーション
     if (hasMerch) {
-      const req = ['lastName','firstName','postcode','address1','email'];
+      const req = ['lastName','firstName','postcode','address1'];
       const missing = req.some(id => !document.getElementById(id).value.trim());
-      if (missing) {
+      const emailVal = document.getElementById('emailInput').value.trim();
+      if (missing || !emailVal) {
         msg.classList.add('visible');
         document.getElementById('sectionShipping').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    } else {
+      // credit/digital: email必須
+      const emailVal = document.getElementById('emailInput').value.trim();
+      if (!emailVal) {
+        msg.classList.add('visible');
+        document.getElementById('sectionCredit').scrollIntoView({ behavior: 'smooth' });
         return;
       }
     }
     msg.classList.remove('visible');
 
-    // 送信ボタンをローディング状態に
     const btn = document.getElementById('payBtn');
     btn.disabled = true;
     btn.textContent = '送信中...';
 
-    // フォームデータを収集
+    // merch summary string
+    let merchStr = '';
+    if (s.merchType === 'tshirt' && s.tshirt) {
+      merchStr = `Tシャツ ${s.tshirt.name} / ${s.tshirtSize || '未選択'}`;
+    } else if (s.merchType === 'hoodie' && s.hoodie) {
+      merchStr = `パーカー ${s.hoodie.name} / ${s.hoodieSize || '未選択'}`;
+    } else if (s.merchType === 'poster' && s.poster) {
+      merchStr = `ポスター ${s.poster.name}`;
+    }
+
     const data = {
-      timestamp:   new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
-      planKey:     state.plan,        // ← これを追加（'credit'/'digital'/'tshirt'/'hoodie'）
-      plan:        state.planName,
-      amount:      state.amount,
-      creditName:  document.getElementById('creditName')?.value || '',
-      tshirt:      state.tshirt ? `${state.tshirt.name} / ${state.tshirtSize || 'サイズ未選択'}` : '',
-      hoodie:      state.hoodie ? `${state.hoodie.name} / ${state.hoodieSize || 'サイズ未選択'}` : '',
-      poster:      state.poster ? state.poster.name : '',
-      lastName:    document.getElementById('lastName')?.value || '',
-      firstName:   document.getElementById('firstName')?.value || '',
-      postcode:    document.getElementById('postcode')?.value || '',
-      address1:    document.getElementById('address1')?.value || '',
-      address2:    document.getElementById('address2')?.value || '',
-      phone:       document.getElementById('phone')?.value || '',
-      email:       document.getElementById('email')?.value || document.getElementById('emailBasic')?.value || '',
+      timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
+      planKey:    s.plan,
+      plan:       s.planName,
+      amount:     String(s.amount),
+      creditName: document.getElementById('creditName')?.value || '',
+      email:      document.getElementById('emailInput')?.value || '',
+      merch:      merchStr,
+      lastName:   document.getElementById('lastName')?.value || '',
+      firstName:  document.getElementById('firstName')?.value || '',
+      postcode:   document.getElementById('postcode')?.value || '',
+      address1:   document.getElementById('address1')?.value || '',
+      address2:   document.getElementById('address2')?.value || '',
+      phone:      document.getElementById('phone')?.value || '',
     };
 
-    // Google Apps Script にデータ送信（GETリクエスト）
     try {
-      const params = new URLSearchParams({
-        timestamp:  data.timestamp,
-        planKey:    data.planKey,
-        plan:       data.plan,
-        amount:     String(data.amount),
-        creditName: data.creditName,
-        tshirt:     data.tshirt,
-        hoodie:     data.hoodie,
-        poster:     data.poster,
-        lastName:   data.lastName,
-        firstName:  data.firstName,
-        postcode:   data.postcode,
-        address1:   data.address1,
-        address2:   data.address2,
-        phone:      data.phone,
-        email:      data.email,
-      });
-
+      const params = new URLSearchParams(data);
       const res  = await fetch(GAS_URL + '?' + params.toString());
       const json = await res.json();
 
@@ -1323,7 +1144,7 @@
       }
     } catch (e) {
       btn.disabled = false;
-      btn.textContent = '決済へ進む →';
+      btn.textContent = 'Stripe で支払いへ進む →';
       alert('エラーが発生しました。もう一度お試しください。\n' + e.message);
       console.error(e);
     }
