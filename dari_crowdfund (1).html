@@ -5,60 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DARI — GBB2026 CROWDFUNDING</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --red: #F05A00;
-    --red-dim: #8A3200;
-    --bg: #080808;
-    --bg2: #111;
-    --line: #1E1E1E;
-    --line-bold: #2A2A2A;
-    --text: #FFFFFF;
-    --muted: #888;
+    --bg: #FFFFFF;
+    --bg2: #F9F9F9;
+    --line: #EAEAEA;
+    --line-bold: #111111;
+    --text: #111111;
+    --muted: #777777;
+    --orange: #FF5A00; /* 差し色の洗練されたオレンジ */
     --mono: 'Space Mono', monospace;
     --cond: 'Barlow Condensed', sans-serif;
     --display: 'Inter', sans-serif;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(0,0,0,0.12) 3px,
-      rgba(0,0,0,0.12) 4px
-    );
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  /* titles rendered above scanline overlay so they appear clean */
-  .hero-title,
-  .hero-subtitle,
-  .section-title,
-  .stat-val,
-  .tier-price,
-  .tier-name,
-  .brow.total .brow-label,
-  .footer-logo {
-    position: relative;
-    z-index: 10000;
-    mix-blend-mode: normal;
   }
 
   body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--cond);
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.6;
     overflow-x: hidden;
+    letter-spacing: 0.02em;
   }
 
   /* NAV */
@@ -71,16 +42,18 @@
     align-items: center;
     padding: 0 2rem;
     height: 52px;
-    border-bottom: 1px solid var(--line-bold);
-    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
   }
 
   nav .nav-left {
     font-family: var(--mono);
     font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.12em;
+    color: var(--text);
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    font-weight: 700;
   }
 
   nav .nav-right {
@@ -94,101 +67,97 @@
   nav .nav-right a {
     color: var(--muted);
     text-decoration: none;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     padding: 0 1.5rem;
     height: 52px;
     display: flex;
     align-items: center;
-    border-left: 1px solid var(--line-bold);
-    transition: color 0.15s, background 0.15s;
+    border-left: 1px solid var(--line);
+    transition: color 0.2s, background 0.2s;
   }
 
   nav .nav-right a:hover { color: var(--text); background: var(--bg2); }
-  nav .nav-right a.cta { color: var(--red); }
-  nav .nav-right a.cta:hover { background: var(--red); color: #fff; }
+  nav .nav-right a.cta { color: var(--orange); font-weight: 700; }
+  nav .nav-right a.cta:hover { background: var(--orange); color: #fff; }
 
   /* HERO */
   .hero {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 7rem 2rem 0;
-    border-bottom: 1px solid var(--line-bold);
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .hero-eyebrow {
     font-family: var(--mono);
-    font-size: 10px;
-    color: var(--red);
-    letter-spacing: 0.2em;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    margin-bottom: 2rem;
-  }
-
-  .logo-wrap { margin-bottom: 2rem; }
-  .logo-wrap img {
-    width: min(500px, 70vw);
-    height: auto;
-    display: block;
+    margin-bottom: 3rem;
   }
 
   .hero-title {
     font-family: var(--display);
-    font-size: clamp(5rem, 14vw, 13rem);
-    font-weight: 900;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 100;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
     color: var(--text);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
   }
 
-  .hero-title .accent { color: var(--red); }
+  .hero-title .accent { font-weight: 700; color: var(--orange); }
 
   .hero-subtitle {
     font-family: var(--display);
-    font-size: clamp(1.2rem, 3vw, 2.8rem);
-    font-weight: 600;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    font-weight: 300;
     color: var(--muted);
-    letter-spacing: 0.08em;
-    margin-bottom: 3rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 6rem;
   }
 
   .hero-bottom {
-    border-top: 1px solid var(--line-bold);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: stretch;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   .hero-desc {
-    padding: 2rem 2rem 2rem 0;
-    border-right: 1px solid var(--line-bold);
+    padding: 3rem 2rem;
+    width: 100%;
   }
 
   .hero-desc p {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 300;
-    color: var(--muted);
+    color: var(--text);
     line-height: 1.8;
-    max-width: 480px;
-    letter-spacing: 0.02em;
+    max-width: 560px;
+    margin: 0 auto;
   }
 
-  .hero-desc p strong { color: var(--text); font-weight: 600; }
+  .hero-desc p strong { color: var(--line-bold); font-weight: 700; }
 
   .hero-desc .subnote {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     font-family: var(--mono);
     font-size: 10px;
-    color: #666;
+    color: var(--muted);
     letter-spacing: 0.1em;
-    line-height: 1.6;
   }
 
   .hero-cta {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    border-top: 1px solid var(--line);
+    width: 100%;
   }
 
   .hero-cta a {
@@ -197,32 +166,34 @@
     align-items: center;
     justify-content: center;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 0 3rem;
-    transition: all 0.15s;
-    border-bottom: 1px solid var(--line-bold);
+    padding: 0 2rem;
+    height: 56px;
+    transition: all 0.2s;
+    border-right: 1px solid var(--line);
     white-space: nowrap;
   }
 
-  .hero-cta a:last-child { border-bottom: none; }
-  .hero-cta a.primary { background: var(--red); color: #fff; }
-  .hero-cta a.primary:hover { background: #FF6A10; }
-  .hero-cta a.secondary { color: var(--muted); }
+  .hero-cta a:last-child { border-right: none; }
+  .hero-cta a.primary { background: var(--line-bold); color: #fff; }
+  .hero-cta a.primary:hover { background: #333; }
+  .hero-cta a.secondary { color: var(--muted); background: transparent; }
   .hero-cta a.secondary:hover { color: var(--text); background: var(--bg2); }
 
   /* STATS BAR */
   .stats-bar {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-bottom: 1px solid var(--line-bold);
+    border-bottom: 1px solid var(--line);
   }
 
   .stat {
-    padding: 2rem;
-    border-right: 1px solid var(--line-bold);
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--line);
+    text-align: center;
   }
 
   .stat:last-child { border-right: none; }
@@ -233,175 +204,112 @@
     color: var(--muted);
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
   }
 
   .stat-val {
     font-family: var(--display);
-    font-size: 2.8rem;
-    font-weight: 900;
+    font-size: 2.2rem;
+    font-weight: 300;
     color: var(--text);
     line-height: 1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
+  .stat-val.orange { font-weight: 700; color: var(--orange); }
 
-  .stat-val.red { color: var(--red); }
-
+  /* PROGRESS */
   .progress-wrap {
-    height: 10px;
-    background: var(--line-bold);
+    height: 2px;
+    background: #EAEAEA;
     position: relative;
-    overflow: visible;
-    border-bottom: 1px solid var(--line-bold);
   }
 
   .progress-fill {
     height: 100%;
     width: 0%;
-    background: var(--red);
+    background: var(--orange);
     transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    box-shadow: 0 0 12px var(--red), 0 0 28px rgba(240,90,0,0.5);
-  }
-
-  .progress-fill::after {
-    content: '';
-    position: absolute;
-    right: -1px;
-    top: -4px;
-    bottom: -4px;
-    width: 3px;
-    background: #fff;
-    box-shadow: 0 0 10px #fff, 0 0 20px var(--red), 0 0 40px var(--red);
-    opacity: 0.9;
-    animation: pulse-line 1.4s ease-in-out infinite;
-  }
-
-  @keyframes pulse-line {
-    0%, 100% { opacity: 0.9; box-shadow: 0 0 8px #fff, 0 0 18px var(--red); }
-    50% { opacity: 1; box-shadow: 0 0 16px #fff, 0 0 32px var(--red), 0 0 56px rgba(240,90,0,0.6); }
   }
 
   .progress-label {
     font-family: var(--mono);
     font-size: 9px;
     letter-spacing: 0.15em;
-    color: var(--red);
+    color: var(--text);
     text-transform: uppercase;
-    padding: 0.4rem 2rem;
+    padding: 0.6rem 2rem;
     background: var(--bg);
-    border-bottom: 1px solid var(--line-bold);
+    border-bottom: 1px solid var(--line);
     display: flex;
     justify-content: space-between;
   }
-
   .progress-label span { color: var(--muted); }
+  #progressPct { color: var(--orange); font-weight: 700; }
 
-  /* SECTION DIVIDER */
-  .section-divider {
-    height: 140px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line-bold);
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
-    gap: 1rem;
-  }
-
-  .section-divider::before {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--line-bold);
-  }
-
-  .section-divider-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: #222;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  .section-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--line-bold);
-  }
-
-  /* SECTION */
+  /* SECTION HEADER */
   .section {
-    border-bottom: 1px solid var(--line-bold);
+    border-bottom: 1px solid var(--line);
   }
 
   .section-header {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: stretch;
-    border-bottom: 1px solid var(--line-bold);
-    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 5rem;
+    border-bottom: 1px solid var(--line);
   }
 
   .section-num {
     font-family: var(--mono);
     font-size: 9px;
-    color: var(--muted);
+    color: var(--orange);
     letter-spacing: 0.2em;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    padding: 1.5rem 1.2rem;
-    border-right: 1px solid var(--line-bold);
     text-transform: uppercase;
-  }
-
-  .section-title-wrap {
-    padding: 5rem 2rem 4.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
   }
 
   .section-title {
     font-family: var(--display);
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 900;
-    line-height: 0.88;
-    letter-spacing: -0.02em;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
     color: var(--text);
+    text-transform: uppercase;
   }
 
   .section-body {
-    padding: 3rem 2rem;
+    padding: 5rem 2rem;
   }
 
   /* TIERS */
   .tiers-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin-top: 0;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .tier {
-    padding: 3rem 2rem;
-    border-right: 1px solid var(--line-bold);
+    padding: 3.5rem 2rem;
+    border-right: 1px solid var(--line);
     display: flex;
     flex-direction: column;
-    cursor: pointer;
-    transition: background 0.15s;
+    background: var(--bg);
+    transition: background 0.2s;
     position: relative;
   }
 
   .tier:last-child { border-right: none; }
-  .tier:hover { background: #0e0e0e; }
+  .tier:hover { background: var(--bg2); }
 
-  .tier-top-bar {
+  .tier.featured::before {
+    content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: var(--line-bold);
+    background: var(--orange);
   }
-
-  .tier.featured .tier-top-bar { background: var(--red); }
-  .tier:hover .tier-top-bar { background: var(--red); }
 
   .tier-tag {
     font-family: var(--mono);
@@ -409,25 +317,23 @@
     color: var(--muted);
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
-
-  .tier.featured .tier-tag { color: var(--red); }
+  .tier.featured .tier-tag { color: var(--orange); font-weight: 700; }
 
   .tier-price {
     font-family: var(--display);
-    font-size: 3.5rem;
-    font-weight: 900;
+    font-size: 2.8rem;
+    font-weight: 300;
     line-height: 1;
     color: var(--text);
     letter-spacing: -0.02em;
   }
 
   .tier-price-tilde {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 400;
-    color: var(--red);
-    vertical-align: middle;
+    color: var(--orange);
     margin-left: 2px;
   }
 
@@ -435,165 +341,235 @@
     font-family: var(--mono);
     font-size: 9px;
     color: var(--muted);
-    letter-spacing: 0.1em;
-    margin-top: 0.3rem;
-    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+    margin-top: 0.4rem;
+    margin-bottom: 3rem;
   }
 
   .tier-name {
-    font-family: var(--cond);
+    font-family: var(--display);
     font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.12em;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
     color: var(--text);
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--line-bold);
-    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.75rem;
     text-transform: uppercase;
   }
 
   .tier-perks {
     list-style: none;
     flex: 1;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
 
   .tier-perks li {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 300;
     color: var(--muted);
-    padding: 6px 0;
+    padding: 8px 0;
     border-bottom: 1px solid var(--line);
-    line-height: 1.4;
-    padding-left: 14px;
-    position: relative;
+    line-height: 1.5;
   }
-
-  .tier-perks li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--red-dim);
-    font-size: 14px;
-    line-height: 1.4;
-  }
-
-  .tier-perks li.dim { color: #2e2e2e; }
-  .tier-perks li.dim::before { color: #1e1e1e; }
+  .tier-perks li:last-child { border-bottom: none; }
 
   .tier-btn {
     display: block;
     width: 100%;
-    padding: 0.9rem;
+    padding: 0.85rem;
     background: transparent;
     border: 1px solid var(--line-bold);
-    color: var(--muted);
+    color: var(--text);
     font-family: var(--mono);
     font-size: 10px;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s;
     text-decoration: none;
     text-align: center;
   }
 
   .tier-btn:hover, .tier.featured .tier-btn {
-    background: var(--red);
-    border-color: var(--red);
+    background: var(--orange);
+    border-color: var(--orange);
     color: #fff;
+  }
+
+  /* PERKS GALLERY */
+  .perks-group-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .perks-gallery {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .perks-gallery.posters {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .perks-gallery.tshirts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .perk-item {
+    display: flex;
+    flex-direction: column;
+    background: #FFF;
+  }
+
+  .perk-img-container {
+    width: 100%;
+    overflow: hidden;
+    background: #F9F9F9;
+    border: 1px solid var(--line);
+    margin-bottom: 1rem;
+  }
+  
+  .perks-gallery.posters .perk-img-container {
+    aspect-ratio: 1810 / 2560;
+  }
+  .perks-gallery.tshirts .perk-img-container {
+    aspect-ratio: 2047 / 1542;
+  }
+
+  .perk-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .perk-meta {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+  .perk-title {
+    font-family: var(--display);
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  /* CAPSULE BUTTON (image_d2429c.jpg STYLE + ORANGE SHIFT) */
+  .perks-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.5rem;
+  }
+
+  .perks-capsule-btn {
+    display: inline-block;
+    background: var(--orange);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.8rem 3.5rem;
+    border-radius: 9999px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .perks-capsule-btn:hover {
+    background: var(--line-bold);
+    transform: scale(1.02);
   }
 
   /* BREAKDOWN */
   .breakdown-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-top: 1px solid var(--line-bold);
   }
 
   .breakdown-left {
-    padding: 4rem 2rem;
-    border-right: 1px solid var(--line-bold);
+    padding: 5rem 2rem;
+    border-right: 1px solid var(--line);
   }
 
   .breakdown-left p {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 300;
-    color: var(--muted);
+    color: var(--text);
     line-height: 1.8;
-    margin-bottom: 1.2rem;
-    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
   }
-
-  .breakdown-left p strong { color: var(--text); font-weight: 600; }
+  .breakdown-left p strong { color: var(--line-bold); font-weight: 700; }
 
   .breakdown-right {
-    padding: 4rem 2rem;
+    padding: 5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .brow {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 1.1rem 0;
+    padding: 1.2rem 0;
     border-bottom: 1px solid var(--line);
   }
-
-  .brow:first-child { border-top: 1px solid var(--line-bold); }
 
   .brow-label {
     font-size: 14px;
     font-weight: 300;
     color: var(--muted);
-    letter-spacing: 0.02em;
   }
 
   .brow-amount {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text);
   }
 
   .brow.total {
     border-bottom: none;
-    border-top: 1px solid var(--line-bold);
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding-top: 1.5rem;
+    border-top: 1px solid var(--line-bold);
   }
 
   .brow.total .brow-label {
-    font-family: var(--cond);
+    font-family: var(--display);
     font-weight: 700;
     font-size: 1rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     color: var(--text);
     text-transform: uppercase;
   }
 
   .brow.total .brow-amount {
-    font-size: 15px;
-    color: var(--red);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--orange);
   }
 
   /* FOOTER */
   footer {
-    padding: 0;
-    border-top: 1px solid var(--line-bold);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: stretch;
-  }
-
-  .footer-left {
-    padding: 2rem;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg2);
   }
 
   .footer-logo {
-    font-family: var(--cond);
-    font-weight: 900;
-    font-size: 1.8rem;
-    letter-spacing: 0.08em;
-    color: var(--muted);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--text);
     display: block;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
@@ -602,52 +578,47 @@
   .footer-copy {
     font-family: var(--mono);
     font-size: 9px;
-    color: #555;
-    letter-spacing: 0.12em;
+    color: var(--muted);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-  }
-
-  .footer-right {
-    border-left: 1px solid var(--line-bold);
-    padding: 2rem;
-    display: flex;
-    align-items: center;
   }
 
   .footer-right span {
     font-family: var(--mono);
     font-size: 9px;
-    color: #555;
-    letter-spacing: 0.12em;
+    color: var(--muted);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
+  @media (max-width: 1024px) {
+    .tiers-grid { grid-template-columns: repeat(3, 1fr); }
+    .tier:nth-child(3) { border-right: none; }
+    .tier:nth-child(4), .tier:nth-child(5) { border-top: 1px solid var(--line); }
+    .perks-gallery.posters { grid-template-columns: repeat(2, 1fr); }
+    .perks-gallery.tshirts { grid-template-columns: repeat(2, 1fr); }
+  }
+
   @media (max-width: 768px) {
-    .tiers-grid { grid-template-columns: 1fr 1fr; }
+    .tiers-grid { grid-template-columns: repeat(2, 1fr); }
     .tier:nth-child(2) { border-right: none; }
-    .tier:nth-child(3) { border-right: 1px solid var(--line-bold); border-top: 1px solid var(--line-bold); }
-    .tier:nth-child(4) { border-right: none; border-top: 1px solid var(--line-bold); }
+    .tier:nth-child(3) { border-right: 1px solid var(--line); border-top: 1px solid var(--line); }
+    .tier:nth-child(5) { grid-column: span 2; border-right: none; }
     .breakdown-grid { grid-template-columns: 1fr; }
-    .breakdown-left { border-right: none; border-bottom: 1px solid var(--line-bold); }
-    .stats-bar { grid-template-columns: 1fr 1fr; }
-    .stat:nth-child(3) { border-right: none; border-top: 1px solid var(--line-bold); grid-column: span 2; }
+    .breakdown-left { border-right: none; border-bottom: 1px solid var(--line); padding: 3rem 0; }
+    .breakdown-right { padding: 3rem 0; }
+    .stats-bar { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--line); }
+    .stat:last-child { border-bottom: none; }
     nav .nav-right a:not(.cta) { display: none; }
-    .hero-bottom { grid-template-columns: 1fr; }
-    .hero-desc { border-right: none; border-bottom: 1px solid var(--line-bold); }
-    .hero-cta { flex-direction: row; }
-    .hero-cta a { border-bottom: none; border-left: 1px solid var(--line-bold); }
-    .hero-cta a:first-child { border-left: none; }
-    footer { grid-template-columns: 1fr; }
-    .footer-right { border-left: none; border-top: 1px solid var(--line-bold); }
+    footer { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
   }
 
   @media (max-width: 480px) {
     .tiers-grid { grid-template-columns: 1fr; }
-    .tier { border-right: none; border-top: 1px solid var(--line-bold); }
+    .tier { border-right: none; border-top: 1px solid var(--line); }
     .tier:first-child { border-top: none; }
-    .stats-bar { grid-template-columns: 1fr; }
-    .stat { border-right: none; border-top: 1px solid var(--line-bold); }
-    .stat:first-child { border-top: none; }
+    .perks-gallery.posters, .perks-gallery.tshirts { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -657,6 +628,7 @@
   <div class="nav-left">DARI / DARI — GBB2026</div>
   <div class="nav-right">
     <a href="#tiers">SUPPORT</a>
+    <a href="#perks">PERKS</a>
     <a href="#breakdown">BUDGET</a>
     <a href="#tiers" class="cta">支援する →</a>
   </div>
@@ -664,9 +636,6 @@
 
 <section class="hero">
   <div class="hero-eyebrow">// BEATBOX TAG TEAM × GRAND BEATBOX BATTLE 2026 × POLAND</div>
-  <div class="logo-wrap">
-    <img src="/mnt/user-data/uploads/crt_effect2_00163.png" alt="DARI">
-  </div>
   <div class="hero-title">
     GBB<br><span class="accent">2026</span>
   </div>
@@ -689,11 +658,11 @@
 <div class="stats-bar">
   <div class="stat">
     <div class="stat-label">// TARGET</div>
-    <div class="stat-val">¥300,000</div>
+    <div class="stat-val">¥400,000</div>
   </div>
   <div class="stat">
     <div class="stat-label">// EVENT</div>
-    <div class="stat-val red">GBB2026</div>
+    <div class="stat-val orange">GBB2026</div>
   </div>
   <div class="stat">
     <div class="stat-label">// DESTINATION</div>
@@ -705,112 +674,189 @@
 </div>
 <div class="progress-label">
   <span>// FUNDING PROGRESS</span>
-  <span id="progressPct">34% FUNDED</span>
+  <span id="progressPct">0% FUNDED</span>
 </div>
 
-<div class="section-divider">
-  <span class="section-divider-label">— ◆ —</span>
-</div>
-
+<!-- SECTION 01: TIERS -->
 <section class="section" id="tiers">
   <div class="section-header">
     <div class="section-num">01 — Support</div>
-    <div class="section-title-wrap">
-      <div class="section-title">BACK<br>DARI UP</div>
-    </div>
+    <div class="section-title">BACK<br>DARI UP</div>
   </div>
 
   <div class="tiers-grid">
-
     <div class="tier">
-      <div class="tier-top-bar"></div>
       <div class="tier-tag">Entry</div>
       <div class="tier-price">¥500<span class="tier-price-tilde">〜</span></div>
       <div class="tier-price-note">以上であればいくらでも</div>
-      <div class="tier-name">CREDIT</div>
+      <div class="tier-name">ENTRY</div>
       <ul class="tier-perks">
-        <li>MVクレジット掲載（名前 or ハンドル）</li>
-        <li>支援者専用サンクスポスト</li>
+        <li>あなたの名前を作成予定のMVのエンドクレジットに掲載します。DARIのGBB挑戦の記録を一緒に刻んでください。</li>
       </ul>
-      <a class="tier-btn" href="dari_order.html?plan=credit">支援する →</a>
+      <a class="tier-btn" href="dari_order.html?plan=entry">詳細を見る →</a>
     </div>
 
     <div class="tier">
-      <div class="tier-top-bar"></div>
       <div class="tier-tag">Digital</div>
       <div class="tier-price">¥3,000<span class="tier-price-tilde">〜</span></div>
       <div class="tier-price-note">以上であればいくらでも</div>
       <div class="tier-name">DIGITAL</div>
       <ul class="tier-perks">
-        <li>MVクレジット掲載（名前 or ハンドル）</li>
-        <li>有料note（ビートボックス解説 / FL Studioデモファイル等）</li>
-        <li>MV先行視聴リンク</li>
-        <li>GBB遠征 裏側動画（限定公開）</li>
+        <li>MVエンドクレジット掲載</li>
+        <li>限定デジタルコンテンツへのアクセス権</li>
       </ul>
-      <a class="tier-btn" href="dari_order.html?plan=digital">支援する →</a>
+      <a class="tier-btn" href="dari_order.html?plan=digital">詳細を見る →</a>
     </div>
 
     <div class="tier">
-      <div class="tier-top-bar"></div>
+      <div class="tier-tag">Poster</div>
+      <div class="tier-price">¥7,000<span class="tier-price-tilde">〜</span></div>
+      <div class="tier-price-note">以上であればいくらでも</div>
+      <div class="tier-name">POSTER</div>
+      <ul class="tier-perks">
+        <li>MVエンドクレジット掲載</li>
+        <li>限定デジタルコンテンツへのアクセス権</li>
+        <li>オリジナルポスター（A2 / A3 サイズ選択可）</li>
+      </ul>
+      <a class="tier-btn" href="dari_order.html?plan=poster">詳細を見る →</a>
+    </div>
+
+    <div class="tier">
       <div class="tier-tag">Merch</div>
-      <div class="tier-price">¥10,000<span class="tier-price-tilde">〜</span></div>
+      <div class="tier-price">¥15,000<span class="tier-price-tilde">〜</span></div>
       <div class="tier-price-note">以上であればいくらでも</div>
-      <div class="tier-name">T-SHIRT</div>
+      <div class="tier-name">MERCH</div>
       <ul class="tier-perks">
-        <li>MVクレジット掲載（名前 or ハンドル）</li>
-        <li class="dim">デジタル特典すべて含む</li>
-        <li>DARIオリジナルTシャツ（選択可）または A3ポスター</li>
-        <li>受注生産・今後も販売継続</li>
+        <li>MVエンドクレジット掲載</li>
+        <li>限定デジタルコンテンツへのアクセス権</li>
+        <li>オリジナルTシャツ</li>
       </ul>
-      <a class="tier-btn" href="dari_order.html?plan=tshirt">支援する →</a>
+      <a class="tier-btn" href="dari_order.html?plan=merch">詳細を見る →</a>
     </div>
 
-    <div class="tier">
-      <div class="tier-top-bar"></div>
-      <div class="tier-tag">Premium</div>
-      <div class="tier-price">¥20,000<span class="tier-price-tilde">〜</span></div>
+    <div class="tier featured">
+      <div class="tier-tag">VIP</div>
+      <div class="tier-price">¥25,000<span class="tier-price-tilde">〜</span></div>
       <div class="tier-price-note">以上であればいくらでも</div>
-      <div class="tier-name">HOODIE</div>
+      <div class="tier-name">VIP</div>
       <ul class="tier-perks">
-        <li>MVクレジット掲載（名前 or ハンドル）</li>
-        <li class="dim">デジタル特典 + Tシャツ含む</li>
-        <li>DARIオリジナルパーカー（選択可）</li>
-        <li>Tシャツ + ポスターセットも選択肢あり</li>
+        <li>MVエンドクレジット掲載</li>
+        <li>限定デジタルコンテンツへのアクセス権</li>
+        <li>オリジナルTシャツ</li>
+        <li>オリジナルポスター（A2 / A3 サイズ選択可）</li>
+        <li>Orbitt オリジナルステッカー</li>
+        <li>DARI直筆メッセージカード</li>
       </ul>
-      <a class="tier-btn" href="dari_order.html?plan=hoodie">支援する →</a>
+      <a class="tier-btn" href="dari_order.html?plan=vip">詳細を見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 02: PERKS GALLERY -->
+<section class="section" id="perks">
+  <div class="section-header">
+    <div class="section-num">02 — Perks</div>
+    <div class="section-title">REWARD<br>SAMPLES</div>
+  </div>
+  <div class="section-body">
+    
+    <!-- POSTERS -->
+    <div class="perks-group-title">// ORIGINAL POSTERS (A2 / A3)</div>
+    <div class="perks-gallery posters">
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 1_00011.webp" alt="Poster Type A">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">POSTER / TYPE A</span>
+        </div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 2_00011.webp" alt="Poster Type B">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">POSTER / TYPE B</span>
+        </div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 3_00016.webp" alt="Poster Type C">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">POSTER / TYPE C</span>
+        </div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 4_00041.webp" alt="Poster Type D">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">POSTER / TYPE D</span>
+        </div>
+      </div>
+    </div>
+    <!-- CAPSULE BUTTON FOR POSTERS -->
+    <div class="perks-btn-container">
+      <a href="dari_order.html?plan=poster" class="perks-capsule-btn">詳細を見る</a>
+    </div>
+
+    <!-- T-SHIRTS -->
+    <div class="perks-group-title" style="margin-top: 6rem;">// ORIGINAL T-SHIRTS</div>
+    <div class="perks-gallery tshirts">
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="Tシャツ画像webp圧縮/1白表.webp" alt="T-Shirt White Front">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">TEE / WHITE (FRONT)</span>
+        </div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="Tシャツ画像webp圧縮/3灰色表.webp" alt="T-Shirt Gray Front">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">TEE / GRAY (FRONT)</span>
+        </div>
+      </div>
+      <div class="perk-item">
+        <div class="perk-img-container">
+          <img src="Tシャツ画像webp圧縮/5黒裏.webp" alt="T-Shirt Black Back">
+        </div>
+        <div class="perk-meta">
+          <span class="perk-title">TEE / BLACK (BACK)</span>
+        </div>
+      </div>
+    </div>
+    <!-- CAPSULE BUTTON FOR T-SHIRTS -->
+    <div class="perks-btn-container">
+      <a href="dari_order.html?plan=merch" class="perks-capsule-btn">詳細を見る</a>
     </div>
 
   </div>
 </section>
 
-<div class="section-divider">
-  <span class="section-divider-label">— ◆ —</span>
-</div>
-
+<!-- SECTION 03: BUDGET -->
 <section class="section" id="breakdown">
   <div class="section-header">
-    <div class="section-num">02 — Budget</div>
-    <div class="section-title-wrap">
-      <div class="section-title">WHERE<br>IT GOES</div>
-    </div>
+    <div class="section-num">03 — Budget</div>
+    <div class="section-title">WHERE<br>IT GOES</div>
   </div>
 
   <div class="breakdown-grid">
     <div class="breakdown-left">
       <p>
-        集まった資金は<strong>すべて渡航費に充てます。</strong>
+        集まった資金は<strong>渡航費に充てます。</strong>
       </p>
       <p>
-        ポーランドまでの航空券（2名分）だけで約30万円。宿泊・現地の費用は自己負担。このクラファンは渡航の航空券代のみを対象にしています。
-      </p>
-      <p>
-        目標に達した時点でクローズ。余剰は受け取りません。
+        ポーランドまでの航空券（2名分）だけで約40万円。宿泊・現地の費用は自己負担。このクラファンは渡航の航空券代のみを対象にしています。
       </p>
     </div>
     <div class="breakdown-right">
       <div class="brow">
         <span class="brow-label">航空券（2名分）</span>
-        <span class="brow-amount">¥300,000</span>
+        <span class="brow-amount">¥400,000</span>
       </div>
       <div class="brow">
         <span class="brow-label">宿泊・現地費用</span>
@@ -818,7 +864,7 @@
       </div>
       <div class="brow total">
         <span class="brow-label">CROWDFUNDING TARGET</span>
-        <span class="brow-amount">¥300,000</span>
+        <span class="brow-amount">¥400,000</span>
       </div>
     </div>
   </div>
@@ -835,9 +881,14 @@
 </footer>
 
 <script>
+  const TARGET_AMOUNT = 400000;   
+  const RAISED_AMOUNT = 0;        
+
   window.addEventListener('load', () => {
+    const pct = Math.min(100, Math.round((RAISED_AMOUNT / TARGET_AMOUNT) * 100));
     setTimeout(() => {
-      document.getElementById('progressBar').style.width = '34%';
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressPct').textContent = pct + '% FUNDED (¥' + RAISED_AMOUNT.toLocaleString() + ' / ¥' + TARGET_AMOUNT.toLocaleString() + ')';
     }, 500);
   });
 </script>
