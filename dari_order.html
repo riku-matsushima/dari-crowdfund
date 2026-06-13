@@ -327,10 +327,45 @@
   .img-nav-prev { left: 8px; }
   .img-nav-next { right: 8px; }
 
-  /* ENLARGED ZOOM BUTTON */
-  .img-zoom-btn {
+  /* IMAGE BOTTOM CONTROLS CONTAINER */
+  .img-bottom-controls {
     position: absolute;
     bottom: 10px; right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+  }
+
+  /* CARD INLINE COLOR BUTTONS */
+  .color-pic-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    width: 42px; height: 42px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+  }
+  .color-pic-btn:hover {
+    color: var(--text);
+    border-color: var(--text);
+  }
+  .color-pic-btn.selected {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  /* ENLARGED ZOOM BUTTON */
+  .img-zoom-btn {
     background: #111111;
     border: 1px solid #111111;
     color: #FFFFFF;
@@ -338,7 +373,6 @@
     border-radius: 4px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    z-index: 10;
     font-size: 18px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: all 0.2s ease;
@@ -557,7 +591,7 @@
     </div>
 
     <div class="merch-section" id="sectionTshirt">
-      <div class="block-label">// STEP 03-A — オリジナルTシャツのデザイン・色・サイズを選択（矢印で画像を切り替え / 🔍で拡大）</div>
+      <div class="block-label">// STEP 03-A — オリジナルTシャツのデザイン・色・サイズを選択（画像コントロールから直接色を選べます / 🔍で拡大）</div>
       <div class="product-grid">
         
         <div class="product-card" data-product="tshirt" data-id="ts-1" data-name="NO INSTRUNMENTS WERE HARMED" data-colors="black,white" onclick="handleCardClick(event, 'ts-1', 'NO INSTRUNMENTS WERE HARMED', 'black,white', this)">
@@ -566,7 +600,11 @@
             <span class="view-label" id="label-ts-1">表裏</span>
             <button class="img-nav-btn img-nav-prev" onclick="navigateImage(event, 'ts-1', -1)">&lt;</button>
             <button class="img-nav-btn img-nav-next" onclick="navigateImage(event, 'ts-1', 1)">&gt;</button>
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-1')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="color-pic-btn selected" data-color="black" onclick="changeCardColor(event, 'ts-1', 'black', this)">黒</button>
+              <button class="color-pic-btn" data-color="white" onclick="changeCardColor(event, 'ts-1', 'white', this)">白</button>
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-1')">🔍</button>
+            </div>
             <img src="" id="real-img-ts-1" alt="NO INSTRUNMENTS WERE HARMED">
           </div>
           <div class="product-info"><div class="product-type">TEE 1</div><div class="product-name">NO INSTRUNMENTS WERE HARMED</div><div class="product-price">黒・白展開</div></div>
@@ -578,7 +616,11 @@
             <span class="view-label" id="label-ts-2">表裏</span>
             <button class="img-nav-btn img-nav-prev" onclick="navigateImage(event, 'ts-2', -1)">&lt;</button>
             <button class="img-nav-btn img-nav-next" onclick="navigateImage(event, 'ts-2', 1)">&gt;</button>
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-2')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="color-pic-btn selected" data-color="black" onclick="changeCardColor(event, 'ts-2', 'black', this)">黒</button>
+              <button class="color-pic-btn" data-color="white" onclick="changeCardColor(event, 'ts-2', 'white', this)">白</button>
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-2')">🔍</button>
+            </div>
             <img src="" id="real-img-ts-2" alt="WE ARE ALL IN ORBITT">
           </div>
           <div class="product-info"><div class="product-type">TEE 2</div><div class="product-name">WE ARE ALL IN ORBITT</div><div class="product-price">黒・白展開</div></div>
@@ -590,7 +632,12 @@
             <span class="view-label" id="label-ts-3">表裏</span>
             <button class="img-nav-btn img-nav-prev" onclick="navigateImage(event, 'ts-3', -1)">&lt;</button>
             <button class="img-nav-btn img-nav-next" onclick="navigateImage(event, 'ts-3', 1)">&gt;</button>
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-3')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="color-pic-btn selected" data-color="black" onclick="changeCardColor(event, 'ts-3', 'black', this)">黒</button>
+              <button class="color-pic-btn" data-color="white" onclick="changeCardColor(event, 'ts-3', 'white', this)">白</button>
+              <button class="color-pic-btn" data-color="gray" onclick="changeCardColor(event, 'ts-3', 'gray', this)">灰</button>
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-3')">🔍</button>
+            </div>
             <img src="" id="real-img-ts-3" alt="人類は皆、軌道の上">
           </div>
           <div class="product-info"><div class="product-type">TEE 3</div><div class="product-name">人類は皆、軌道の上</div><div class="product-price">黒・白・灰色展開</div></div>
@@ -602,7 +649,10 @@
             <span class="view-label" id="label-ts-4">表裏</span>
             <button class="img-nav-btn img-nav-prev" onclick="navigateImage(event, 'ts-4', -1)">&lt;</button>
             <button class="img-nav-btn img-nav-next" onclick="navigateImage(event, 'ts-4', 1)">&gt;</button>
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-4')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="color-pic-btn selected" data-color="black" onclick="changeCardColor(event, 'ts-4', 'black', this)">黒</button>
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-4')">🔍</button>
+            </div>
             <img src="" id="real-img-ts-4" alt="album cover">
           </div>
           <div class="product-info"><div class="product-type">TEE 4</div><div class="product-name">album cover</div><div class="product-price">黒のみ展開</div></div>
@@ -614,7 +664,12 @@
             <span class="view-label" id="label-ts-5">表裏</span>
             <button class="img-nav-btn img-nav-prev" onclick="navigateImage(event, 'ts-5', -1)">&lt;</button>
             <button class="img-nav-btn img-nav-next" onclick="navigateImage(event, 'ts-5', 1)">&gt;</button>
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-5')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="color-pic-btn selected" data-color="black" onclick="changeCardColor(event, 'ts-5', 'black', this)">黒</button>
+              <button class="color-pic-btn" data-color="white" onclick="changeCardColor(event, 'ts-5', 'white', this)">白</button>
+              <button class="color-pic-btn" data-color="gray" onclick="changeCardColor(event, 'ts-5', 'gray', this)">灰</button>
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-5')">🔍</button>
+            </div>
             <img src="" id="real-img-ts-5" alt="dari logo">
           </div>
           <div class="product-info"><div class="product-type">TEE 5</div><div class="product-name">dari logo</div><div class="product-price">黒・白・灰色展開</div></div>
@@ -626,7 +681,11 @@
             <span class="view-label" id="label-ts-6">表裏</span>
             <button class="img-nav-btn img-nav-prev" onclick="navigateImage(event, 'ts-6', -1)">&lt;</button>
             <button class="img-nav-btn img-nav-next" onclick="navigateImage(event, 'ts-6', 1)">&gt;</button>
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-6')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="color-pic-btn selected" data-color="black" onclick="changeCardColor(event, 'ts-6', 'black', this)">黒</button>
+              <button class="color-pic-btn" data-color="white" onclick="changeCardColor(event, 'ts-6', 'white', this)">白</button>
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'ts-6')">🔍</button>
+            </div>
             <img src="" id="real-img-ts-6" alt="諸事情によりDAY2は欠席致します">
           </div>
           <div class="product-info"><div class="product-type">TEE 6</div><div class="product-name">諸事情によりDAY2は欠席致します</div><div class="product-price">黒・白展開</div></div>
@@ -634,10 +693,6 @@
 
       </div>
 
-      <div class="selector-row" id="tcolorRow" style="display:none">
-        <div class="selector-label">// TEE COLOR</div>
-        <div class="selector-btns" id="tcolorBtns"></div>
-      </div>
       <div class="selector-row" id="tsizeRow" style="display:none">
         <div class="selector-label">// TEE SIZE</div>
         <div class="selector-btns">
@@ -757,12 +812,12 @@
 
   // T-SHIRT VIEWS MATRIX
   const tshirtViewState = {
-    'ts-1': { viewIndex: 0, defaultColor: 'black' },
-    'ts-2': { viewIndex: 0, defaultColor: 'black' },
-    'ts-3': { viewIndex: 0, defaultColor: 'black' },
-    'ts-4': { viewIndex: 0, defaultColor: 'black' },
-    'ts-5': { viewIndex: 0, defaultColor: 'black' },
-    'ts-6': { viewIndex: 0, defaultColor: 'black' }
+    'ts-1': { viewIndex: 0 },
+    'ts-2': { viewIndex: 0 },
+    'ts-3': { viewIndex: 0 },
+    'ts-4': { viewIndex: 0 },
+    'ts-5': { viewIndex: 0 },
+    'ts-6': { viewIndex: 0 }
   };
 
   const viewLabels = ['表裏', '表', '裏'];
@@ -780,8 +835,13 @@
     const num = id.split('-')[1]; // '1', '2', etc.
     const viewIndex = tshirtViewState[id].viewIndex;
     
-    // Determine active color for this card
-    let colorKey = (state.tshirtId === id) ? state.tshirtColor : tshirtViewState[id].defaultColor;
+    // Determine active color by checking the selected card button
+    const cardEl = document.querySelector(`[data-id="${id}"]`);
+    let colorKey = 'black';
+    if (cardEl) {
+      const activeBtn = cardEl.querySelector('.color-pic-btn.selected');
+      if (activeBtn) colorKey = activeBtn.dataset.color;
+    }
     
     // Map English key to Japanese filename characters
     let jpColor = '白';
@@ -859,7 +919,8 @@
   }
 
   function handleCardClick(event, id, name, colorsCsv, card) {
-    if (event.target.tagName === 'BUTTON' || event.target.classList.contains('img-nav-btn')) return;
+    // Prevent triggering card click when interacting with any button inside the workspace
+    if (event.target.tagName === 'BUTTON' || event.target.classList.contains('img-nav-btn') || event.target.classList.contains('color-pic-btn')) return;
     selectTshirtDesign(id, name, colorsCsv, card);
   }
 
@@ -876,8 +937,6 @@
 
     const input = document.getElementById('amountInput');
     input.min = state.planMin;
-    
-    // 【修正箇所】条件を外し、プラン切り替え時は高い・低いに関わらず常にそのプランの最低金額に強制上書きする
     input.value = state.planMin;
     state.amount = state.planMin;
     
@@ -898,46 +957,45 @@
 
   // T-SHIRT DESIGN SELECTION
   function selectTshirtDesign(id, name, colorsCsv, card) {
+    // Only reset the size selection if swapping to a completely different design card
+    if (state.tshirtId !== id) {
+      state.tshirtSize = null;
+      document.querySelectorAll('#tsizeRow .option-btn').forEach(b => b.classList.remove('selected'));
+    }
+
     document.querySelectorAll('[data-product="tshirt"]').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
 
     state.tshirtId = id;
     state.tshirtName = name;
     
-    const colors = colorsCsv.split(',');
-    state.tshirtColor = colors.includes('black') ? 'black' : 'white';
-    state.tshirtSize = null;
+    // Acquire the color currently marked as selected within the card's workspace
+    const activeColorBtn = card.querySelector('.color-pic-btn.selected');
+    if (activeColorBtn) {
+      state.tshirtColor = activeColorBtn.dataset.color;
+    } else {
+      const colors = colorsCsv.split(',');
+      state.tshirtColor = colors.includes('black') ? 'black' : 'white';
+    }
 
-    const colorContainer = document.getElementById('tcolorBtns');
-    colorContainer.innerHTML = '';
-    
-    colors.forEach(col => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      if (col === state.tshirtColor) btn.classList.add('selected');
-      btn.textContent = col === 'white' ? '白' : col === 'black' ? '黒' : '灰色';
-      btn.onclick = (e) => selectTshirtColor(col, btn);
-      colorContainer.appendChild(btn);
-    });
-
-    document.getElementById('tcolorRow').style.display = 'flex';
     document.getElementById('tsizeRow').style.display = 'flex';
-    document.querySelectorAll('#tsizeRow .option-btn').forEach(b => b.classList.remove('selected'));
 
     initAllTshirtImages();
     updateSummary();
     validateForm();
   }
 
-  function selectTshirtColor(color, btn) {
-    const row = btn.closest('.selector-btns');
-    row.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  // INTERACTIVE IN-CARD COLOR CHANGER
+  function changeCardColor(event, id, color, btn) {
+    event.stopPropagation(); // Block double bubbling sequence
+    const card = btn.closest('.product-card');
+    
+    // Switch localized active selection highlight
+    card.querySelectorAll('.color-pic-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
-
-    state.tshirtColor = color;
-    initAllTshirtImages();
-    updateSummary();
-    validateForm();
+    
+    // Execute standard select workflow using active specs
+    selectTshirtDesign(id, card.dataset.name, card.dataset.colors, card);
   }
 
   function selectTshirtSize(size, btn) {
@@ -981,7 +1039,15 @@
     state.posterId = null; state.posterName = ''; state.posterSize = null;
 
     document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-    document.getElementById('tcolorRow').style.display = 'none';
+    
+    // Reset all card localized buttons back to their base configuration
+    document.querySelectorAll('[data-product="tshirt"]').forEach(card => {
+      card.querySelectorAll('.color-pic-btn').forEach((btn, idx) => {
+        if (idx === 0) btn.classList.add('selected');
+        else btn.classList.remove('selected');
+      });
+    });
+
     document.getElementById('tsizeRow').style.display = 'none';
     document.getElementById('p_sizeRow').style.display = 'none';
     initAllTshirtImages();
