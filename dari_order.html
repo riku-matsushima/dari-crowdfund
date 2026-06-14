@@ -710,7 +710,9 @@
         <div class="product-card" data-product="poster" data-id="p-a" data-name="dari" onclick="selectPosterDesign('p-a', 'dari', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-a">
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'p-a')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-a')">🔍</button>
+            </div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 1_00011.webp" alt="dari">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">dari</div></div>
@@ -718,7 +720,9 @@
         <div class="product-card" data-product="poster" data-id="p-b" data-name="Another Way" onclick="selectPosterDesign('p-b', 'Another Way', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-b">
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'p-b')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-b')">🔍</button>
+            </div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 2_00011.webp" alt="Another Way">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">Another Way</div></div>
@@ -726,7 +730,9 @@
         <div class="product-card" data-product="poster" data-id="p-c" data-name="unblind" onclick="selectPosterDesign('p-c', 'unblind', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-c">
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'p-c')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-c')">🔍</button>
+            </div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 3_00016.webp" alt="unblind">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">unblind</div></div>
@@ -734,7 +740,9 @@
         <div class="product-card" data-product="poster" data-id="p-d" data-name="EARTH" onclick="selectPosterDesign('p-d', 'EARTH', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-d">
-            <button class="img-zoom-btn" onclick="openLightbox(event, 'p-d')">🔍</button>
+            <div class="img-bottom-controls">
+              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-d')">🔍</button>
+            </div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 4_00041.webp" alt="EARTH">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">EARTH</div></div>
@@ -1111,6 +1119,47 @@
 
   injectDigitalContentDetails();
   initAllTshirtImages();
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwvIZeOjnHZnbZ1yzi-zdSPHw4q8WXm3VmqB3GV61PK4Kh2v5W8KBN58jGOpQK3sDLW/exec';
+
+  async function proceed() {
+    const s = state;
+    const btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    const data = {
+      timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
+      planKey:    s.plan,
+      plan:       s.planName,
+      amount:     s.amount,
+      creditName: document.getElementById('creditName')?.value || '',
+      tshirt:     s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '',
+      hoodie:     '',
+      poster:     s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '',
+      lastName:   document.getElementById('lastName')?.value || '',
+      firstName:  document.getElementById('firstName')?.value || '',
+      postcode:   document.getElementById('postcode')?.value || '',
+      address1:   document.getElementById('address1')?.value || '',
+      address2:   document.getElementById('address2')?.value || '',
+      phone:      document.getElementById('phone')?.value || '',
+      email:      document.getElementById('email')?.value || document.getElementById('emailBasic')?.value || '',
+    };
+
+    try {
+      const params = new URLSearchParams(data);
+      const res  = await fetch(GAS_URL + '?' + params.toString());
+      const json = await res.json();
+      if (json.result === 'success' && json.url) {
+        window.location.href = json.url;
+      } else {
+        throw new Error(json.message || '不明なエラー');
+      }
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Stripe で支払いへ進む →';
+      alert('エラーが発生しました。\n' + e.message);
+    }
+  }
 </script>
 </body>
 </html>
