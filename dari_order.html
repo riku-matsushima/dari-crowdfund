@@ -761,8 +761,8 @@
     <div class="section-block" id="sectionCredit" style="display:none">
       <div class="block-label">// STEP 03 — クレジット掲載名・メールアドレスを入力</div>
       <div class="shipping-form" style="grid-template-columns:1fr;">
-        <div class="form-field full"><label>MVクレジット掲載名</label><input type="text" placeholder="MVクレジット掲載名" id="creditName"></div>
-        <div class="form-field full"><label>メールアドレス</label><input type="email" placeholder="dari@example.com" id="emailInput"></div>
+        <div class="form-field full"><label>MVクレジット掲載名</label><input type="text" placeholder="MVクレジット掲載名" id="creditName" oninput="validateForm()"></div>
+        <div class="form-field full"><label>メールアドレス</label><input type="email" placeholder="dari@example.com" id="emailInput" oninput="validateForm()"></div>
       </div>
     </div>
 
@@ -770,12 +770,12 @@
       <div class="block-label">// STEP 04 — お届け先を入力</div>
       <div class="shipping-form">
         <div class="form-field full"><div class="field-note">※実際にお届けする住所になります。</div></div>
-        <div class="form-field"><label>姓</label><input type="text" placeholder="山田" id="lastName"></div>
-        <div class="form-field"><label>名</label><input type="text" placeholder="太郎" id="firstName"></div>
-        <div class="form-field full"><label>郵便番号</label><input type="text" placeholder="123-4567" id="postcode" maxlength="8" oninput="formatPostcode(this)"></div>
-        <div class="form-field full"><label>都道府県・市区町村</label><input type="text" placeholder="東京都新宿区〇〇" id="address1"></div>
-        <div class="form-field full"><label>番地・建物名・部屋番号</label><input type="text" placeholder="1-2-3" id="address2"></div>
-        <div class="form-field full"><label>電話番号</label><input type="tel" placeholder="090-0000-0000" id="phone"></div>
+        <div class="form-field"><label>姓</label><input type="text" placeholder="山田" id="lastName" oninput="validateForm()"></div>
+        <div class="form-field"><label>名</label><input type="text" placeholder="太郎" id="firstName" oninput="validateForm()"></div>
+        <div class="form-field full"><label>郵便番号</label><input type="text" placeholder="123-4567" id="postcode" maxlength="8" oninput="formatPostcode(this); validateForm()"></div>
+        <div class="form-field full"><label>都道府県・市区町村</label><input type="text" placeholder="東京都新宿区〇〇" id="address1" oninput="validateForm()"></div>
+        <div class="form-field full"><label>番地・建物名・部屋番号</label><input type="text" placeholder="1-2-3" id="address2" oninput="validateForm()"></div>
+        <div class="form-field full"><label>電話番号</label><input type="tel" placeholder="090-0000-0000" id="phone" oninput="validateForm()"></div>
       </div>
     </div>
 
@@ -1109,7 +1109,26 @@
     if (!s.plan || s.amount < s.planMin) { deactivatePay(); return; }
     if ((s.plan === 'merch' || s.plan === 'vip') && (!s.tshirtId || !s.tshirtColor || !s.tshirtSize)) { validationMsg.style.display='block'; deactivatePay(); return; }
     if ((s.plan === 'poster' || s.plan === 'vip') && (!s.posterId || !s.posterSize)) { validationMsg.style.display='block'; deactivatePay(); return; }
-    
+
+    // クレジット掲載名・メールアドレス（全プラン共通で必須）
+    const creditName = document.getElementById('creditName')?.value.trim() || '';
+    const email = document.getElementById('emailInput')?.value.trim() || '';
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!creditName || !email || !emailPattern.test(email)) { validationMsg.style.display='block'; deactivatePay(); return; }
+
+    // 配送先住所（poster / merch / vip プランで必須）
+    if (s.plan === 'poster' || s.plan === 'merch' || s.plan === 'vip') {
+      const lastName = document.getElementById('lastName')?.value.trim() || '';
+      const firstName = document.getElementById('firstName')?.value.trim() || '';
+      const postcode = document.getElementById('postcode')?.value.trim() || '';
+      const address1 = document.getElementById('address1')?.value.trim() || '';
+      const address2 = document.getElementById('address2')?.value.trim() || '';
+      const phone = document.getElementById('phone')?.value.trim() || '';
+      if (!lastName || !firstName || !postcode || !address1 || !address2 || !phone) {
+        validationMsg.style.display='block'; deactivatePay(); return;
+      }
+    }
+
     validationMsg.style.display = 'none';
     document.getElementById('payBtn').disabled = false;
   }
