@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARI — 特定商取引法に基づく表記</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;900&family=Inter:wght@100;200;300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #F05A00;
+    --bg: #FFFFFF;
+    --bg2: #F9F9F9;
+    --line: #EAEAEA;
+    --line-bold: #111111;
+    --text: #111111;
+    --muted: #777777;
+    --mono: 'Space Mono', monospace;
+    --cond: 'Barlow Condensed', sans-serif;
+    --display: 'Inter', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--cond);
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 52px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+  }
+  nav .nav-left {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  nav .nav-back {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0 1.5rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid var(--line);
+    transition: color 0.2s, background 0.2s;
+  }
+  nav .nav-back:hover { color: var(--text); background: var(--bg2); }
+
+  .page-wrap {
+    padding-top: 52px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    padding: 4rem 2rem 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--orange);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+  .page-title {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 0;
+  }
+  table tr {
+    border-bottom: 1px solid var(--line);
+  }
+  table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 1.5rem 1rem 1.5rem 2rem;
+    width: 220px;
+    vertical-align: top;
+    background: var(--bg2);
+  }
+  table td {
+    padding: 1.5rem 2rem 1.5rem 1rem;
+    vertical-align: top;
+    font-weight: 300;
+  }
+  table td a { color: var(--orange); text-decoration: none; }
+  table td a:hover { text-decoration: underline; }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  footer {
+    padding: 2.5rem 2rem;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 700px) {
+    table, tr, th, td { display: block; width: 100%; }
+    table th { padding: 1.5rem 1.5rem 0.5rem; background: transparent; }
+    table td { padding: 0 1.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">DARI / GBB2026</div>
+  <a class="nav-back" href="dari_crowdfund.html">← 戻る</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="eyebrow">// LEGAL</div>
+    <div class="page-title">特定商取引法に基づく表記</div>
+  </div>
+
+  <table>
+    <tr>
+      <th>販売事業者</th>
+      <td>Riku Matsushima（個人事業主）</td>
+    </tr>
+    <tr>
+      <th>運営責任者</th>
+      <td>Riku Matsushima</td>
+    </tr>
+    <tr>
+      <th>所在地</th>
+      <td>
+        ご請求をいただいた場合、遅滞なく開示いたします。
+        <div class="note">開示をご希望の場合は、下記メールアドレスまでご連絡ください。</div>
+      </td>
+    </tr>
+    <tr>
+      <th>電話番号</th>
+      <td>
+        ご請求をいただいた場合、遅滞なく開示いたします。
+        <div class="note">開示をご希望の場合は、下記メールアドレスまでご連絡ください。</div>
+      </td>
+    </tr>
+    <tr>
+      <th>メールアドレス</th>
+      <td><a href="mailto:ambiencebeatbox@gmail.com">ambiencebeatbox@gmail.com</a></td>
+    </tr>
+    <tr>
+      <th>販売価格</th>
+      <td>各支援プランのページに記載の価格（税込）</td>
+    </tr>
+    <tr>
+      <th>商品代金以外の必要料金</th>
+      <td>国内配送料は無料です。インターネット接続にかかる通信費はお客様のご負担となります。</td>
+    </tr>
+    <tr>
+      <th>お支払い方法</th>
+      <td>クレジットカード、コンビニ決済、銀行振込、Apple Pay、Google Pay 等（Stripe を通じた決済）</td>
+    </tr>
+    <tr>
+      <th>お支払い時期</th>
+      <td>ご注文時に即時決済となります。</td>
+    </tr>
+    <tr>
+      <th>商品の引渡し時期</th>
+      <td>
+        MVクレジット掲載・デジタルコンテンツ：決済確認後、順次対応いたします。<br>
+        Tシャツ・ポスター等の物販：受注生産のため、決済確認後、制作・発送準備が整い次第、順次発送いたします（発送までお時間をいただく場合があります）。
+      </td>
+    </tr>
+    <tr>
+      <th>返品・キャンセルについて</th>
+      <td>
+        商品の性質上（受注生産・本人への直接支援）、お客様のご都合による返品・キャンセルはお受けできません。<br>
+        商品に不備があった場合は、メールにてご連絡ください。
+      </td>
+    </tr>
+  </table>
+
+  <footer>
+    © 2026 DARI — ALL RIGHTS RESERVED
+  </footer>
+</div>
+
+</body>
+</html>
