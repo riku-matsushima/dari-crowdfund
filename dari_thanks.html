@@ -33,7 +33,6 @@
     min-height: 100vh;
   }
 
-  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -71,7 +70,6 @@
   }
   nav .nav-right a:hover { color: var(--text); background: var(--bg2); }
 
-  /* MAIN */
   .page {
     padding-top: 52px;
     min-height: 100vh;
@@ -79,7 +77,6 @@
     flex-direction: column;
   }
 
-  /* HERO BLOCK */
   .hero {
     flex: 1;
     display: grid;
@@ -104,34 +101,24 @@
     background: var(--bg2);
   }
 
-  /* Animated check */
-  .check-wrap {
-    margin-bottom: 3rem;
-  }
-
+  .check-wrap { margin-bottom: 3rem; }
   .check-ring {
-    width: 72px;
-    height: 72px;
+    width: 72px; height: 72px;
     border: 2px solid var(--orange);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     position: relative;
     opacity: 0;
     animation: ring-in 0.5s ease forwards 0.2s;
   }
-
   .check-ring svg {
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     stroke: var(--orange);
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
   }
-
   .check-path {
     stroke-dasharray: 40;
     stroke-dashoffset: 40;
@@ -142,9 +129,7 @@
     from { opacity: 0; transform: scale(0.8); }
     to   { opacity: 1; transform: scale(1); }
   }
-  @keyframes draw-check {
-    to { stroke-dashoffset: 0; }
-  }
+  @keyframes draw-check { to { stroke-dashoffset: 0; } }
 
   .eyebrow {
     font-family: var(--mono);
@@ -169,7 +154,6 @@
     opacity: 0;
     animation: fade-up 0.6s ease forwards 0.55s;
   }
-
   .big-title .accent { font-weight: 700; color: var(--orange); }
 
   .message {
@@ -182,7 +166,6 @@
     opacity: 0;
     animation: fade-up 0.6s ease forwards 0.7s;
   }
-
   .message strong { color: var(--line-bold); font-weight: 700; }
 
   @keyframes fade-up {
@@ -190,7 +173,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* RIGHT SIDE — what's next */
   .next-label {
     font-family: var(--mono);
     font-size: 9px;
@@ -242,7 +224,6 @@
     line-height: 1.5;
   }
 
-  /* BOTTOM STRIP */
   .bottom-strip {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -261,7 +242,6 @@
     text-transform: uppercase;
     border-right: 1px solid var(--line);
   }
-
   .strip-msg span { color: var(--orange); font-weight: 700; }
 
   .strip-back {
@@ -279,16 +259,13 @@
   }
   .strip-back:hover { color: var(--text); background: var(--bg2); }
 
-  /* FOOTER */
   footer {
     border-top: 1px solid var(--line);
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: stretch;
   }
-  .footer-left {
-    padding: 1.5rem 2rem;
-  }
+  .footer-left { padding: 1.5rem 2rem; }
   .footer-logo {
     font-family: var(--cond);
     font-weight: 900;
@@ -320,7 +297,6 @@
     text-transform: uppercase;
   }
 
-  /* LINEAR ACCENT BAR */
   .glow-bar {
     height: 3px;
     background: var(--orange);
@@ -384,7 +360,7 @@
           <span class="next-num">01</span>
           <div class="next-text">
             <strong>確認メール</strong>
-            <span>Stripeから支払い完了のメールが届きます。記録として保管してください。</span>
+            <span>ご登録のメールアドレスに支払い完了メールが届きます。</span>
           </div>
         </li>
         <li class="next-item">
@@ -398,7 +374,7 @@
           <span class="next-num">03</span>
           <div class="next-text">
             <strong>グッズ発送（該当者のみ）</strong>
-            <span>Tシャツ・パーカーは受注生産のため、準備完了後に別途ご連絡します。</span>
+            <span>Tシャツ・ポスターは受注生産のため、準備完了後に別途ご連絡します。</span>
           </div>
         </li>
         <li class="next-item">
@@ -427,6 +403,27 @@
     </div>
   </footer>
 </div>
+
+<script>
+  // PayPalからリダイレクトされてきたURLに token=ORDER_ID&PayerID=xxx がついてる
+  // それを使ってGASのcaptureエンドポイントを呼ぶ
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxoJ7AWb4_hLpFa0X6DexOOyAaEB6F8j-eRkUGiIZsooczgvhjvMx3MAifNJSMhysyV/exec';
+
+  (async () => {
+    const params = new URLSearchParams(window.location.search);
+    const token   = params.get('token');    // PayPalのorder ID
+    const payerId = params.get('PayerID');
+
+    // tokenがない = テスト表示 or キャンセル後の直アクセス → 何もしない
+    if (!token) return;
+
+    try {
+      await fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''));
+    } catch (e) {
+      console.error('capture error:', e);
+    }
+  })();
+</script>
 
 </body>
 </html>
