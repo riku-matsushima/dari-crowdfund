@@ -423,6 +423,30 @@
       console.error('capture error:', e);
     }
   })();
+
+// PayPay用表示
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('paypay') === '1') {
+    const amount = parseInt(urlParams.get('amount') || '0');
+    document.querySelector('.eyebrow').textContent = '// PAYPAY — 送金をお願いします';
+    document.querySelector('.message').innerHTML = `
+      以下の金額をPayPayで送金してください。<br>
+      送金完了をもって支援完了となります。<br><br>
+      <strong style="font-size:3rem; letter-spacing:-0.02em; color:var(--orange);">
+        ¥${amount.toLocaleString()}
+      </strong>
+    `;
+    // QRコード表示をhero-rightの上部に挿入
+    const heroRight = document.querySelector('.hero-right');
+    const qrBlock = document.createElement('div');
+    qrBlock.style.cssText = 'margin-bottom:2rem; text-align:center;';
+    qrBlock.innerHTML = `
+      <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1rem;">// PAYPAY QR</div>
+      <img src="218626.jpg" alt="PayPay QR" style="width:220px; height:220px; object-fit:contain; border:1px solid #eee;">
+      <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.1em; margin-top:0.5rem;">Riku Matsushima</div>
+    `;
+    heroRight.insertBefore(qrBlock, heroRight.firstChild);
+  }
 </script>
 
 </body>
