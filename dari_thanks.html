@@ -424,30 +424,37 @@
     }
   })();
 
+
+ 
 // PayPay用表示
-  const urlParams = new URLSearchParams(window.location.search);
+const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('paypay') === '1') {
     const amount = parseInt(urlParams.get('amount') || '0');
-    document.querySelector('.eyebrow').textContent = '// PAYPAY — 送金をお願いします';
+    
+    // タイトルを小さく
+    document.querySelector('.big-title').style.fontSize = '2.5rem';
+    document.querySelector('.big-title').innerHTML = 'THANK<br><span class="accent">YOU.</span>';
+    
+    document.querySelector('.eyebrow').textContent = '// PAYPAY 送金のお願い';
+    
     document.querySelector('.message').innerHTML = `
-      以下の金額をPayPayで送金してください。<br>
-      送金完了をもって支援完了となります。<br><br>
-      <strong style="font-size:3rem; letter-spacing:-0.02em; color:var(--orange);">
+      <div style="font-size:15px; margin-bottom:1.5rem; line-height:1.8;">
+        以下の金額をPayPayで送金してください。<br>
+        送金完了をもって支援完了となります。
+      </div>
+      <div style="font-family:'Inter',sans-serif; font-size:clamp(3.5rem,10vw,6rem); font-weight:700; letter-spacing:-0.03em; color:var(--orange); line-height:1; margin-bottom:0.5rem;">
         ¥${amount.toLocaleString()}
-      </strong>
+      </div>
     `;
-    // QRコード表示をhero-rightの上部に挿入
-    const heroRight = document.querySelector('.hero-right');
-    const qrBlock = document.createElement('div');
-    qrBlock.style.cssText = 'margin-bottom:2rem; text-align:center;';
-    qrBlock.innerHTML = `
-      <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1rem;">// PAYPAY QR</div>
-      <img src="218626.jpg" alt="PayPay QR" style="width:220px; height:220px; object-fit:contain; border:1px solid #eee;">
-      <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.1em; margin-top:0.5rem;">Riku Matsushima</div>
-    `;
-    heroRight.insertBefore(qrBlock, heroRight.firstChild);
-  }
-</script>
 
-</body>
-</html>
+    // QRをhero-rightの最上部に大きく表示
+    const heroRight = document.querySelector('.hero-right');
+    heroRight.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem 0;">
+        <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">// PAYPAY QR CODE</div>
+        <img src="218626.jpg" alt="PayPay QR" style="width:min(320px, 80%); height:auto; border:1px solid #eee; margin-bottom:1rem;">
+        <div style="font-family:'Space Mono',monospace; font-size:11px; color:#333; letter-spacing:0.1em; font-weight:700;">Riku Matsushima</div>
+        <div style="font-family:'Space Mono',monospace; font-size:9px; color:#aaa; letter-spacing:0.1em; margin-top:0.5rem;">QRを読み取って送金してください</div>
+      </div>
+    `;
+  }
