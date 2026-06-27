@@ -414,8 +414,16 @@
     const token   = params.get('token');    // PayPalのorder ID
     const payerId = params.get('PayerID');
 
-    // tokenがない = テスト表示 or キャンセル後の直アクセス → 何もしない
-    if (!token) return;
+   // PayPayの場合はcaptureしない
+if (!token || urlParams.get('paypay') === '1') {
+  // PayPay用処理は下のコードに任せる
+} else {
+  try {
+    await fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''));
+  } catch (e) {
+    console.error('capture error:', e);
+  }
+}
 
     try {
       await fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''));
