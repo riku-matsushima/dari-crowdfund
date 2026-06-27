@@ -405,46 +405,27 @@
 </div>
 
 <script>
-  // PayPalからリダイレクトされてきたURLに token=ORDER_ID&PayerID=xxx がついてる
-  // それを使ってGASのcaptureエンドポイントを呼ぶ
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbz--r7Ujvu0NILbsZeNX72zj-aRBUbAZl8DG-pPnp8GuTSMe146aXhHUBTkeelKQ-8jsA/exec';
+  const urlParams = new URLSearchParams(window.location.search);
+  const isPayPay = urlParams.get('paypay') === '1';
 
-  (async () => {
-    const params = new URLSearchParams(window.location.search);
-    const token   = params.get('token');    // PayPalのorder ID
-    const payerId = params.get('PayerID');
-
-   // PayPayの場合はcaptureしない
-if (!token || urlParams.get('paypay') === '1') {
-  // PayPay用処理は下のコードに任せる
-} else {
-  try {
-    await fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''));
-  } catch (e) {
-    console.error('capture error:', e);
-  }
-}
-
-    try {
-      await fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''));
-    } catch (e) {
-      console.error('capture error:', e);
+  // PayPal capture
+  if (!isPayPay) {
+    const token   = urlParams.get('token');
+    const payerId = urlParams.get('PayerID');
+    if (token) {
+      fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''))
+        .catch(e => console.error('capture error:', e));
     }
-  })();
+  }
 
-
- 
-// PayPay用表示
-const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('paypay') === '1') {
+  // PayPay用表示
+  if (isPayPay) {
     const amount = parseInt(urlParams.get('amount') || '0');
-    
-    // タイトルを小さく
+
     document.querySelector('.big-title').style.fontSize = '2.5rem';
     document.querySelector('.big-title').innerHTML = 'THANK<br><span class="accent">YOU.</span>';
-    
     document.querySelector('.eyebrow').textContent = '// PAYPAY 送金のお願い';
-    
     document.querySelector('.message').innerHTML = `
       <div style="font-size:15px; margin-bottom:1.5rem; line-height:1.8;">
         以下の金額をPayPayで送金してください。<br>
@@ -455,14 +436,13 @@ const urlParams = new URLSearchParams(window.location.search);
       </div>
     `;
 
-    // QRをhero-rightの最上部に大きく表示
-    const heroRight = document.querySelector('.hero-right');
-    heroRight.innerHTML = `
+    document.querySelector('.hero-right').innerHTML = `
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:2rem 0;">
         <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">// PAYPAY QR CODE</div>
-        <img src="218626.jpg" alt="PayPay QR" style="width:min(320px, 80%); height:auto; border:1px solid #eee; margin-bottom:1rem;">
+        <img src="218626.jpg" alt="PayPay QR" style="width:min(320px,80%); height:auto; border:1px solid #eee; margin-bottom:1rem;">
         <div style="font-family:'Space Mono',monospace; font-size:11px; color:#333; letter-spacing:0.1em; font-weight:700;">Riku Matsushima</div>
         <div style="font-family:'Space Mono',monospace; font-size:9px; color:#aaa; letter-spacing:0.1em; margin-top:0.5rem;">QRを読み取って送金してください</div>
       </div>
     `;
   }
+</script>
