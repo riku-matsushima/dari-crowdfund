@@ -1110,8 +1110,8 @@
       const postcode = document.getElementById('postcode')?.value.trim() || '';
       const address1 = document.getElementById('address1')?.value.trim() || '';
       const address2 = document.getElementById('address2')?.value.trim() || '';
-      const phone = document.getElementById('phone')?.value.trim() || '';
-      if (!lastName || !firstName || !postcode || !address1 || !address2 || !phone) {
+      // 電話番号は任意（空でもOK）
+      if (!lastName || !firstName || !postcode || !address1 || !address2) {
         validationMsg.style.display='block'; deactivatePay(); return;
       }
     }
@@ -1134,17 +1134,17 @@
       position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000;
       display:flex; align-items:center; justify-content:center; padding:1rem;
     `;
+    const btnStyle = `display:block; width:100%; padding:1.1rem; margin-bottom:0.75rem; background:#111; border:1px solid #111; color:#fff; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;`;
     modal.innerHTML = `
       <div style="background:#fff; max-width:460px; width:100%; border:1px solid #111; padding:2.5rem;">
         <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">// 決済方法を選択</div>
-        <button onclick="choosePayPal()" style="display:block; width:100%; padding:1.2rem; margin-bottom:1rem; background:#111; border:none; color:#fff; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;">
-          PayPal で支払う → （推奨）
+        <button onclick="choosePayPal()" style="${btnStyle}">
+          PayPal で支払う →
         </button>
-        <div style="font-family:'Space Mono',monospace; font-size:9px; color:#aaa; letter-spacing:0.1em; margin-bottom:1rem; text-align:center;">── または ──</div>
-        <button onclick="choosePayPay()" style="display:block; width:100%; padding:0.8rem; background:#fff; border:1px solid #ddd; color:#777; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;">
-          PayPay で支払う
+        <button onclick="choosePayPay()" style="${btnStyle}">
+          PayPay で支払う →
         </button>
-        <button onclick="document.getElementById('paymentModal').remove()" style="display:block; width:100%; padding:0.6rem; margin-top:1rem; background:transparent; border:none; color:#aaa; font-family:'Space Mono',monospace; font-size:9px; cursor:pointer;">
+        <button onclick="document.getElementById('paymentModal').remove()" style="display:block; width:100%; padding:0.6rem; margin-top:0.5rem; background:transparent; border:none; color:#aaa; font-family:'Space Mono',monospace; font-size:9px; cursor:pointer;">
           キャンセル
         </button>
       </div>
@@ -1178,12 +1178,12 @@
   async function choosePayPal() {
     document.getElementById('paymentModal').remove();
     const btn = document.getElementById('payBtn');
-    btn.disabled = true;
-    btn.textContent = '送信中...';
 
     const data = { ...collectFormData(), action: 'create', paymethod: 'paypal' };
 
     try {
+      btn.disabled = true;
+      btn.textContent = '送信中...';
       const params = new URLSearchParams(data);
       const res = await fetch(GAS_URL + '?' + params.toString());
       const json = await res.json();
@@ -1204,16 +1204,16 @@
     document.getElementById('paymentModal').remove();
     const s = state;
     const btn = document.getElementById('payBtn');
-    btn.disabled = true;
-    btn.textContent = '送信中...';
 
     const data = { ...collectFormData(), action: 'create', paymethod: 'paypay' };
 
     // Tシャツ・ポスターの生情報（URLパラメータ用）
-    const tshirtRaw  = s.tshirtId  ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
-    const posterRaw  = s.posterId  ? `${s.posterName} / ${s.posterSize || ''}` : '';
+    const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
+    const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
 
     try {
+      btn.disabled = true;
+      btn.textContent = '送信中...';
       const params = new URLSearchParams(data);
       await fetch(GAS_URL + '?' + params.toString());
 
