@@ -762,7 +762,8 @@
       <div class="block-label">// STEP 03 — クレジット掲載名・メールアドレスを入力</div>
       <div class="shipping-form" style="grid-template-columns:1fr;">
         <div class="form-field full"><label>MVクレジット掲載名</label><input type="text" placeholder="MVクレジット掲載名" id="creditName" oninput="validateForm()"></div>
-        <div class="form-field full"><label>メールアドレス</label><input type="email" placeholder="dari@example.com" id="emailInput" oninput="validateForm()"></div>
+		<div class="form-field full"><label>メールアドレス</label><input type="email" placeholder="dari@example.com" id="emailInput" oninput="validateForm()"></div>
+		  <div class="form-field full"><label>メールアドレス（確認用）</label><input type="email" placeholder="dari@example.com" id="emailConfirm" oninput="validateForm()"></div>
       </div>
     </div>
 
@@ -1115,7 +1116,8 @@
     const creditName = document.getElementById('creditName')?.value.trim() || '';
     const email = document.getElementById('emailInput')?.value.trim() || '';
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!creditName || !email || !emailPattern.test(email)) { validationMsg.style.display='block'; deactivatePay(); return; }
+	const emailConfirm = document.getElementById('emailConfirm')?.value.trim() || '';
+	if (!creditName || !email || !emailPattern.test(email) || email !== emailConfirm) { validationMsg.style.display='block'; deactivatePay(); return; }
 
     // 配送先住所（poster / merch / vip プランで必須）
     if (s.plan === 'poster' || s.plan === 'merch' || s.plan === 'vip') {
