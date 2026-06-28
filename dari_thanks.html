@@ -405,7 +405,6 @@
 </div>
 
 <style>
-  /* ── PayPay account input overlay ── */
   /* ── PayPay overlay: 2-column, fits viewport ── */
   #paypay-overlay {
     position: fixed;
@@ -589,11 +588,13 @@
 </style>
 
 <script>
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwYPqQ8xc5ZY6peYehjH2lhnBR8AsD4PuNMcmVWAAY_EJ6SqzT6qoq06EdNIY-F8CvB/exec';
+  // GAS URL（統一済み）
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbz0uIOyIdKrczac2e0oj5aZ5er7BjoOh9-CdHyVZpiiVtUvKtmmSWO9hpI_649VO5Br/exec';
+
   const urlParams = new URLSearchParams(window.location.search);
   const isPayPay = urlParams.get('paypay') === '1';
 
-  // ── PayPal capture (non-PayPay flow) ──
+  // ── PayPal capture（PayPayでない場合） ──
   if (!isPayPay) {
     const token   = urlParams.get('token');
     const payerId = urlParams.get('PayerID');
@@ -603,15 +604,15 @@
     }
   }
 
-  // ── PayPay flow: show overlay before thank-you screen ──
+  // ── PayPay フロー：オーバーレイ表示 ──
   if (isPayPay) {
-    const amount = parseInt(urlParams.get('amount') || '0');
-
-    // Carry over other params (name, email, plan, etc.) from URL
-    const paypayName  = urlParams.get('name')  || '';
-    const paypayEmail = urlParams.get('email') || '';
-    const paypayPlan  = urlParams.get('plan')  || '';
-    const paypayCredit= urlParams.get('credit')|| '';
+    const amount      = parseInt(urlParams.get('amount') || '0');
+    const paypayEmail = urlParams.get('email')  || '';
+    const paypayPlan  = urlParams.get('plan')   || '';
+    const paypayCredit= urlParams.get('credit') || '';
+    // ★ 追加：tshirt・poster パラメータ取得
+    const paypayTshirt = urlParams.get('tshirt') || '';
+    const paypayPoster = urlParams.get('poster') || '';
 
     // Build overlay
     const overlay = document.createElement('div');
@@ -663,26 +664,29 @@
       btn.disabled = true;
       btn.textContent = '送信中...';
 
-      // Submit to GAS
+      // ★ tshirt・poster も GAS へ送信
       try {
         await fetch(
           GAS_URL +
           '?action=paypay' +
           '&paypayAccount=' + encodeURIComponent(accountName) +
           '&amount='        + encodeURIComponent(amount) +
-          '&name='          + encodeURIComponent(paypayName) +
           '&email='         + encodeURIComponent(paypayEmail) +
           '&plan='          + encodeURIComponent(paypayPlan) +
-          '&credit='        + encodeURIComponent(paypayCredit)
+          '&credit='        + encodeURIComponent(paypayCredit) +
+          '&tshirt='        + encodeURIComponent(paypayTshirt) +
+          '&poster='        + encodeURIComponent(paypayPoster)
         );
       } catch(e) {
         console.error('paypay submit error:', e);
       }
 
-      // Hide overlay → show normal thank-you screen
+      // オーバーレイをフェードアウト → 通常のTHANK YOU画面へ
       overlay.style.transition = 'opacity 0.4s';
       overlay.style.opacity = '0';
       setTimeout(() => overlay.remove(), 400);
     });
   }
 </script>
+</body>
+</html>
