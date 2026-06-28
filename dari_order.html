@@ -1292,7 +1292,7 @@ function showPaymentModal() {
     try {
       const params = new URLSearchParams(data);
       await fetch(GAS_URL + '?' + params.toString());
-      window.location.href = `dari_thanks.html?paypay=1&amount=${s.amount}`;
+	　window.location.href = `dari_thanks.html?paypay=1&amount=${s.amount}&email=${encodeURIComponent(data.email)}&plan=${encodeURIComponent(data.plan)}&credit=${encodeURIComponent(data.creditName)}`;
     } catch (e) {
       btn.disabled = false;
       btn.textContent = '支払いへ進む →';
