@@ -70,12 +70,101 @@
   }
   nav .nav-right a:hover { color: var(--text); background: var(--bg2); }
 
+  /* ─── CAPTURE LOADING OVERLAY ─── */
+  #captureOverlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    transition: opacity 0.5s ease;
+  }
+  #captureOverlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .capture-spinner {
+    width: 48px; height: 48px;
+    border: 2px solid var(--line);
+    border-top-color: var(--orange);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .capture-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .capture-sublabel {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--line);
+    letter-spacing: 0.1em;
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  /* ─── CAPTURE ERROR STATE ─── */
+  #captureError {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  #captureError.visible { display: flex; }
+  .error-icon {
+    width: 56px; height: 56px;
+    border: 2px solid #cc0000;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: #cc0000;
+  }
+  .error-title {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .error-msg {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 380px;
+  }
+  .error-retry-btn {
+    padding: 0.85rem 2.5rem;
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .error-retry-btn:hover { opacity: 0.85; }
+
   .page {
     padding-top: 52px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    /* 最初は非表示、capture完了後に表示 */
+    opacity: 0;
+    transition: opacity 0.6s ease 0.2s;
   }
+  .page.visible { opacity: 1; }
 
   .hero {
     flex: 1;
@@ -305,107 +394,7 @@
   }
   @keyframes fade-in { to { opacity: 1; } }
 
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-left { border-right: none; border-bottom: 1px solid var(--line); padding: 3rem 1.5rem; }
-    .hero-right { padding: 3rem 1.5rem; }
-    .big-title { font-size: clamp(3.5rem, 15vw, 6rem); }
-    .bottom-strip { grid-template-columns: 1fr; }
-    .strip-msg { border-right: none; border-bottom: 1px solid var(--line); padding: 1.2rem 2rem; }
-    .strip-back { padding: 1.2rem 2rem; }
-    footer { grid-template-columns: 1fr; }
-    .footer-right { border-left: none; border-top: 1px solid var(--line); }
-  }
-</style>
-</head>
-<body>
-
-<div class="glow-bar"></div>
-
-<nav>
-  <div class="nav-left">DARI / GBB2026 — PAYMENT COMPLETE</div>
-  <div class="nav-right">
-    <a href="https://orbitt.site/dari_crowdfund.html">← TOP</a>
-  </div>
-</nav>
-
-<div class="page">
-  <div class="hero">
-    <div class="hero-left">
-      <div>
-        <div class="check-wrap">
-          <div class="check-ring">
-            <svg viewBox="0 0 32 32">
-              <polyline class="check-path" points="6,17 13,24 26,10"/>
-            </svg>
-          </div>
-        </div>
-        <div class="eyebrow">// PAYMENT CONFIRMED</div>
-        <div class="big-title">
-          THANK<br>
-          <span class="accent">YOU.</span>
-        </div>
-        <p class="message">
-          支援、ありがとうございます。<br>
-          あなたの応援が、<strong>DARIをポーランドへ連れて行きます。</strong><br><br>
-          確認メールが届きます。グッズがある場合は発送準備ができ次第ご連絡します。
-        </p>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="next-label">// WHAT HAPPENS NEXT</div>
-      <ul class="next-items">
-        <li class="next-item">
-          <span class="next-num">01</span>
-          <div class="next-text">
-            <strong>確認メール</strong>
-            <span>ご登録のメールアドレスに支払い完了メールが届きます。</span>
-          </div>
-        </li>
-        <li class="next-item">
-          <span class="next-num">02</span>
-          <div class="next-text">
-            <strong>MVクレジット記載</strong>
-            <span>入力いただいた名前（またはハンドル名）をMVのクレジットに掲載します。</span>
-          </div>
-        </li>
-        <li class="next-item">
-          <span class="next-num">03</span>
-          <div class="next-text">
-            <strong>グッズ発送（該当者のみ）</strong>
-            <span>Tシャツ・ポスターは受注生産のため、準備完了後に別途ご連絡します。</span>
-          </div>
-        </li>
-        <li class="next-item">
-          <span class="next-num">04</span>
-          <div class="next-text">
-            <strong>GBB2026 へ出発</strong>
-            <span>ポーランドでの戦いをSNSでリアルタイム発信します。一緒に応援してください。</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="bottom-strip">
-    <div class="strip-msg">// DARI × GBB2026 × POLAND — <span>SUPPORTED BY YOU</span></div>
-    <a class="strip-back" href="https://orbitt.site/dari_crowdfund.html">← クラファンページに戻る</a>
-  </div>
-
-  <footer>
-    <div class="footer-left">
-      <span class="footer-logo">DARI</span>
-      <span class="footer-copy">© 2026 DARI / DARI — ALL RIGHTS RESERVED</span>
-    </div>
-    <div class="footer-right">
-      <span>DARI × GBB2026 × POLAND</span>
-    </div>
-  </footer>
-</div>
-
-<style>
-  /* ── PayPay overlay: 2-column, fits viewport ── */
+  /* ── PayPay overlay ── */
   #paypay-overlay {
     position: fixed;
     inset: 0;
@@ -416,8 +405,6 @@
     grid-template-columns: 1fr 1fr;
     overflow: hidden;
   }
-
-  /* LEFT: title + amount + QR */
   #paypay-overlay .ov-left {
     display: flex;
     flex-direction: column;
@@ -491,8 +478,6 @@
     text-align: center;
     line-height: 1.7;
   }
-
-  /* RIGHT: input form */
   #paypay-overlay .ov-right {
     display: flex;
     flex-direction: column;
@@ -572,6 +557,15 @@
   #paypay-overlay .ov-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { border-right: none; border-bottom: 1px solid var(--line); padding: 3rem 1.5rem; }
+    .hero-right { padding: 3rem 1.5rem; }
+    .big-title { font-size: clamp(3.5rem, 15vw, 6rem); }
+    .bottom-strip { grid-template-columns: 1fr; }
+    .strip-msg { border-right: none; border-bottom: 1px solid var(--line); padding: 1.2rem 2rem; }
+    .strip-back { padding: 1.2rem 2rem; }
+    footer { grid-template-columns: 1fr; }
+    .footer-right { border-left: none; border-top: 1px solid var(--line); }
     #paypay-overlay {
       grid-template-columns: 1fr;
       overflow-y: auto;
@@ -586,35 +580,236 @@
     #paypay-overlay .ov-qr-wrap img { width: min(220px, 70vw); }
   }
 </style>
+</head>
+<body>
+
+<div class="glow-bar"></div>
+
+<nav>
+  <div class="nav-left">DARI / GBB2026 — PAYMENT COMPLETE</div>
+  <div class="nav-right">
+    <a href="https://orbitt.site/dari_crowdfund.html">← TOP</a>
+  </div>
+</nav>
+
+<!-- ▼ PayPal capture 中のローディング画面 -->
+<div id="captureOverlay">
+  <div class="capture-spinner"></div>
+  <div class="capture-label">// 決済を確定しています...</div>
+  <div class="capture-sublabel">このページを閉じないでください<br>通常数秒で完了します</div>
+
+  <!-- エラー時の表示（spinner と入れ替え） -->
+  <div id="captureError">
+    <div class="error-icon">!</div>
+    <div class="error-title">確定に失敗しました</div>
+    <div class="error-msg">
+      決済の確定処理でエラーが発生しました。<br>
+      再試行するか、下記メールアドレスまでご連絡ください。<br><br>
+      <strong id="errorOrderId" style="font-family:var(--mono); font-size:11px; color:var(--orange);"></strong>
+    </div>
+    <button class="error-retry-btn" id="retryBtn">再試行する</button>
+    <a href="https://orbitt.site/dari_crowdfund.html"
+       style="font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:0.1em; margin-top:0.5rem;">
+      TOPページに戻る
+    </a>
+  </div>
+</div>
+
+<div class="page" id="mainPage">
+  <div class="hero">
+    <div class="hero-left">
+      <div>
+        <div class="check-wrap">
+          <div class="check-ring">
+            <svg viewBox="0 0 32 32">
+              <polyline class="check-path" points="6,17 13,24 26,10"/>
+            </svg>
+          </div>
+        </div>
+        <div class="eyebrow">// PAYMENT CONFIRMED</div>
+        <div class="big-title">
+          THANK<br>
+          <span class="accent">YOU.</span>
+        </div>
+        <p class="message">
+          支援、ありがとうございます。<br>
+          あなたの応援が、<strong>DARIをポーランドへ連れて行きます。</strong><br><br>
+          確認メールが届きます。グッズがある場合は発送準備ができ次第ご連絡します。
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="next-label">// WHAT HAPPENS NEXT</div>
+      <ul class="next-items">
+        <li class="next-item">
+          <span class="next-num">01</span>
+          <div class="next-text">
+            <strong>確認メール</strong>
+            <span>ご登録のメールアドレスに支払い完了メールが届きます。</span>
+          </div>
+        </li>
+        <li class="next-item">
+          <span class="next-num">02</span>
+          <div class="next-text">
+            <strong>MVクレジット記載</strong>
+            <span>入力いただいた名前（またはハンドル名）をMVのクレジットに掲載します。</span>
+          </div>
+        </li>
+        <li class="next-item">
+          <span class="next-num">03</span>
+          <div class="next-text">
+            <strong>グッズ発送（該当者のみ）</strong>
+            <span>Tシャツ・ポスターは受注生産のため、準備完了後に別途ご連絡します。</span>
+          </div>
+        </li>
+        <li class="next-item">
+          <span class="next-num">04</span>
+          <div class="next-text">
+            <strong>GBB2026 へ出発</strong>
+            <span>ポーランドでの戦いをSNSでリアルタイム発信します。一緒に応援してください。</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bottom-strip">
+    <div class="strip-msg">// DARI × GBB2026 × POLAND — <span>SUPPORTED BY YOU</span></div>
+    <a class="strip-back" href="https://orbitt.site/dari_crowdfund.html">← クラファンページに戻る</a>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <span class="footer-logo">DARI</span>
+      <span class="footer-copy">© 2026 DARI / DARI — ALL RIGHTS RESERVED</span>
+    </div>
+    <div class="footer-right">
+      <span>DARI × GBB2026 × POLAND</span>
+    </div>
+  </footer>
+</div>
 
 <script>
-  // GAS URL（統一済み）
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbxskl7cQXZHo8olPuBfj7clGvfEXk220SKNRN_kmTTXqL3LKe0JG7rhEnHdhGuDlaKI/exec';
 
   const urlParams = new URLSearchParams(window.location.search);
-  const isPayPay = urlParams.get('paypay') === '1';
+  const isPayPay  = urlParams.get('paypay') === '1';
 
-  // ── PayPal capture（PayPayでない場合） ──
+  // ─────────────────────────────────────────────
+  // PayPal capture フロー（修正版）
+  // ─────────────────────────────────────────────
   if (!isPayPay) {
     const token   = urlParams.get('token');
     const payerId = urlParams.get('PayerID');
+
     if (token) {
-      fetch(GAS_URL + '?action=capture&token=' + encodeURIComponent(token) + '&PayerID=' + encodeURIComponent(payerId || ''))
-        .catch(e => console.error('capture error:', e));
+      // capture中はオーバーレイを表示したままにする
+      let retryCount = 0;
+      const MAX_RETRY = 3;
+
+      async function doCapture() {
+        const url = GAS_URL
+          + '?action=capture'
+          + '&token='   + encodeURIComponent(token)
+          + '&PayerID=' + encodeURIComponent(payerId || '');
+
+        // keepalive: ページ離脱直後でもリクエストが完走する
+        const res  = await fetch(url, { keepalive: true });
+        const json = await res.json();
+
+        // 'success' か 'already_captured' なら正常完了
+        if (json.result === 'success' || json.result === 'already_captured') {
+          showSuccess();
+        } else {
+          throw new Error(json.message || 'capture failed');
+        }
+      }
+
+      async function runCaptureWithRetry() {
+        try {
+          await doCapture();
+        } catch (err) {
+          console.error('capture error:', err);
+          retryCount++;
+          if (retryCount < MAX_RETRY) {
+            // 2秒待ってリトライ
+            await new Promise(r => setTimeout(r, 2000));
+            await runCaptureWithRetry();
+          } else {
+            // 最終的に失敗したらエラー表示
+            showCaptureError(token);
+          }
+        }
+      }
+
+      // ページ離脱前にも念のためリクエストを投げる（beforeunload + sendBeacon）
+      let captureCompleted = false;
+      window.addEventListener('beforeunload', () => {
+        if (!captureCompleted) {
+          const url = GAS_URL
+            + '?action=capture'
+            + '&token='   + encodeURIComponent(token)
+            + '&PayerID=' + encodeURIComponent(payerId || '');
+          // sendBeacon はページ離脱時でも完走する
+          navigator.sendBeacon(url);
+        }
+      });
+
+      runCaptureWithRetry();
+
+      // リトライボタン
+      document.getElementById('retryBtn').addEventListener('click', () => {
+        retryCount = 0;
+        document.getElementById('captureError').classList.remove('visible');
+        document.querySelector('.capture-spinner').style.display = '';
+        document.querySelector('.capture-label').style.display = '';
+        document.querySelector('.capture-sublabel').style.display = '';
+        runCaptureWithRetry();
+      });
+
+    } else {
+      // tokenがない（直接アクセスなど）→ そのまま表示
+      showSuccess();
     }
+
+  } else {
+    // PayPay フローはオーバーレイ不要
+    document.getElementById('captureOverlay').style.display = 'none';
+    showSuccess();
+    buildPayPayOverlay();
   }
 
-  // ── PayPay フロー：オーバーレイ表示 ──
-  if (isPayPay) {
-    const amount      = parseInt(urlParams.get('amount') || '0');
-    const paypayEmail = urlParams.get('email')  || '';
-    const paypayPlan  = urlParams.get('plan')   || '';
-    const paypayCredit= urlParams.get('credit') || '';
-    // ★ 追加：tshirt・poster パラメータ取得
+  // ─── capture完了 → ローディング消してページ表示 ───
+  function showSuccess() {
+    captureCompleted = true;
+    const overlay = document.getElementById('captureOverlay');
+    overlay.classList.add('hidden');
+    setTimeout(() => overlay.style.display = 'none', 500);
+    document.getElementById('mainPage').classList.add('visible');
+  }
+
+  // ─── capture失敗時 ───
+  function showCaptureError(token) {
+    const overlay = document.getElementById('captureOverlay');
+    overlay.querySelector('.capture-spinner').style.display  = 'none';
+    overlay.querySelector('.capture-label').style.display    = 'none';
+    overlay.querySelector('.capture-sublabel').style.display = 'none';
+    document.getElementById('errorOrderId').textContent = 'Order ID: ' + token;
+    document.getElementById('captureError').classList.add('visible');
+  }
+
+  // ─────────────────────────────────────────────
+  // PayPay オーバーレイ構築
+  // ─────────────────────────────────────────────
+  function buildPayPayOverlay() {
+    const amount       = parseInt(urlParams.get('amount') || '0');
+    const paypayEmail  = urlParams.get('email')  || '';
+    const paypayPlan   = urlParams.get('plan')   || '';
+    const paypayCredit = urlParams.get('credit') || '';
     const paypayTshirt = urlParams.get('tshirt') || '';
     const paypayPoster = urlParams.get('poster') || '';
 
-    // Build overlay
     const overlay = document.createElement('div');
     overlay.id = 'paypay-overlay';
     overlay.innerHTML = `
@@ -629,7 +824,6 @@
           <span class="ov-qr-sub">QRを読み取って上記金額を<br>送金してください</span>
         </div>
       </div>
-
       <div class="ov-right">
         <div class="ov-input-label">// 送金完了後</div>
         <div class="ov-input-heading">ENTER YOUR<br><strong>PAYPAY NAME.</strong></div>
@@ -656,32 +850,27 @@
       const errEl = document.getElementById('paypay-error');
       const btn   = document.getElementById('paypay-submit-btn');
 
-      if (!accountName) {
-        errEl.style.display = 'block';
-        return;
-      }
+      if (!accountName) { errEl.style.display = 'block'; return; }
       errEl.style.display = 'none';
       btn.disabled = true;
       btn.textContent = '送信中...';
 
-      // ★ tshirt・poster も GAS へ送信
       try {
         await fetch(
-          GAS_URL +
-          '?action=paypay' +
-          '&paypayAccount=' + encodeURIComponent(accountName) +
-          '&amount='        + encodeURIComponent(amount) +
-          '&email='         + encodeURIComponent(paypayEmail) +
-          '&plan='          + encodeURIComponent(paypayPlan) +
-          '&credit='        + encodeURIComponent(paypayCredit) +
-          '&tshirt='        + encodeURIComponent(paypayTshirt) +
-          '&poster='        + encodeURIComponent(paypayPoster)
+          GAS_URL
+          + '?action=paypay'
+          + '&paypayAccount=' + encodeURIComponent(accountName)
+          + '&amount='        + encodeURIComponent(amount)
+          + '&email='         + encodeURIComponent(paypayEmail)
+          + '&plan='          + encodeURIComponent(paypayPlan)
+          + '&credit='        + encodeURIComponent(paypayCredit)
+          + '&tshirt='        + encodeURIComponent(paypayTshirt)
+          + '&poster='        + encodeURIComponent(paypayPoster)
         );
       } catch(e) {
         console.error('paypay submit error:', e);
       }
 
-      // オーバーレイをフェードアウト → 通常のTHANK YOU画面へ
       overlay.style.transition = 'opacity 0.4s';
       overlay.style.opacity = '0';
       setTimeout(() => overlay.remove(), 400);
