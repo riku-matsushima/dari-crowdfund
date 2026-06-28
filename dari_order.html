@@ -242,7 +242,6 @@
   .amount-hint { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.05em; margin-top: 0.6rem; }
   .amount-hint span { color: var(--orange); font-weight: 700; }
   
-  /* REVISED SIMPLIFIED UPPER BOOSTING TEXT */
   .amount-boost-msg {
     margin-top: 1rem;
     max-width: 550px;
@@ -762,8 +761,8 @@
       <div class="block-label">// STEP 03 — クレジット掲載名・メールアドレスを入力</div>
       <div class="shipping-form" style="grid-template-columns:1fr;">
         <div class="form-field full"><label>MVクレジット掲載名</label><input type="text" placeholder="MVクレジット掲載名" id="creditName" oninput="validateForm()"></div>
-		<div class="form-field full"><label>メールアドレス</label><input type="email" placeholder="dari@example.com" id="emailInput" oninput="validateForm()"></div>
-		  <div class="form-field full"><label>メールアドレス（確認用）</label><input type="email" placeholder="dari@example.com" id="emailConfirm" oninput="validateForm()"></div>
+        <div class="form-field full"><label>メールアドレス</label><input type="email" placeholder="dari@example.com" id="emailInput" oninput="validateForm()"></div>
+        <div class="form-field full"><label>メールアドレス（確認用）</label><input type="email" placeholder="dari@example.com" id="emailConfirm" oninput="validateForm()"></div>
       </div>
     </div>
 
@@ -798,8 +797,8 @@
     <div class="summary-total"><div class="summary-total-label">TOTAL</div><div class="summary-total-val" id="summaryTotal">—</div></div>
     <div class="validation-msg" id="validationMsg" style="padding:0 2rem; font-size:12px; color:var(--orange); display:none;">↑ 未入力の必須選択項目があります</div>
     <div class="summary-note" id="summaryNote">// プランを選択して支援金額を入力してください。</div>
-	<button class="pay-btn" id="payBtn" disabled onclick="showPaymentModal()">支払いへ進む →</button>
-	  <div style="padding:0.5rem 2rem 1.5rem; text-align:center;"><a href="legal.html" style="font-family:var(--mono); font-size:9px; color:var(--muted); text-decoration:underline; letter-spacing:0.05em;">特定商取引法に基づく表記</a></div>
+    <button class="pay-btn" id="payBtn" disabled onclick="showPaymentModal()">支払いへ進む →</button>
+    <div style="padding:0.5rem 2rem 1.5rem; text-align:center;"><a href="legal.html" style="font-family:var(--mono); font-size:9px; color:var(--muted); text-decoration:underline; letter-spacing:0.05em;">特定商取引法に基づく表記</a></div>
   </div>
 
 </div>
@@ -813,6 +812,9 @@
 </div>
 
 <script>
+  // GAS URL（統一済み）
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbz0uIOyIdKrczac2e0oj5aZ5er7BjoOh9-CdHyVZpiiVtUvKtmmSWO9hpI_649VO5Br/exec';
+
   // STATE MANAGEMENT
   const state = {
     plan: null, planMin: 0, planName: '', amount: 0,
@@ -842,10 +844,9 @@
 
   // GENERATE DYNAMIC T-SHIRT IMAGE PATH BASED ON STATE
   function getTshirtImagePath(id) {
-    const num = id.split('-')[1]; // '1', '2', etc.
+    const num = id.split('-')[1];
     const viewIndex = tshirtViewState[id].viewIndex;
     
-    // Determine active color by checking the selected card button
     const cardEl = document.querySelector(`[data-id="${id}"]`);
     let colorKey = 'black';
     if (cardEl) {
@@ -853,7 +854,6 @@
       if (activeBtn) colorKey = activeBtn.dataset.color;
     }
     
-    // Map English key to Japanese filename characters
     let jpColor = '白';
     if (colorKey === 'black') jpColor = '黒';
     if (colorKey === 'gray') jpColor = '灰色';
@@ -862,7 +862,6 @@
     if (viewIndex === 1) suffix = '表.jpg';
     if (viewIndex === 2) suffix = '裏.jpg';
 
-    // SPECIAL CASE RULES BASED ON FILE LEDGER
     if (num === '1' && jpColor === '白' && viewIndex === 0) {
       return `Tシャツ画像webp圧縮/1白両面.jpg`;
     }
@@ -870,7 +869,6 @@
     return `Tシャツ画像webp圧縮/${num}${jpColor}${suffix}`;
   }
 
-  // INITIALIZE & RE-RENDER ALL T-SHIRT CARDS DYNAMICALLY
   function initAllTshirtImages() {
     Object.keys(tshirtViewState).forEach(id => {
       renderTshirtImage(id);
@@ -886,7 +884,6 @@
     document.getElementById(`label-${id}`).textContent = viewLabels[viewIndex];
   }
 
-  // IMAGE NAVIGATION
   function navigateImage(event, id, direction) {
     event.stopPropagation();
     let currentIdx = tshirtViewState[id].viewIndex;
@@ -895,7 +892,6 @@
     renderTshirtImage(id);
   }
 
-  // LIGHTBOX POPUP FUNCTIONS
   function openLightbox(event, id) {
     event.stopPropagation();
     const lightbox = document.getElementById('lightboxModal');
@@ -929,7 +925,6 @@
   }
 
   function handleCardClick(event, id, name, colorsCsv, card) {
-    // Prevent triggering card click when interacting with any button inside the workspace
     if (event.target.tagName === 'BUTTON' || event.target.classList.contains('img-nav-btn') || event.target.classList.contains('color-pic-btn')) return;
     selectTshirtDesign(id, name, colorsCsv, card);
   }
@@ -965,9 +960,7 @@
     document.getElementById('sectionShipping').classList.toggle('visible', (p === 'poster' || p === 'merch' || p === 'vip'));
   }
 
-  // T-SHIRT DESIGN SELECTION
   function selectTshirtDesign(id, name, colorsCsv, card) {
-    // Only reset the size selection if swapping to a completely different design card
     if (state.tshirtId !== id) {
       state.tshirtSize = null;
       document.querySelectorAll('#tsizeRow .option-btn').forEach(b => b.classList.remove('selected'));
@@ -979,7 +972,6 @@
     state.tshirtId = id;
     state.tshirtName = name;
     
-    // Acquire the color currently marked as selected within the card's workspace
     const activeColorBtn = card.querySelector('.color-pic-btn.selected');
     if (activeColorBtn) {
       state.tshirtColor = activeColorBtn.dataset.color;
@@ -995,16 +987,13 @@
     validateForm();
   }
 
-  // INTERACTIVE IN-CARD COLOR CHANGER
   function changeCardColor(event, id, color, btn) {
-    event.stopPropagation(); // Block double bubbling sequence
+    event.stopPropagation();
     const card = btn.closest('.product-card');
     
-    // Switch localized active selection highlight
     card.querySelectorAll('.color-pic-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     
-    // Execute standard select workflow using active specs
     selectTshirtDesign(id, card.dataset.name, card.dataset.colors, card);
   }
 
@@ -1018,7 +1007,6 @@
     validateForm();
   }
 
-  // POSTER SELECTION
   function selectPosterDesign(id, name, card) {
     document.querySelectorAll('[data-product="poster"]').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
@@ -1050,7 +1038,6 @@
 
     document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
     
-    // Reset all card localized buttons back to their base configuration
     document.querySelectorAll('[data-product="tshirt"]').forEach(card => {
       card.querySelectorAll('.color-pic-btn').forEach((btn, idx) => {
         if (idx === 0) btn.classList.add('selected');
@@ -1063,7 +1050,6 @@
     initAllTshirtImages();
   }
 
-  // update金額を入力
   function updateAmount() {
     state.amount = parseInt(document.getElementById('amountInput').value) || 0;
     updateSummary();
@@ -1112,14 +1098,12 @@
     if ((s.plan === 'merch' || s.plan === 'vip') && (!s.tshirtId || !s.tshirtColor || !s.tshirtSize)) { validationMsg.style.display='block'; deactivatePay(); return; }
     if ((s.plan === 'poster' || s.plan === 'vip') && (!s.posterId || !s.posterSize)) { validationMsg.style.display='block'; deactivatePay(); return; }
 
-    // クレジット掲載名・メールアドレス（全プラン共通で必須）
     const creditName = document.getElementById('creditName')?.value.trim() || '';
     const email = document.getElementById('emailInput')?.value.trim() || '';
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	const emailConfirm = document.getElementById('emailConfirm')?.value.trim() || '';
-	if (!creditName || !email || !emailPattern.test(email) || email !== emailConfirm) { validationMsg.style.display='block'; deactivatePay(); return; }
+    const emailConfirm = document.getElementById('emailConfirm')?.value.trim() || '';
+    if (!creditName || !email || !emailPattern.test(email) || email !== emailConfirm) { validationMsg.style.display='block'; deactivatePay(); return; }
 
-    // 配送先住所（poster / merch / vip プランで必須）
     if (s.plan === 'poster' || s.plan === 'merch' || s.plan === 'vip') {
       const lastName = document.getElementById('lastName')?.value.trim() || '';
       const firstName = document.getElementById('firstName')?.value.trim() || '';
@@ -1141,94 +1125,9 @@
 
   injectDigitalContentDetails();
   initAllTshirtImages();
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwYPqQ8xc5ZY6peYehjH2lhnBR8AsD4PuNMcmVWAAY_EJ6SqzT6qoq06EdNIY-F8CvB/exec';
 
-  async function proceed() {
-    const s = state;
-    const btn = document.getElementById('payBtn');
-    btn.disabled = true;
-    btn.textContent = '送信中...';
-
-    const data = {
-      timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
-      planKey:    s.plan,
-      plan:       s.planName,
-      amount:     s.amount,
-      creditName: document.getElementById('creditName')?.value || '',
-      tshirt:     s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '',
-      hoodie:     '',
-      poster:     s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '',
-      lastName:   document.getElementById('lastName')?.value || '',
-      firstName:  document.getElementById('firstName')?.value || '',
-      postcode:   document.getElementById('postcode')?.value || '',
-      address1:   document.getElementById('address1')?.value || '',
-      address2:   document.getElementById('address2')?.value || '',
-      phone:      document.getElementById('phone')?.value || '',
-	  email: document.getElementById('emailInput')?.value || '',
-    };
-
-    try {
-      const params = new URLSearchParams(data);
-      const res  = await fetch(GAS_URL + '?' + params.toString());
-      const json = await res.json();
-      if (json.result === 'success' && json.url) {
-        window.location.href = json.url;
-      } else {
-        throw new Error(json.message || '不明なエラー');
-      }
-    } catch (e) {
-      btn.disabled = false;
-      btn.textContent = 'PayPal で支払いへ進む →';
-      alert('エラーが発生しました。\n' + e.message);
-    }
-  }
-
-// 決済方法選択モーダル
+  // 決済方法選択モーダル（1つのみ定義）
   function showPaymentModal() {
-    const s = state;
-    const modal = document.createElement('div');
-    modal.id = 'paymentModal';
-    modal.style.cssText = `
-      position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000;
-      display:flex; align-items:center; justify-content:center; padding:1rem;
-    `;
-    modal.innerHTML = `
-      <div style="background:#fff; max-width:460px; width:100%; border:1px solid #111; padding:2.5rem;">
-        <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">// 決済方法を選択</div>
-        <button onclick="choosePayPal()" style="
-          display:block; width:100%; padding:1.2rem; margin-bottom:1rem;
-          background:#111; border:none; color:#fff;
-          font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.15em;
-          text-transform:uppercase; cursor:pointer;">
-          PayPal で支払う → （推奨）
-        </button>
-        <div style="font-family:'Space Mono',monospace; font-size:9px; color:#aaa; letter-spacing:0.1em; margin-bottom:1rem; text-align:center;">── または ──</div>
-        <button onclick="choosePayPay()" style="
-          display:block; width:100%; padding:0.8rem;
-          background:#fff; border:1px solid #ddd; color:#777;
-          font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.1em;
-          text-transform:uppercase; cursor:pointer;">
-          PayPay で支払う
-        </button>
-        <button onclick="document.getElementById('paymentModal').remove()" style="
-          display:block; width:100%; padding:0.6rem; margin-top:1rem;
-          background:transparent; border:none; color:#aaa;
-          font-family:'Space Mono',monospace; font-size:9px; cursor:pointer;">
-          キャンセル
-        </button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
-
-  async function choosePayPal() {
-    document.getElementById('paymentModal').remove();
-    await proceed();
-  }
-
-
-function showPaymentModal() {
-    const s = state;
     const modal = document.createElement('div');
     modal.id = 'paymentModal';
     modal.style.cssText = `
@@ -1253,19 +1152,10 @@ function showPaymentModal() {
     document.body.appendChild(modal);
   }
 
-  async function choosePayPal() {
-    document.getElementById('paymentModal').remove();
-    await proceed();
-  }
-
-  async function choosePayPay() {
-    document.getElementById('paymentModal').remove();
+  // ── 共通データ収集 ──
+  function collectFormData() {
     const s = state;
-    const btn = document.getElementById('payBtn');
-    btn.disabled = true;
-    btn.textContent = '送信中...';
-
-    const data = {
+    return {
       timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
       planKey:    s.plan,
       plan:       s.planName,
@@ -1281,20 +1171,67 @@ function showPaymentModal() {
       address2:   document.getElementById('address2')?.value || '',
       phone:      document.getElementById('phone')?.value || '',
       email:      document.getElementById('emailInput')?.value || '',
-      paymethod:  'paypay',
     };
+  }
+
+  // ── PayPal フロー ──
+  async function choosePayPal() {
+    document.getElementById('paymentModal').remove();
+    const btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    const data = { ...collectFormData(), action: 'create', paymethod: 'paypal' };
 
     try {
       const params = new URLSearchParams(data);
-      await fetch(GAS_URL + '?' + params.toString());
-	　window.location.href = `dari_thanks.html?paypay=1&amount=${s.amount}&email=${encodeURIComponent(data.email)}&plan=${encodeURIComponent(data.plan)}&credit=${encodeURIComponent(data.creditName)}`;
+      const res = await fetch(GAS_URL + '?' + params.toString());
+      const json = await res.json();
+      if (json.result === 'success' && json.url) {
+        window.location.href = json.url;
+      } else {
+        throw new Error(json.message || '不明なエラー');
+      }
     } catch (e) {
       btn.disabled = false;
       btn.textContent = '支払いへ進む →';
       alert('エラーが発生しました。\n' + e.message);
     }
   }
-	
+
+  // ── PayPay フロー ──
+  async function choosePayPay() {
+    document.getElementById('paymentModal').remove();
+    const s = state;
+    const btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    const data = { ...collectFormData(), action: 'create', paymethod: 'paypay' };
+
+    // Tシャツ・ポスターの生情報（URLパラメータ用）
+    const tshirtRaw  = s.tshirtId  ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
+    const posterRaw  = s.posterId  ? `${s.posterName} / ${s.posterSize || ''}` : '';
+
+    try {
+      const params = new URLSearchParams(data);
+      await fetch(GAS_URL + '?' + params.toString());
+
+      // ★ tshirt・poster を URL に追加して thanks へ遷移
+      window.location.href =
+        `dari_thanks.html?paypay=1` +
+        `&amount=${s.amount}` +
+        `&email=${encodeURIComponent(data.email)}` +
+        `&plan=${encodeURIComponent(data.plan)}` +
+        `&credit=${encodeURIComponent(data.creditName)}` +
+        `&tshirt=${encodeURIComponent(tshirtRaw)}` +
+        `&poster=${encodeURIComponent(posterRaw)}`;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = '支払いへ進む →';
+      alert('エラーが発生しました。\n' + e.message);
+    }
+  }
 </script>
 </body>
 </html>
