@@ -70,7 +70,6 @@
   }
   nav .nav-right a:hover { color: var(--text); background: var(--bg2); }
 
-  /* ─── CAPTURE LOADING OVERLAY ─── */
   #captureOverlay {
     position: fixed;
     inset: 0;
@@ -111,7 +110,6 @@
     line-height: 1.8;
   }
 
-  /* ─── CAPTURE ERROR STATE ─── */
   #captureError {
     display: none;
     flex-direction: column;
@@ -591,7 +589,6 @@
   </div>
 </nav>
 
-<!-- ▼ PayPal capture 中のローディング画面 -->
 <div id="captureOverlay">
   <div class="capture-spinner"></div>
   <div class="capture-label">// 決済を確定しています...</div>
@@ -696,10 +693,8 @@
 
   let captureCompleted = false;
 
-  // ─────────────────────────────────────────────
-  // PayPal capture フロー
-  // ─────────────────────────────────────────────
   if (!isPayPay) {
+    // ── PayPal capture フロー ──
     const token   = urlParams.get('token');
     const payerId = urlParams.get('PayerID');
 
@@ -712,10 +707,8 @@
           + '?action=capture'
           + '&token='   + encodeURIComponent(token)
           + '&PayerID=' + encodeURIComponent(payerId || '');
-
         const res  = await fetch(url, { keepalive: true });
         const json = await res.json();
-
         if (json.result === 'success' || json.result === 'already_captured') {
           showSuccess();
         } else {
@@ -764,7 +757,7 @@
     }
 
   } else {
-    // PayPay フロー
+    // ── PayPay フロー ──
     document.getElementById('captureOverlay').style.display = 'none';
     showSuccess();
     buildPayPayOverlay();
@@ -787,12 +780,11 @@
     document.getElementById('captureError').classList.add('visible');
   }
 
-  // ─────────────────────────────────────────────
-  // PayPay オーバーレイ
-  // ─────────────────────────────────────────────
-function buildPayPayOverlay() {
-  const amount = parseInt(urlParams.get('amount') || '0');
-  const overlay = document.createElement('div');
+  // ── PayPay オーバーレイ ──
+  function buildPayPayOverlay() {
+    const amount = parseInt(urlParams.get('amount') || '0');
+
+    const overlay = document.createElement('div');
     overlay.id = 'paypay-overlay';
     overlay.innerHTML = `
       <div class="ov-left">
@@ -838,20 +830,49 @@ function buildPayPayOverlay() {
       btn.textContent = '送信中...';
 
       try {
-        // ✅ ここをPOSTに修正（旧コードはGETだったためスプシに入らなかった）
-const params = new URLSearchParams({
-  action:        'paypay',
-  paypayAccount: accountName,
-  amount:        String(amount),
-  email:         urlParams.get('email')      || '',
-  plan:          urlParams.get('plan')       || '',
-  creditName:    urlParams.get('creditName') || '',  // ★ credit → creditName
-  tshirt:        urlParams.get('tshirt')     || '',
-  poster:        urlParams.get('poster')     || '',
-  lastName:      urlParams.get('lastName')   || '',
-  firstName:     urlParams.get('firstName')  || '',
-  postcode:      urlParams.get('postcode')   || '',
-  address1:      urlParams.get('address1')   || '',
-  address2:      urlParams.get('address2')   || '',
-  phone:         urlParams.get('phone')      || '',
-});
+        // ★ URLパラメータから直接取得・creditName キー名修正・住所系全フィールド追加
+        const params = new URLSearchParams({
+          action:        'paypay',
+          paypayAccount: accountName,
+          amount:        String(amount),
+          email:         urlParams.get('email')        || '',
+          plan:          urlParams.get('plan')         || '',
+          creditName:    urlParams.get('creditName')   || '',  // ★ credit → creditName
+          tshirt:        urlParams.get('tshirt')       || '',
+          poster:        urlParams.get('poster')       || '',
+          lastName:      urlParams.get('lastName')     || '',  // ★ 追加
+          firstName:     urlParams.get('firstName')    || '',  // ★ 追加
+          postcode:      urlParams.get('postcode')     || '',  // ★ 追加
+          address1:      urlParams.get('address1')     || '',  // ★ 追加
+          address2:      urlParams.get('address2')     || '',  // ★ 追加
+          phone:         urlParams.get('phone')        || '',  // ★ 追加
+        });
+
+        const res = await fetch(GAS_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body:    params.toString(),
+        });
+        const json = await res.json();
+
+        if (json.result === 'success') {
+          // 成功 → overlayをフェードアウトして消す
+          overlay.style.transition = 'opacity 0.4s';
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 400);
+        } else {
+          throw new Error(json.message || '送信に失敗しました');
+        }
+
+      } catch (e) {
+        console.error('paypay submit error:', e);
+        btn.disabled = false;
+        btn.textContent = '送金完了 → 支援を確定する';
+        errEl.textContent = 'エラーが発生しました。再度お試しください。';
+        errEl.style.display = 'block';
+      }
+    });
+  }
+</script>
+</body>
+</html>
