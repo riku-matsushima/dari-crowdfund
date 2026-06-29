@@ -782,96 +782,145 @@
 
   // ── PayPay オーバーレイ ──
   function buildPayPayOverlay() {
-    const amount = parseInt(urlParams.get('amount') || '0');
+    const amount          = parseInt(urlParams.get('amount') || '0');
+    const paypayAccount   = urlParams.get('paypayAccount') || '';
 
-    const overlay = document.createElement('div');
-    overlay.id = 'paypay-overlay';
-    overlay.innerHTML = `
-      <div class="ov-left">
-        <div class="ov-eyebrow">// STEP 2 OF 2 — PAYPAY 送金</div>
-        <div class="ov-title">SEND<br><span class="accent">PAYMENT.</span></div>
-        <div class="ov-amount-label">// 送金金額</div>
-        <div class="ov-amount">¥${amount.toLocaleString()}</div>
-        <div class="ov-qr-wrap">
-          <img src="218626.jpg" alt="PayPay QR">
-          <span class="ov-qr-name">Riku Matsushima</span>
-          <span class="ov-qr-sub">QRを読み取って上記金額を<br>送金してください</span>
-        </div>
-      </div>
-      <div class="ov-right">
-        <div class="ov-input-label">// 送金完了後</div>
-        <div class="ov-input-heading">ENTER YOUR<br><strong>PAYPAY NAME.</strong></div>
-        <div class="ov-input-desc">
-          送金が完了したら、送金元の<strong>PayPayアカウント名（表示名）</strong>を入力して送信してください。確認メールをお送りします。
-        </div>
-        <input
-          class="ov-name-input"
-          id="paypay-account-input"
-          type="text"
-          placeholder="例）山田 太郎 / taro_yamada"
-          autocomplete="off"
-        >
-        <div class="ov-error" id="paypay-error">アカウント名を入力してください。</div>
-        <button class="ov-submit-btn" id="paypay-submit-btn">
-          送金完了 → 支援を確定する
-        </button>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-
-    document.getElementById('paypay-submit-btn').addEventListener('click', async () => {
-      const accountName = document.getElementById('paypay-account-input').value.trim();
-      const errEl = document.getElementById('paypay-error');
-      const btn   = document.getElementById('paypay-submit-btn');
-
-      if (!accountName) { errEl.style.display = 'block'; return; }
-      errEl.style.display = 'none';
-      btn.disabled = true;
-      btn.textContent = '送信中...';
-
-      try {
-        // ★ URLパラメータから直接取得・creditName キー名修正・住所系全フィールド追加
-        const params = new URLSearchParams({
-          action:        'paypay',
-          paypayAccount: accountName,
-          amount:        String(amount),
-          email:         urlParams.get('email')        || '',
-          plan:          urlParams.get('plan')         || '',
-          creditName:    urlParams.get('creditName')   || '',  // ★ credit → creditName
-          tshirt:        urlParams.get('tshirt')       || '',
-          poster:        urlParams.get('poster')       || '',
-          lastName:      urlParams.get('lastName')     || '',  // ★ 追加
-          firstName:     urlParams.get('firstName')    || '',  // ★ 追加
-          postcode:      urlParams.get('postcode')     || '',  // ★ 追加
-          address1:      urlParams.get('address1')     || '',  // ★ 追加
-          address2:      urlParams.get('address2')     || '',  // ★ 追加
-          phone:         urlParams.get('phone')        || '',  // ★ 追加
-        });
-
-        const res = await fetch(GAS_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body:    params.toString(),
-        });
-        const json = await res.json();
-
-        if (json.result === 'success') {
-          // 成功 → overlayをフェードアウトして消す
-          overlay.style.transition = 'opacity 0.4s';
-          overlay.style.opacity = '0';
-          setTimeout(() => overlay.remove(), 400);
-        } else {
-          throw new Error(json.message || '送信に失敗しました');
-        }
-
-      } catch (e) {
-        console.error('paypay submit error:', e);
-        btn.disabled = false;
-        btn.textContent = '送金完了 → 支援を確定する';
-        errEl.textContent = 'エラーが発生しました。再度お試しください。';
-        errEl.style.display = 'block';
+    // ── GAS POST 共通処理 ──
+    async function submitToGas(accountName, overlay) {
+      const params = new URLSearchParams({
+        action:        'paypay',
+        paypayAccount: accountName,
+        amount:        String(amount),
+        email:         urlParams.get('email')      || '',
+        plan:          urlParams.get('plan')        || '',
+        creditName:    urlParams.get('creditName')  || '',
+        tshirt:        urlParams.get('tshirt')      || '',
+        poster:        urlParams.get('poster')      || '',
+        lastName:      urlParams.get('lastName')    || '',
+        firstName:     urlParams.get('firstName')   || '',
+        postcode:      urlParams.get('postcode')    || '',
+        address1:      urlParams.get('address1')    || '',
+        address2:      urlParams.get('address2')    || '',
+        phone:         urlParams.get('phone')       || '',
+      });
+      const res  = await fetch(GAS_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    params.toString(),
+      });
+      const json = await res.json();
+      if (json.result === 'success') {
+        overlay.style.transition = 'opacity 0.4s';
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.remove(), 400);
+      } else {
+        throw new Error(json.message || '送信に失敗しました');
       }
-    });
+    }
+
+    // ★ dari_order.html でアカウント名入力済みの場合 → overlayを出してQRだけ表示し、即GASにPOST
+    if (paypayAccount) {
+      const overlay = document.createElement('div');
+      overlay.id = 'paypay-overlay';
+      overlay.innerHTML = `
+        <div class="ov-left">
+          <div class="ov-eyebrow">// STEP 2 OF 2 — PAYPAY 送金</div>
+          <div class="ov-title">SEND<br><span class="accent">PAYMENT.</span></div>
+          <div class="ov-amount-label">// 送金金額</div>
+          <div class="ov-amount">¥${amount.toLocaleString()}</div>
+          <div class="ov-qr-wrap">
+            <img src="218626.jpg" alt="PayPay QR">
+            <span class="ov-qr-name">Riku Matsushima</span>
+            <span class="ov-qr-sub">QRを読み取って上記金額を<br>送金してください</span>
+          </div>
+        </div>
+        <div class="ov-right">
+          <div class="ov-input-label">// 送金完了後</div>
+          <div class="ov-input-heading">SEND TO<br><strong>COMPLETE.</strong></div>
+          <div class="ov-input-desc">
+            上のQRコードを読み取って<strong>¥${amount.toLocaleString()}</strong>を送金してください。<br>
+            送金完了後、下のボタンを押すと支援が確定します。
+          </div>
+          <div class="ov-error" id="paypay-error" style="display:none;"></div>
+          <button class="ov-submit-btn" id="paypay-submit-btn">
+            送金完了 → 支援を確定する
+          </button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      document.getElementById('paypay-submit-btn').addEventListener('click', async () => {
+        const btn   = document.getElementById('paypay-submit-btn');
+        const errEl = document.getElementById('paypay-error');
+        btn.disabled = true;
+        btn.textContent = '送信中...';
+        try {
+          await submitToGas(paypayAccount, overlay);
+        } catch (e) {
+          console.error('paypay submit error:', e);
+          btn.disabled = false;
+          btn.textContent = '送金完了 → 支援を確定する';
+          errEl.textContent = 'エラーが発生しました。再度お試しください。';
+          errEl.style.display = 'block';
+        }
+      });
+
+    } else {
+      // アカウント名未渡し（直接アクセス等）→ 入力欄を表示するフォールバック
+      const overlay = document.createElement('div');
+      overlay.id = 'paypay-overlay';
+      overlay.innerHTML = `
+        <div class="ov-left">
+          <div class="ov-eyebrow">// STEP 2 OF 2 — PAYPAY 送金</div>
+          <div class="ov-title">SEND<br><span class="accent">PAYMENT.</span></div>
+          <div class="ov-amount-label">// 送金金額</div>
+          <div class="ov-amount">¥${amount.toLocaleString()}</div>
+          <div class="ov-qr-wrap">
+            <img src="218626.jpg" alt="PayPay QR">
+            <span class="ov-qr-name">Riku Matsushima</span>
+            <span class="ov-qr-sub">QRを読み取って上記金額を<br>送金してください</span>
+          </div>
+        </div>
+        <div class="ov-right">
+          <div class="ov-input-label">// 送金完了後</div>
+          <div class="ov-input-heading">ENTER YOUR<br><strong>PAYPAY NAME.</strong></div>
+          <div class="ov-input-desc">
+            送金が完了したら、送金元の<strong>PayPayアカウント名（表示名）</strong>を入力して送信してください。確認メールをお送りします。
+          </div>
+          <input
+            class="ov-name-input"
+            id="paypay-account-input"
+            type="text"
+            placeholder="例）山田 太郎 / taro_yamada"
+            autocomplete="off"
+          >
+          <div class="ov-error" id="paypay-error">アカウント名を入力してください。</div>
+          <button class="ov-submit-btn" id="paypay-submit-btn">
+            送金完了 → 支援を確定する
+          </button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      document.getElementById('paypay-submit-btn').addEventListener('click', async () => {
+        const accountName = document.getElementById('paypay-account-input').value.trim();
+        const errEl = document.getElementById('paypay-error');
+        const btn   = document.getElementById('paypay-submit-btn');
+        if (!accountName) { errEl.style.display = 'block'; return; }
+        errEl.style.display = 'none';
+        btn.disabled = true;
+        btn.textContent = '送信中...';
+        try {
+          await submitToGas(accountName, overlay);
+        } catch (e) {
+          console.error('paypay submit error:', e);
+          btn.disabled = false;
+          btn.textContent = '送金完了 → 支援を確定する';
+          errEl.textContent = 'エラーが発生しました。再度お試しください。';
+          errEl.style.display = 'block';
+        }
+      });
+    }
   }
 </script>
 </body>
