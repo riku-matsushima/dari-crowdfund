@@ -160,7 +160,6 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* 最初は非表示、capture完了後に表示 */
     opacity: 0;
     transition: opacity 0.6s ease 0.2s;
   }
@@ -598,7 +597,6 @@
   <div class="capture-label">// 決済を確定しています...</div>
   <div class="capture-sublabel">このページを閉じないでください<br>通常数秒で完了します</div>
 
-  <!-- エラー時の表示（spinner と入れ替え） -->
   <div id="captureError">
     <div class="error-icon">!</div>
     <div class="error-title">確定に失敗しました</div>
@@ -696,15 +694,16 @@
   const urlParams = new URLSearchParams(window.location.search);
   const isPayPay  = urlParams.get('paypay') === '1';
 
+  let captureCompleted = false;
+
   // ─────────────────────────────────────────────
-  // PayPal capture フロー（修正版）
+  // PayPal capture フロー
   // ─────────────────────────────────────────────
   if (!isPayPay) {
     const token   = urlParams.get('token');
     const payerId = urlParams.get('PayerID');
 
     if (token) {
-      // capture中はオーバーレイを表示したままにする
       let retryCount = 0;
       const MAX_RETRY = 3;
 
@@ -714,11 +713,9 @@
           + '&token='   + encodeURIComponent(token)
           + '&PayerID=' + encodeURIComponent(payerId || '');
 
-        // keepalive: ページ離脱直後でもリクエストが完走する
         const res  = await fetch(url, { keepalive: true });
         const json = await res.json();
 
-        // 'success' か 'already_captured' なら正常完了
         if (json.result === 'success' || json.result === 'already_captured') {
           showSuccess();
         } else {
@@ -733,32 +730,26 @@
           console.error('capture error:', err);
           retryCount++;
           if (retryCount < MAX_RETRY) {
-            // 2秒待ってリトライ
             await new Promise(r => setTimeout(r, 2000));
             await runCaptureWithRetry();
           } else {
-            // 最終的に失敗したらエラー表示
             showCaptureError(token);
           }
         }
       }
 
-      // ページ離脱前にも念のためリクエストを投げる（beforeunload + sendBeacon）
-      let captureCompleted = false;
       window.addEventListener('beforeunload', () => {
         if (!captureCompleted) {
           const url = GAS_URL
             + '?action=capture'
             + '&token='   + encodeURIComponent(token)
             + '&PayerID=' + encodeURIComponent(payerId || '');
-          // sendBeacon はページ離脱時でも完走する
           navigator.sendBeacon(url);
         }
       });
 
       runCaptureWithRetry();
 
-      // リトライボタン
       document.getElementById('retryBtn').addEventListener('click', () => {
         retryCount = 0;
         document.getElementById('captureError').classList.remove('visible');
@@ -769,18 +760,16 @@
       });
 
     } else {
-      // tokenがない（直接アクセスなど）→ そのまま表示
       showSuccess();
     }
 
   } else {
-    // PayPay フローはオーバーレイ不要
+    // PayPay フロー
     document.getElementById('captureOverlay').style.display = 'none';
     showSuccess();
     buildPayPayOverlay();
   }
 
-  // ─── capture完了 → ローディング消してページ表示 ───
   function showSuccess() {
     captureCompleted = true;
     const overlay = document.getElementById('captureOverlay');
@@ -789,7 +778,6 @@
     document.getElementById('mainPage').classList.add('visible');
   }
 
-  // ─── capture失敗時 ───
   function showCaptureError(token) {
     const overlay = document.getElementById('captureOverlay');
     overlay.querySelector('.capture-spinner').style.display  = 'none';
@@ -800,7 +788,7 @@
   }
 
   // ─────────────────────────────────────────────
-  // PayPay オーバーレイ構築
+  // PayPay オーバーレイ
   // ─────────────────────────────────────────────
   function buildPayPayOverlay() {
     const amount       = parseInt(urlParams.get('amount') || '0');
@@ -856,17 +844,23 @@
       btn.textContent = '送信中...';
 
       try {
-        await fetch(
-          GAS_URL
-          + '?action=paypay'
-          + '&paypayAccount=' + encodeURIComponent(accountName)
-          + '&amount='        + encodeURIComponent(amount)
-          + '&email='         + encodeURIComponent(paypayEmail)
-          + '&plan='          + encodeURIComponent(paypayPlan)
-          + '&credit='        + encodeURIComponent(paypayCredit)
-          + '&tshirt='        + encodeURIComponent(paypayTshirt)
-          + '&poster='        + encodeURIComponent(paypayPoster)
-        );
+        // ✅ ここをPOSTに修正（旧コードはGETだったためスプシに入らなかった）
+        const params = new URLSearchParams({
+          action:        'paypay',
+          paypayAccount: accountName,
+          amount:        String(amount),
+          email:         paypayEmail,
+          plan:          paypayPlan,
+          credit:        paypayCredit,
+          tshirt:        paypayTshirt,
+          poster:        paypayPoster,
+        });
+
+        await fetch(GAS_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body:    params.toString(),
+        });
       } catch(e) {
         console.error('paypay submit error:', e);
       }
