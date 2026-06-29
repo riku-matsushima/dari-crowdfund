@@ -1209,8 +1209,8 @@
     document.getElementById('paymentModal').remove();
     const s = state;
     const btn = document.getElementById('payBtn');
-    //const data = { ...collectFormData(), action: 'create', paymethod: 'paypay' };
-    const data = { ...collectFormData(), action: 'paypay', paymethod: 'paypay' };
+    const data = { ...collectFormData(), action: 'create', paymethod: 'paypay' };
+    //const data = { ...collectFormData(), action: 'paypay', paymethod: 'paypay' };
 
     const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
     const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
