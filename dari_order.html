@@ -1112,48 +1112,45 @@ function collectFormData() {
 
   // ─── PayPay フロー（★修正: action を 'paypay' に変更） ───
 async function choosePayPay() {
-  document.getElementById('paymentModal').remove();
-  const s = state;
-  const btn = document.getElementById('payBtn');
+  const paypayAccountInput = document.getElementById('modalPaypayAccount');
+  const paypayAccount = paypayAccountInput ? paypayAccountInput.value.trim() : '';
 
-  // ★ paypayAccountをユーザーに入力させてからデータ送信
-  const paypayAccount = prompt('PayPayのアカウント名（電話番号または登録名）を入力してください：');
-  if (!paypayAccount || paypayAccount.trim() === '') {
-    alert('PayPayアカウント名が入力されていません。');
+  if (!paypayAccount) {
+    alert('PayPayアカウント名を入力してください。');
     return;
   }
 
-  const data = {
-    ...collectFormData(),
-    action: 'paypay',
-    paymethod: 'paypay',
-    paypayAccount: paypayAccount.trim(),
-  };
+  const paypayBtn = document.getElementById('modalPaypayBtn');
+  if (paypayBtn) {
+    paypayBtn.disabled = true;
+    paypayBtn.textContent = '送信中...';
+  }
+
+  document.getElementById('paymentModal').remove();
+
+  const s = state;
+  const btn = document.getElementById('payBtn');
+  const formData = collectFormData();
 
   const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
   const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
 
-  try {
-    btn.disabled = true;
-    btn.textContent = '送信中...';
-    await postToGas(data);
-    window.location.href =
-      `dari_thanks.html?paypay=1` +
-      `&amount=${s.amount}` +
-      `&email=${encodeURIComponent(data.email)}` +
-      `&plan=${encodeURIComponent(data.plan)}` +
-      `&credit=${encodeURIComponent(data.creditName)}` +
-      `&tshirt=${encodeURIComponent(tshirtRaw)}` +
-      `&poster=${encodeURIComponent(posterRaw)}` +
-      `&lastName=${encodeURIComponent(data.lastName)}` +
-      `&firstName=${encodeURIComponent(data.firstName)}` +
-      `&postcode=${encodeURIComponent(data.postcode)}` +
-      `&address1=${encodeURIComponent(data.address1)}` +
-      `&address2=${encodeURIComponent(data.address2)}` +
-      `&phone=${encodeURIComponent(data.phone)}`;
-  } catch (e) {
-    btn.disabled = false;
-    btn.textContent = '支払いへ進む →';
-    alert('エラーが発生しました。\n' + e.message + '\n\n時間をおいて再度お試しください。');
-  }
+  // ★ GASへのPOSTは完全削除。URLパラメータで thanks ページに渡すだけ。
+  btn.disabled = true;
+  btn.textContent = '移動中...';
+
+  window.location.href =
+    `dari_thanks.html?paypay=1` +
+    `&amount=${s.amount}` +
+    `&email=${encodeURIComponent(formData.email)}` +
+    `&plan=${encodeURIComponent(formData.plan)}` +
+    `&creditName=${encodeURIComponent(formData.creditName)}` +
+    `&tshirt=${encodeURIComponent(tshirtRaw)}` +
+    `&poster=${encodeURIComponent(posterRaw)}` +
+    `&lastName=${encodeURIComponent(formData.lastName)}` +
+    `&firstName=${encodeURIComponent(formData.firstName)}` +
+    `&postcode=${encodeURIComponent(formData.postcode)}` +
+    `&address1=${encodeURIComponent(formData.address1)}` +
+    `&address2=${encodeURIComponent(formData.address2)}` +
+    `&phone=${encodeURIComponent(formData.phone)}`;
 }
