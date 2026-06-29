@@ -33,7 +33,6 @@
     letter-spacing: 0.02em;
   }
 
-  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -141,7 +140,6 @@
     background: var(--bg2);
   }
 
-  /* PLAN GRID */
   .plan-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -219,7 +217,6 @@
   .details-title { font-family: var(--mono); font-size: 9px; color: var(--orange); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 700; }
   .details-content { font-weight: 300; line-height: 1.6; }
   
-  /* DIGITAL CONTENT DETAIL BOX */
   .digital-content-box {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
@@ -233,7 +230,6 @@
   .digital-content-box ul li::before { content: '•'; position: absolute; left: 0; color: var(--orange); }
   .digital-content-box .note { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.3; font-weight: 300; }
 
-  /* AMOUNT INPUT */
   .amount-input-wrap { padding: 2.5rem 2rem; }
   .amount-label { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
   .amount-row { display: flex; align-items: center; gap: 0; border: 1px solid var(--line-bold); max-width: 400px; background: #FFFFFF; }
@@ -258,7 +254,6 @@
   .merch-section { border-bottom: 1px solid var(--line); display: none; }
   .merch-section.visible { display: block; }
 
-  /* PRODUCT GRIDS */
   .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-bottom: 1px solid var(--line); }
   .poster-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid var(--line); }
 
@@ -285,7 +280,6 @@
   .product-card.selected { background: var(--bg3); }
   .product-card.selected::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--orange); }
 
-  /* IMAGE CONTAINERS WITH EXACT RATIOS */
   .product-img-placeholder {
     width: 100%;
     display: flex;
@@ -305,7 +299,6 @@
     object-fit: contain;
   }
 
-  /* IMAGE CONTROLS */
   .img-nav-btn {
     position: absolute;
     top: 50%;
@@ -326,7 +319,6 @@
   .img-nav-prev { left: 8px; }
   .img-nav-next { right: 8px; }
 
-  /* IMAGE BOTTOM CONTROLS CONTAINER */
   .img-bottom-controls {
     position: absolute;
     bottom: 10px; right: 10px;
@@ -336,7 +328,6 @@
     z-index: 10;
   }
 
-  /* CARD INLINE COLOR BUTTONS */
   .color-pic-btn {
     font-family: var(--mono);
     font-size: 11px;
@@ -352,10 +343,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: all 0.2s ease;
   }
-  .color-pic-btn:hover {
-    color: var(--text);
-    border-color: var(--text);
-  }
+  .color-pic-btn:hover { color: var(--text); border-color: var(--text); }
   .color-pic-btn.selected {
     background: var(--orange);
     border-color: var(--orange);
@@ -363,7 +351,6 @@
     font-weight: 700;
   }
 
-  /* ENLARGED ZOOM BUTTON */
   .img-zoom-btn {
     background: #111111;
     border: 1px solid #111111;
@@ -409,7 +396,6 @@
   }
   .product-card.selected .product-check { background: var(--orange); border-color: var(--orange); color: #fff; }
 
-  /* SELECTOR ROWS */
   .selector-row {
     padding: 1.2rem 2rem;
     display: flex; align-items: center; gap: 1.5rem;
@@ -428,7 +414,6 @@
   .option-btn:hover { color: var(--text); background: var(--bg2); }
   .option-btn.selected { background: var(--orange); border-color: var(--orange); color: #fff; font-weight: 700; }
 
-  /* SHIPPING FORM */
   .shipping-form { padding: 2.5rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .form-field { display: flex; flex-direction: column; gap: 0.5rem; }
   .form-field.full { grid-column: span 2; }
@@ -436,7 +421,6 @@
   .form-field .field-note { font-family: var(--mono); font-size: 9px; color: var(--orange); letter-spacing: 0.05em; font-weight: 700; margin-top: -0.2rem; }
   .form-field input { background: #FFFFFF; border: 1px solid var(--line); color: var(--text); font-family: var(--display); font-size: 15px; padding: 0.75rem 1rem; outline: none; }
 
-  /* SUMMARY SIDEBAR */
   .summary-header { padding: 2rem; border-bottom: 1px solid var(--line); background: var(--bg2); }
   .summary-title { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
   .summary-plan-name { font-family: var(--display); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; }
@@ -457,7 +441,6 @@
   .pay-btn:hover { background: #333; }
   .pay-btn:disabled { background: var(--line); color: #AAA; cursor: not-allowed; }
 
-  /* LIGHTBOX POPUP */
   .lightbox {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -517,9 +500,7 @@
 </nav>
 
 <div class="page-wrap">
-
   <div class="main-col">
-
     <div class="step-header">
       <div class="step-num">01 — Plan</div>
       <div class="step-title-wrap">
@@ -582,7 +563,6 @@
           <input class="amount-input" type="number" id="amountInput" placeholder="500" min="500" oninput="updateAmount()">
         </div>
         <div class="amount-hint" id="amountHint">プランを選択してください</div>
-        
         <div class="amount-boost-msg">
           <strong>上乗せ支援大歓迎です！ご支援何卒よろしくお願いいたします。</strong>
         </div>
@@ -592,7 +572,6 @@
     <div class="merch-section" id="sectionTshirt">
       <div class="block-label">// STEP 03-A — オリジナルTシャツのデザイン・色・サイズを選択（画像コントロールから直接色を選べます / 🔍で拡大）</div>
       <div class="product-grid">
-        
         <div class="product-card" data-product="tshirt" data-id="ts-1" data-name="NO INSTRUNMENTS WERE HARMED" data-colors="black,white" onclick="handleCardClick(event, 'ts-1', 'NO INSTRUNMENTS WERE HARMED', 'black,white', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder tshirt-ratio" id="img-ts-1">
@@ -608,7 +587,6 @@
           </div>
           <div class="product-info"><div class="product-type">TEE 1</div><div class="product-name">NO INSTRUNMENTS WERE HARMED</div><div class="product-price">黒・白展開</div></div>
         </div>
-
         <div class="product-card" data-product="tshirt" data-id="ts-2" data-name="WE ARE ALL IN ORBITT" data-colors="black,white" onclick="handleCardClick(event, 'ts-2', 'WE ARE ALL IN ORBITT', 'black,white', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder tshirt-ratio" id="img-ts-2">
@@ -624,7 +602,6 @@
           </div>
           <div class="product-info"><div class="product-type">TEE 2</div><div class="product-name">WE ARE ALL IN ORBITT</div><div class="product-price">黒・白展開</div></div>
         </div>
-
         <div class="product-card" data-product="tshirt" data-id="ts-3" data-name="人類は皆、軌道の上" data-colors="black,white,gray" onclick="handleCardClick(event, 'ts-3', '人類は皆、軌道の上', 'black,white,gray', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder tshirt-ratio" id="img-ts-3">
@@ -641,7 +618,6 @@
           </div>
           <div class="product-info"><div class="product-type">TEE 3</div><div class="product-name">人類は皆、軌道の上</div><div class="product-price">黒・白・灰色展開</div></div>
         </div>
-
         <div class="product-card" data-product="tshirt" data-id="ts-4" data-name="album cover" data-colors="black" onclick="handleCardClick(event, 'ts-4', 'album cover', 'black', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder tshirt-ratio" id="img-ts-4">
@@ -656,7 +632,6 @@
           </div>
           <div class="product-info"><div class="product-type">TEE 4</div><div class="product-name">album cover</div><div class="product-price">黒のみ展開</div></div>
         </div>
-
         <div class="product-card" data-product="tshirt" data-id="ts-5" data-name="dari logo" data-colors="black,white,gray" onclick="handleCardClick(event, 'ts-5', 'dari logo', 'black,white,gray', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder tshirt-ratio" id="img-ts-5">
@@ -673,7 +648,6 @@
           </div>
           <div class="product-info"><div class="product-type">TEE 5</div><div class="product-name">dari logo</div><div class="product-price">黒・白・灰色展開</div></div>
         </div>
-
         <div class="product-card" data-product="tshirt" data-id="ts-6" data-name="諸事情によりDAY2は欠席致します" data-colors="black,white" onclick="handleCardClick(event, 'ts-6', '諸事情によりDAY2は欠席致します', 'black,white', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder tshirt-ratio" id="img-ts-6">
@@ -689,9 +663,7 @@
           </div>
           <div class="product-info"><div class="product-type">TEE 6</div><div class="product-name">諸事情によりDAY2は欠席致します</div><div class="product-price">黒・白展開</div></div>
         </div>
-
       </div>
-
       <div class="selector-row" id="tsizeRow" style="display:none">
         <div class="selector-label">// TEE SIZE</div>
         <div class="selector-btns">
@@ -709,9 +681,7 @@
         <div class="product-card" data-product="poster" data-id="p-a" data-name="dari" onclick="selectPosterDesign('p-a', 'dari', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-a">
-            <div class="img-bottom-controls">
-              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-a')">🔍</button>
-            </div>
+            <div class="img-bottom-controls"><button class="img-zoom-btn" onclick="openLightbox(event, 'p-a')">🔍</button></div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 1_00011.webp" alt="dari">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">dari</div></div>
@@ -719,9 +689,7 @@
         <div class="product-card" data-product="poster" data-id="p-b" data-name="Another Way" onclick="selectPosterDesign('p-b', 'Another Way', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-b">
-            <div class="img-bottom-controls">
-              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-b')">🔍</button>
-            </div>
+            <div class="img-bottom-controls"><button class="img-zoom-btn" onclick="openLightbox(event, 'p-b')">🔍</button></div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 2_00011.webp" alt="Another Way">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">Another Way</div></div>
@@ -729,9 +697,7 @@
         <div class="product-card" data-product="poster" data-id="p-c" data-name="unblind" onclick="selectPosterDesign('p-c', 'unblind', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-c">
-            <div class="img-bottom-controls">
-              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-c')">🔍</button>
-            </div>
+            <div class="img-bottom-controls"><button class="img-zoom-btn" onclick="openLightbox(event, 'p-c')">🔍</button></div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 3_00016.webp" alt="unblind">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">unblind</div></div>
@@ -739,15 +705,12 @@
         <div class="product-card" data-product="poster" data-id="p-d" data-name="EARTH" onclick="selectPosterDesign('p-d', 'EARTH', this)">
           <div class="product-check">✓</div>
           <div class="product-img-placeholder poster-ratio" id="img-p-d">
-            <div class="img-bottom-controls">
-              <button class="img-zoom-btn" onclick="openLightbox(event, 'p-d')">🔍</button>
-            </div>
+            <div class="img-bottom-controls"><button class="img-zoom-btn" onclick="openLightbox(event, 'p-d')">🔍</button></div>
             <img src="posterwebp圧縮 - もうちょい大きめ/コンポ 4_00041.webp" alt="EARTH">
           </div>
           <div class="product-info"><div class="product-type">POSTER</div><div class="product-name">EARTH</div></div>
         </div>
       </div>
-
       <div class="selector-row" id="p_sizeRow" style="display:none">
         <div class="selector-label">// POSTER SIZE</div>
         <div class="selector-btns">
@@ -778,9 +741,7 @@
         <div class="form-field full"><label>電話番号</label><input type="tel" placeholder="090-0000-0000" id="phone" oninput="validateForm()"></div>
       </div>
     </div>
-
   </div>
-
 
   <div class="summary-col">
     <div class="summary-header">
@@ -800,7 +761,6 @@
     <button class="pay-btn" id="payBtn" disabled onclick="showPaymentModal()">支払いへ進む →</button>
     <div style="padding:0.5rem 2rem 1.5rem; text-align:center;"><a href="legal.html" style="font-family:var(--mono); font-size:9px; color:var(--muted); text-decoration:underline; letter-spacing:0.05em;">特定商取引法に基づく表記</a></div>
   </div>
-
 </div>
 
 <div class="lightbox" id="lightboxModal" onclick="closeLightbox()">
@@ -814,31 +774,22 @@
 <script>
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbyVTk4Woh9XIq6RGnlUJXDkW9pP7rijyPsUxIO-5EWIYO4lkf8yKyr81bzuzrYsckAN/exec';
 
-  // STATE MANAGEMENT
   const state = {
     plan: null, planMin: 0, planName: '', amount: 0,
     tshirtId: null, tshirtName: '', tshirtColor: 'black', tshirtSize: null,
     posterId: null, posterName: '', posterSize: null
   };
 
-  // T-SHIRT VIEWS MATRIX
   const tshirtViewState = {
-    'ts-1': { viewIndex: 0 },
-    'ts-2': { viewIndex: 0 },
-    'ts-3': { viewIndex: 0 },
-    'ts-4': { viewIndex: 0 },
-    'ts-5': { viewIndex: 0 },
-    'ts-6': { viewIndex: 0 }
+    'ts-1': { viewIndex: 0 }, 'ts-2': { viewIndex: 0 }, 'ts-3': { viewIndex: 0 },
+    'ts-4': { viewIndex: 0 }, 'ts-5': { viewIndex: 0 }, 'ts-6': { viewIndex: 0 }
   };
 
   const viewLabels = ['表裏', '表', '裏'];
 
-  // BUILD DIGITAL REWARDS DYNAMICALLY ON LOAD
   function injectDigitalContentDetails() {
     const htmlTemplate = document.getElementById('digitalDetailsTemplate').innerHTML;
-    document.querySelectorAll('.inject-digital-box').forEach(box => {
-      box.innerHTML = htmlTemplate;
-    });
+    document.querySelectorAll('.inject-digital-box').forEach(box => { box.innerHTML = htmlTemplate; });
   }
 
   function getTshirtImagePath(id) {
@@ -856,15 +807,11 @@
     let suffix = '表裏.jpg';
     if (viewIndex === 1) suffix = '表.jpg';
     if (viewIndex === 2) suffix = '裏.jpg';
-    if (num === '1' && jpColor === '白' && viewIndex === 0) {
-      return `Tシャツ画像webp圧縮/1白両面.jpg`;
-    }
+    if (num === '1' && jpColor === '白' && viewIndex === 0) return `Tシャツ画像webp圧縮/1白両面.jpg`;
     return `Tシャツ画像webp圧縮/${num}${jpColor}${suffix}`;
   }
 
-  function initAllTshirtImages() {
-    Object.keys(tshirtViewState).forEach(id => renderTshirtImage(id));
-  }
+  function initAllTshirtImages() { Object.keys(tshirtViewState).forEach(id => renderTshirtImage(id)); }
 
   function renderTshirtImage(id) {
     const imgEl = document.getElementById(`real-img-${id}`);
@@ -905,35 +852,27 @@
     lightbox.classList.add('visible');
   }
 
-  function closeLightbox() {
-    document.getElementById('lightboxModal').classList.remove('visible');
-  }
+  function closeLightbox() { document.getElementById('lightboxModal').classList.remove('visible'); }
 
   function handleCardClick(event, id, name, colorsCsv, card) {
     if (event.target.tagName === 'BUTTON' || event.target.classList.contains('img-nav-btn') || event.target.classList.contains('color-pic-btn')) return;
     selectTshirtDesign(id, name, colorsCsv, card);
   }
 
-  // PLAN SELECTION
   function selectPlan(card) {
     document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
-
     state.plan = card.dataset.plan;
     state.planMin = parseInt(card.dataset.min);
     state.planName = card.dataset.name;
-
     clearMerchSelection();
-
     const input = document.getElementById('amountInput');
     input.min = state.planMin;
     input.value = state.planMin;
     state.amount = state.planMin;
-
     document.getElementById('amountHint').innerHTML =
       `最低支援金額: <span>¥${state.planMin.toLocaleString()}</span>` +
       ` (これ以上の金額であればいくらでも自由に変更・上乗せしていただけます)`;
-
     renderFlowSections();
     updateSummary();
     validateForm();
@@ -948,18 +887,14 @@
   }
 
   function selectTshirtDesign(id, name, colorsCsv, card) {
-    // ★修正: 別デザインに切り替えたときだけサイズをリセット
     if (state.tshirtId !== id) {
       state.tshirtSize = null;
       document.querySelectorAll('#tsizeRow .option-btn').forEach(b => b.classList.remove('selected'));
     }
-
     document.querySelectorAll('[data-product="tshirt"]').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
-
     state.tshirtId = id;
     state.tshirtName = name;
-
     const activeColorBtn = card.querySelector('.color-pic-btn.selected');
     if (activeColorBtn) {
       state.tshirtColor = activeColorBtn.dataset.color;
@@ -967,9 +902,7 @@
       const colors = colorsCsv.split(',');
       state.tshirtColor = colors.includes('black') ? 'black' : 'white';
     }
-
     document.getElementById('tsizeRow').style.display = 'flex';
-
     initAllTshirtImages();
     updateSummary();
     validateForm();
@@ -1016,7 +949,6 @@
   function clearMerchSelection() {
     state.tshirtId = null; state.tshirtName = ''; state.tshirtColor = 'black'; state.tshirtSize = null;
     state.posterId = null; state.posterName = ''; state.posterSize = null;
-
     document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
     document.querySelectorAll('[data-product="tshirt"]').forEach(card => {
       card.querySelectorAll('.color-pic-btn').forEach((btn, idx) => {
@@ -1024,18 +956,14 @@
         else btn.classList.remove('selected');
       });
     });
-
-    // ★修正: プラン切替時はサイズ選択もリセット
     document.getElementById('tsizeRow').style.display = 'none';
     document.querySelectorAll('#tsizeRow .option-btn').forEach(b => b.classList.remove('selected'));
     document.getElementById('p_sizeRow').style.display = 'none';
     document.querySelectorAll('#p_sizeRow .option-btn').forEach(b => b.classList.remove('selected'));
-
     initAllTshirtImages();
   }
 
   function updateAmount() {
-    // ★修正: 負の値・最低金額未満を入力させない
     let val = parseInt(document.getElementById('amountInput').value) || 0;
     if (val < 0) val = 0;
     state.amount = val;
@@ -1046,11 +974,9 @@
   function updateSummary() {
     const s = state;
     if (!s.plan) return;
-
     document.getElementById('summaryPlanName').textContent = s.planName;
     document.getElementById('sumRowPlan').style.display = 'flex';
     document.getElementById('sumPlan').textContent = s.planName;
-
     if (s.amount >= s.planMin) {
       document.getElementById('sumRowAmount').style.display = 'flex';
       document.getElementById('sumAmount').textContent = `¥${s.amount.toLocaleString()}`;
@@ -1058,7 +984,6 @@
     } else {
       document.getElementById('summaryTotal').textContent = '—';
     }
-
     if ((s.plan === 'merch' || s.plan === 'vip') && s.tshirtId) {
       document.getElementById('sumRowTshirt').style.display = 'flex';
       const colorText = s.tshirtColor === 'white' ? '白' : s.tshirtColor === 'black' ? '黒' : '灰色';
@@ -1066,14 +991,12 @@
     } else {
       document.getElementById('sumRowTshirt').style.display = 'none';
     }
-
     if ((s.plan === 'poster' || s.plan === 'vip') && s.posterId) {
       document.getElementById('sumRowPoster').style.display = 'flex';
       document.getElementById('sumPoster').textContent = `${s.posterName} (${s.posterSize || 'サイズ未選'})`;
     } else {
       document.getElementById('sumRowPoster').style.display = 'none';
     }
-
     document.getElementById('sumRowShipping').style.display =
       (s.plan === 'poster' || s.plan === 'merch' || s.plan === 'vip') ? 'flex' : 'none';
   }
@@ -1081,7 +1004,6 @@
   function validateForm() {
     const s = state;
     const validationMsg = document.getElementById('validationMsg');
-
     if (!s.plan || s.amount < s.planMin) { deactivatePay(); return; }
     if ((s.plan === 'merch' || s.plan === 'vip') && (!s.tshirtId || !s.tshirtColor || !s.tshirtSize)) {
       validationMsg.style.display='block'; deactivatePay(); return;
@@ -1089,7 +1011,6 @@
     if ((s.plan === 'poster' || s.plan === 'vip') && (!s.posterId || !s.posterSize)) {
       validationMsg.style.display='block'; deactivatePay(); return;
     }
-
     const creditName   = document.getElementById('creditName')?.value.trim() || '';
     const email        = document.getElementById('emailInput')?.value.trim() || '';
     const emailConfirm = document.getElementById('emailConfirm')?.value.trim() || '';
@@ -1097,7 +1018,6 @@
     if (!creditName || !email || !emailPattern.test(email) || email !== emailConfirm) {
       validationMsg.style.display='block'; deactivatePay(); return;
     }
-
     if (s.plan === 'poster' || s.plan === 'merch' || s.plan === 'vip') {
       const lastName  = document.getElementById('lastName')?.value.trim() || '';
       const firstName = document.getElementById('firstName')?.value.trim() || '';
@@ -1108,7 +1028,6 @@
         validationMsg.style.display='block'; deactivatePay(); return;
       }
     }
-
     validationMsg.style.display = 'none';
     document.getElementById('payBtn').disabled = false;
   }
@@ -1124,29 +1043,22 @@
   injectDigitalContentDetails();
   initAllTshirtImages();
 
-  // ─── 決済方法選択モーダル ───
   function showPaymentModal() {
     const modal = document.createElement('div');
     modal.id = 'paymentModal';
-    modal.style.cssText = `
-      position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000;
-      display:flex; align-items:center; justify-content:center; padding:1rem;
-    `;
+    modal.style.cssText = `position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; padding:1rem;`;
     const btnStyle = `display:block; width:100%; padding:1.1rem; margin-bottom:0.75rem; background:#111; border:1px solid #111; color:#fff; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;`;
     modal.innerHTML = `
       <div style="background:#fff; max-width:460px; width:100%; border:1px solid #111; padding:2.5rem;">
         <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">// 決済方法を選択</div>
         <button onclick="choosePayPal()" style="${btnStyle}">PayPal で支払う →</button>
         <button onclick="choosePayPay()" style="${btnStyle}">PayPay で支払う →</button>
-        <button onclick="document.getElementById('paymentModal').remove()" style="display:block; width:100%; padding:0.6rem; margin-top:0.5rem; background:transparent; border:none; color:#aaa; font-family:'Space Mono',monospace; font-size:9px; cursor:pointer;">
-          キャンセル
-        </button>
+        <button onclick="document.getElementById('paymentModal').remove()" style="display:block; width:100%; padding:0.6rem; margin-top:0.5rem; background:transparent; border:none; color:#aaa; font-family:'Space Mono',monospace; font-size:9px; cursor:pointer;">キャンセル</button>
       </div>
     `;
     document.body.appendChild(modal);
   }
 
-  // ─── 共通データ収集 ───
   function collectFormData() {
     const s = state;
     return {
@@ -1168,7 +1080,6 @@
     };
   }
 
-  // ─── ★ POST送信ヘルパー（GETからPOSTに変更） ───
   async function postToGas(data) {
     const params = new URLSearchParams(data);
     const res = await fetch(GAS_URL, {
@@ -1184,14 +1095,10 @@
     document.getElementById('paymentModal').remove();
     const btn = document.getElementById('payBtn');
     const data = { ...collectFormData(), action: 'create', paymethod: 'paypal' };
-
     try {
       btn.disabled = true;
       btn.textContent = '送信中...';
-
-      // ★ POST で送信（個人情報をURLに乗せない）
       const json = await postToGas(data);
-
       if (json.result === 'success' && json.url) {
         window.location.href = json.url;
       } else {
@@ -1204,13 +1111,12 @@
     }
   }
 
-  // ─── PayPay フロー ───
+  // ─── PayPay フロー（★修正: action を 'paypay' に変更） ───
   async function choosePayPay() {
     document.getElementById('paymentModal').remove();
     const s = state;
     const btn = document.getElementById('payBtn');
-    const data = { ...collectFormData(), action: 'create', paymethod: 'paypay' };
-    //const data = { ...collectFormData(), action: 'paypay', paymethod: 'paypay' };
+    const data = { ...collectFormData(), action: 'paypay', paymethod: 'paypay' };  // ★ ここを修正
 
     const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
     const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
@@ -1218,10 +1124,7 @@
     try {
       btn.disabled = true;
       btn.textContent = '送信中...';
-
-      // ★ POST で送信
       await postToGas(data);
-
       window.location.href =
         `dari_thanks.html?paypay=1` +
         `&amount=${s.amount}` +
