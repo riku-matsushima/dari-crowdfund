@@ -483,6 +483,84 @@
     text-align: center; color: #AAAAAA; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
   }
 
+  /* 決済モーダル */
+  .payment-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .payment-modal-box {
+    background: #fff;
+    max-width: 460px;
+    width: 100%;
+    border: 1px solid #111;
+    padding: 2.5rem;
+  }
+  .payment-modal-title {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #777;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .payment-modal-btn {
+    display: block;
+    width: 100%;
+    padding: 1.1rem;
+    margin-bottom: 0.75rem;
+    background: #111;
+    border: 1px solid #111;
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .payment-modal-btn:hover { background: #333; }
+  .payment-modal-divider {
+    border-top: 1px solid #eee;
+    margin: 1rem 0;
+  }
+  .payment-modal-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #777;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .payment-modal-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    font-family: var(--display);
+    font-size: 15px;
+    margin-bottom: 0.75rem;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .payment-modal-cancel {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-family: var(--mono);
+    font-size: 9px;
+    cursor: pointer;
+  }
+
   @media (max-width: 900px) {
     .page-wrap { grid-template-columns: 1fr; }
     .summary-col { position: static; height: auto; border-top: 2px solid var(--line-bold); }
@@ -1006,17 +1084,17 @@
     const validationMsg = document.getElementById('validationMsg');
     if (!s.plan || s.amount < s.planMin) { deactivatePay(); return; }
     if ((s.plan === 'merch' || s.plan === 'vip') && (!s.tshirtId || !s.tshirtColor || !s.tshirtSize)) {
-      validationMsg.style.display='block'; deactivatePay(); return;
+      validationMsg.style.display = 'block'; deactivatePay(); return;
     }
     if ((s.plan === 'poster' || s.plan === 'vip') && (!s.posterId || !s.posterSize)) {
-      validationMsg.style.display='block'; deactivatePay(); return;
+      validationMsg.style.display = 'block'; deactivatePay(); return;
     }
     const creditName   = document.getElementById('creditName')?.value.trim() || '';
     const email        = document.getElementById('emailInput')?.value.trim() || '';
     const emailConfirm = document.getElementById('emailConfirm')?.value.trim() || '';
     const emailPattern = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{2,}$/;
     if (!creditName || !email || !emailPattern.test(email) || email !== emailConfirm) {
-      validationMsg.style.display='block'; deactivatePay(); return;
+      validationMsg.style.display = 'block'; deactivatePay(); return;
     }
     if (s.plan === 'poster' || s.plan === 'merch' || s.plan === 'vip') {
       const lastName  = document.getElementById('lastName')?.value.trim() || '';
@@ -1024,8 +1102,9 @@
       const postcode  = document.getElementById('postcode')?.value.trim() || '';
       const address1  = document.getElementById('address1')?.value.trim() || '';
       const address2  = document.getElementById('address2')?.value.trim() || '';
-      if (!lastName || !firstName || !postcode || !address1 || !address2) {
-        validationMsg.style.display='block'; deactivatePay(); return;
+      const phone     = document.getElementById('phone')?.value.trim() || '';
+      if (!lastName || !firstName || !postcode || !address1 || !address2 || !phone) {
+        validationMsg.style.display = 'block'; deactivatePay(); return;
       }
     }
     validationMsg.style.display = 'none';
@@ -1035,60 +1114,30 @@
   function deactivatePay() { document.getElementById('payBtn').disabled = true; }
 
   function formatPostcode(i) {
-    let v = i.value.replace(/[^0-9]/g,'');
-    if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3,7);
+    let v = i.value.replace(/[^0-9]/g, '');
+    if (v.length > 3) v = v.slice(0, 3) + '-' + v.slice(3, 7);
     i.value = v;
   }
 
-  injectDigitalContentDetails();
-  initAllTshirtImages();
-
-function showPaymentModal() {
-  const modal = document.createElement('div');
-  modal.id = 'paymentModal';
-  modal.style.cssText = `position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; padding:1rem;`;
-
-  const btnStyle = `display:block; width:100%; padding:1.1rem; margin-bottom:0.75rem; background:#111; border:1px solid #111; color:#fff; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;`;
-  const inputStyle = `width:100%; padding:0.75rem 1rem; border:1px solid #ccc; font-family:'Inter',sans-serif; font-size:15px; margin-bottom:0.75rem; outline:none; box-sizing:border-box;`;
-  const labelStyle = `display:block; font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.4rem;`;
-
-  modal.innerHTML = `
-    <div style="background:#fff; max-width:460px; width:100%; border:1px solid #111; padding:2.5rem;">
-      <div style="font-family:'Space Mono',monospace; font-size:9px; color:#777; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1.5rem;">// 決済方法を選択</div>
-
-      <button id="modalPaypalBtn" onclick="choosePayPal()" style="${btnStyle}">PayPal で支払う →</button>
-
-      <div style="border-top:1px solid #eee; margin:1rem 0;"></div>
-
-      <label style="${labelStyle}">PayPay アカウント名（送金後に確認に使います）</label>
-      <input id="modalPaypayAccount" type="text" placeholder="例: 090-0000-0000 / 山田太郎" style="${inputStyle}">
-      <button id="modalPaypayBtn" onclick="choosePayPay()" style="${btnStyle}">PayPay で支払う →</button>
-
-      <button onclick="document.getElementById('paymentModal').remove()" style="display:block; width:100%; padding:0.6rem; margin-top:0.5rem; background:transparent; border:none; color:#aaa; font-family:'Space Mono',monospace; font-size:9px; cursor:pointer;">キャンセル</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-function collectFormData() {
-  const s = state;
-  return {
-    timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
-    planKey:    s.plan,
-    plan:       s.planName,
-    amount:     s.amount,
-    creditName: document.getElementById('creditName')?.value || '',
-    tshirt:     s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '',
-    poster:     s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '',
-    lastName:   document.getElementById('lastName')?.value  || '',  // ★ 追加
-    firstName:  document.getElementById('firstName')?.value || '',  // ★ 追加
-    postcode:   document.getElementById('postcode')?.value  || '',  // ★ 追加
-    address1:   document.getElementById('address1')?.value  || '',  // ★ 追加
-    address2:   document.getElementById('address2')?.value  || '',  // ★ 追加
-    phone:      document.getElementById('phone')?.value     || '',  // ★ 追加
-    email:      document.getElementById('emailInput')?.value || '',
-  };
-}
-
+  function collectFormData() {
+    const s = state;
+    return {
+      timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
+      planKey:    s.plan,
+      plan:       s.planName,
+      amount:     s.amount,
+      creditName: document.getElementById('creditName')?.value || '',
+      tshirt:     s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '',
+      poster:     s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '',
+      lastName:   document.getElementById('lastName')?.value  || '',
+      firstName:  document.getElementById('firstName')?.value || '',
+      postcode:   document.getElementById('postcode')?.value  || '',
+      address1:   document.getElementById('address1')?.value  || '',
+      address2:   document.getElementById('address2')?.value  || '',
+      phone:      document.getElementById('phone')?.value     || '',
+      email:      document.getElementById('emailInput')?.value || '',
+    };
+  }
 
   async function postToGas(data) {
     const params = new URLSearchParams(data);
@@ -1100,9 +1149,63 @@ function collectFormData() {
     return await res.json();
   }
 
-  // ─── PayPal フロー ───
+  // ── 決済モーダル（★ innerHTML + onclick 廃止 → addEventListener に変更）──
+  function showPaymentModal() {
+    const modal = document.createElement('div');
+    modal.id = 'paymentModal';
+    modal.className = 'payment-modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'payment-modal-box';
+
+    const title = document.createElement('div');
+    title.className = 'payment-modal-title';
+    title.textContent = '// 決済方法を選択';
+
+    const paypalBtn = document.createElement('button');
+    paypalBtn.className = 'payment-modal-btn';
+    paypalBtn.textContent = 'PayPal で支払う →';
+
+    const divider = document.createElement('div');
+    divider.className = 'payment-modal-divider';
+
+    const paypayLabel = document.createElement('label');
+    paypayLabel.className = 'payment-modal-label';
+    paypayLabel.textContent = 'PayPay アカウント名（送金後に確認に使います）';
+
+    const paypayInput = document.createElement('input');
+    paypayInput.id = 'modalPaypayAccount';
+    paypayInput.type = 'text';
+    paypayInput.placeholder = '例: 090-0000-0000 / 山田太郎';
+    paypayInput.className = 'payment-modal-input';
+
+    const paypayBtn = document.createElement('button');
+    paypayBtn.className = 'payment-modal-btn';
+    paypayBtn.textContent = 'PayPay で支払う →';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'payment-modal-cancel';
+    cancelBtn.textContent = 'キャンセル';
+
+    // ★ addEventListener で登録（onclick文字列ではない）
+    paypalBtn.addEventListener('click', () => choosePayPal());
+    paypayBtn.addEventListener('click', () => choosePayPay());
+    cancelBtn.addEventListener('click', () => modal.remove());
+
+    box.appendChild(title);
+    box.appendChild(paypalBtn);
+    box.appendChild(divider);
+    box.appendChild(paypayLabel);
+    box.appendChild(paypayInput);
+    box.appendChild(paypayBtn);
+    box.appendChild(cancelBtn);
+    modal.appendChild(box);
+    document.body.appendChild(modal);
+  }
+
+  // ── PayPal フロー ──
   async function choosePayPal() {
-    document.getElementById('paymentModal').remove();
+    document.getElementById('paymentModal')?.remove();
     const btn = document.getElementById('payBtn');
     const data = { ...collectFormData(), action: 'create', paymethod: 'paypal' };
     try {
@@ -1121,47 +1224,45 @@ function collectFormData() {
     }
   }
 
-  // ─── PayPay フロー（★修正: action を 'paypay' に変更） ───
-async function choosePayPay() {
-  const paypayAccountInput = document.getElementById('modalPaypayAccount');
-  const paypayAccount = paypayAccountInput ? paypayAccountInput.value.trim() : '';
+  // ── PayPay フロー ──
+  async function choosePayPay() {
+    const paypayInput = document.getElementById('modalPaypayAccount');
+    const paypayAccount = paypayInput ? paypayInput.value.trim() : '';
 
-  if (!paypayAccount) {
-    alert('PayPayアカウント名を入力してください。');
-    return;
+    if (!paypayAccount) {
+      alert('PayPayアカウント名を入力してください。');
+      return;
+    }
+
+    document.getElementById('paymentModal')?.remove();
+
+    const btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.textContent = '移動中...';
+
+    const s = state;
+    const formData = collectFormData();
+
+    // ★ collectFormData() の結果をそのまま使う（二重構築をなくす）
+    window.location.href =
+      `dari_thanks.html?paypay=1` +
+      `&amount=${s.amount}` +
+      `&email=${encodeURIComponent(formData.email)}` +
+      `&plan=${encodeURIComponent(formData.plan)}` +
+      `&creditName=${encodeURIComponent(formData.creditName)}` +
+      `&tshirt=${encodeURIComponent(formData.tshirt)}` +
+      `&poster=${encodeURIComponent(formData.poster)}` +
+      `&lastName=${encodeURIComponent(formData.lastName)}` +
+      `&firstName=${encodeURIComponent(formData.firstName)}` +
+      `&postcode=${encodeURIComponent(formData.postcode)}` +
+      `&address1=${encodeURIComponent(formData.address1)}` +
+      `&address2=${encodeURIComponent(formData.address2)}` +
+      `&phone=${encodeURIComponent(formData.phone)}` +
+      `&paypayAccount=${encodeURIComponent(paypayAccount)}`;
   }
 
-  const paypayBtn = document.getElementById('modalPaypayBtn');
-  if (paypayBtn) {
-    paypayBtn.disabled = true;
-    paypayBtn.textContent = '送信中...';
-  }
-
-  document.getElementById('paymentModal').remove();
-
-  const s = state;
-  const btn = document.getElementById('payBtn');
-  const formData = collectFormData();
-
-  const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
-  const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
-
-  // ★ GASへのPOSTは完全削除。URLパラメータで thanks ページに渡すだけ。
-  btn.disabled = true;
-  btn.textContent = '移動中...';
-
-  window.location.href =
-    `dari_thanks.html?paypay=1` +
-    `&amount=${s.amount}` +
-    `&email=${encodeURIComponent(formData.email)}` +
-    `&plan=${encodeURIComponent(formData.plan)}` +
-    `&creditName=${encodeURIComponent(formData.creditName)}` +
-    `&tshirt=${encodeURIComponent(tshirtRaw)}` +
-    `&poster=${encodeURIComponent(posterRaw)}` +
-    `&lastName=${encodeURIComponent(formData.lastName)}` +
-    `&firstName=${encodeURIComponent(formData.firstName)}` +
-    `&postcode=${encodeURIComponent(formData.postcode)}` +
-    `&address1=${encodeURIComponent(formData.address1)}` +
-    `&address2=${encodeURIComponent(formData.address2)}` +
-    `&phone=${encodeURIComponent(formData.phone)}`;
-}
+  injectDigitalContentDetails();
+  initAllTshirtImages();
+</script>
+</body>
+</html>
