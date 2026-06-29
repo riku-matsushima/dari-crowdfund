@@ -256,13 +256,7 @@ header .inner { display: flex; align-items: center; gap: 32px; }
     <div class="banner">
       <div class="banner-text">EXCLUSIVE MEMBERS CONTENT</div>
     </div>
-    <div class="profile-row">
-      <div class="avatar">R</div>
-      <div>
-        <div class="profile-name">Riku Matsushima</div>
-        <div class="profile-sub">限定コンテンツ</div>
-      </div>
-    </div>
+
     <div class="layout">
       <div class="feed">
         <div id="posts-container">
@@ -519,7 +513,9 @@ function getPostData(post) {
   const isNew = (new Date() - postDate) / (1000*60*60*24) <= 3;
   const dateLabel = postDate.toLocaleDateString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit' }).replace(/\//g,'.');
   const imageUrls = extractImageUrls(props);
-  return { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls };
+  const author = props.投稿者?.rich_text?.[0]?.plain_text || props.Author?.rich_text?.[0]?.plain_text || 'ORBITT';
+  const authorInitial = author.slice(0,2).toUpperCase();
+  return { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls, author, authorInitial };
 }
 
 function extractImageUrls(props) {
@@ -544,7 +540,7 @@ function renderPosts(posts) {
     return;
   }
   container.innerHTML = posts.map((post, idx) => {
-    const { title, type, body, videoUrl, dateLabel, isNew, imageUrls } = getPostData(post);
+    const { title, type, body, videoUrl, dateLabel, isNew, imageUrls, author, authorInitial } = getPostData(post);
     const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>動画あり</div>` : '';
     const previewText = body ? `<div class="post-preview">${escHtml(body)}</div>` : '';
     const imgPreview = imageUrls.length
@@ -557,9 +553,9 @@ function renderPosts(posts) {
     return `
       <div class="post-card" data-type="${type}" onclick="openModal(${idx})">
         <div class="post-meta">
-          <div class="post-av">R</div>
+          <div class="post-av">${authorInitial}</div>
           <div>
-            <div class="post-name">Riku ${isNew ? '<span style="font-size:10px;color:#ff3366;font-family:Space Mono,monospace;margin-left:6px">NEW</span>' : ''}</div>
+            <div class="post-name">${escHtml(author)} ${isNew ? '<span style="font-size:10px;color:#ff3366;font-family:Space Mono,monospace;margin-left:6px">NEW</span>' : ''}</div>
             <div class="post-date">${dateLabel}</div>
           </div>
           ${type ? `<div class="post-type">${type}</div>` : ''}
@@ -581,7 +577,7 @@ function openModal(idx) {
   const post = allPosts[idx];
   if (!post) return;
   currentPostId = post.id;
-  const { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls } = getPostData(post);
+  const { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls, author, authorInitial } = getPostData(post);
 
   const videoSection = videoUrl ? `
     <a href="${videoUrl}" target="_blank" class="modal-video-link">
@@ -604,9 +600,9 @@ function openModal(idx) {
 
   document.getElementById('modal-content').innerHTML = `
     <div class="modal-meta">
-      <div class="modal-av">R</div>
+      <div class="modal-av">${authorInitial}</div>
       <div>
-        <div class="modal-name">Riku ${isNew ? '<span style="font-size:10px;color:#ff3366;font-family:Space Mono,monospace;margin-left:6px">NEW</span>' : ''}</div>
+        <div class="modal-name">${escHtml(author)} ${isNew ? '<span style="font-size:10px;color:#ff3366;font-family:Space Mono,monospace;margin-left:6px">NEW</span>' : ''}</div>
         <div class="modal-date">${dateLabel}</div>
       </div>
       ${type ? `<div class="modal-type">${type}</div>` : ''}
