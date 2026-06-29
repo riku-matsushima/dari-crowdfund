@@ -563,7 +563,7 @@ function renderPosts(posts) {
   container.innerHTML = posts.map((post, idx) => {
     const { title, type, body, videoUrl, dateLabel, isNew, imageUrls, author, authorInitial, freeVisible } = getPostData(post);
     const locked = isGuest() && !freeVisible;
-    const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>動画あり</div>` : '';
+    const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>ファイルあり</div>` : '';
     const previewText = body ? `<div class="post-preview">${escHtml(body)}</div>` : '';
     const imgPreview = imageUrls.length
       ? `<div class="post-image">
