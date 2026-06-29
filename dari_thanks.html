@@ -854,6 +854,12 @@
           credit:        paypayCredit,
           tshirt:        paypayTshirt,
           poster:        paypayPoster,
+          lastName:  urlParams.get('lastName')  || '',
+          firstName: urlParams.get('firstName') || '',
+          postcode:  urlParams.get('postcode')  || '',
+          address1:  urlParams.get('address1')  || '',
+          address2:  urlParams.get('address2')  || '',
+          phone:     urlParams.get('phone')     || '',
         });
 
         await fetch(GAS_URL, {
