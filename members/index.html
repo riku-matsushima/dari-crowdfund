@@ -541,7 +541,7 @@ function renderPosts(posts) {
   }
   container.innerHTML = posts.map((post, idx) => {
     const { title, type, body, videoUrl, dateLabel, isNew, imageUrls, author, authorInitial } = getPostData(post);
-    const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>動画あり</div>` : '';
+    const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>ファイルあり</div>` : '';
     const previewText = body ? `<div class="post-preview">${escHtml(body)}</div>` : '';
     const imgPreview = imageUrls.length
       ? `<div class="post-image">
@@ -584,7 +584,7 @@ function openModal(idx) {
       <div class="modal-play-icon">
         <svg width="13" height="15" viewBox="0 0 12 14" fill="none"><path d="M1 1L11 7L1 13V1Z" fill="#0a00cc"/></svg>
       </div>
-      <span>動画を見る</span>
+      <span>中身を見る</span>
     </a>` : '';
 
   let imagesSection = '';
