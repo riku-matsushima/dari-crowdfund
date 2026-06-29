@@ -790,15 +790,9 @@
   // ─────────────────────────────────────────────
   // PayPay オーバーレイ
   // ─────────────────────────────────────────────
-  function buildPayPayOverlay() {
-    const amount       = parseInt(urlParams.get('amount') || '0');
-    const paypayEmail  = urlParams.get('email')  || '';
-    const paypayPlan   = urlParams.get('plan')   || '';
-    const paypayCredit = urlParams.get('credit') || '';
-    const paypayTshirt = urlParams.get('tshirt') || '';
-    const paypayPoster = urlParams.get('poster') || '';
-
-    const overlay = document.createElement('div');
+function buildPayPayOverlay() {
+  const amount = parseInt(urlParams.get('amount') || '0');
+  const overlay = document.createElement('div');
     overlay.id = 'paypay-overlay';
     overlay.innerHTML = `
       <div class="ov-left">
@@ -845,37 +839,19 @@
 
       try {
         // ✅ ここをPOSTに修正（旧コードはGETだったためスプシに入らなかった）
-        const params = new URLSearchParams({
-          action:        'paypay',
-          paypayAccount: accountName,
-          amount:        String(amount),
-          email:         paypayEmail,
-          plan:          paypayPlan,
-          credit:        paypayCredit,
-          tshirt:        paypayTshirt,
-          poster:        paypayPoster,
-          lastName:  urlParams.get('lastName')  || '',
-          firstName: urlParams.get('firstName') || '',
-          postcode:  urlParams.get('postcode')  || '',
-          address1:  urlParams.get('address1')  || '',
-          address2:  urlParams.get('address2')  || '',
-          phone:     urlParams.get('phone')     || '',
-        });
-
-        await fetch(GAS_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body:    params.toString(),
-        });
-      } catch(e) {
-        console.error('paypay submit error:', e);
-      }
-
-      overlay.style.transition = 'opacity 0.4s';
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.remove(), 400);
-    });
-  }
-</script>
-</body>
-</html>
+const params = new URLSearchParams({
+  action:        'paypay',
+  paypayAccount: accountName,
+  amount:        String(amount),
+  email:         urlParams.get('email')      || '',
+  plan:          urlParams.get('plan')       || '',
+  creditName:    urlParams.get('creditName') || '',  // ★ credit → creditName
+  tshirt:        urlParams.get('tshirt')     || '',
+  poster:        urlParams.get('poster')     || '',
+  lastName:      urlParams.get('lastName')   || '',
+  firstName:     urlParams.get('firstName')  || '',
+  postcode:      urlParams.get('postcode')   || '',
+  address1:      urlParams.get('address1')   || '',
+  address2:      urlParams.get('address2')   || '',
+  phone:         urlParams.get('phone')      || '',
+});
