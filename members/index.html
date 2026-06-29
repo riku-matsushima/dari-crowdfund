@@ -238,6 +238,7 @@ header .inner { display: flex; align-items: center; gap: 32px; }
     <input type="password" id="pw-input" placeholder="パスワードを入力" />
     <div class="login-err" id="login-err">パスワードが違います</div>
     <button id="login-btn" onclick="tryLogin()">入る</button>
+    <button id="guest-btn" onclick="enterAsGuest()" style="width:100%;background:transparent;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;font-size:12px;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:1px;transition:all 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">無料ゲストとして入室</button>
   </div>
 </div>
 
@@ -266,7 +267,7 @@ header .inner { display: flex; align-items: center; gap: 32px; }
       <div class="sidebar">
         <div class="sb-card">
           <div class="sb-label">プラン</div>
-          <div class="sb-plan"><div class="plan-dot"></div><span>Premium</span></div>
+          <div class="sb-plan"><div class="plan-dot" id="plan-dot"></div><span id="plan-label">Premium</span></div>
         </div>
         <div class="sb-card">
           <div class="sb-label">投稿数</div>
@@ -387,7 +388,18 @@ function isLoggedIn() {
   return sessionStorage.getItem('orbitt_auth') === 'ok';
 }
 
-if (isLoggedIn()) {
+function isGuest() {
+  return sessionStorage.getItem('orbitt_auth') === 'guest';
+}
+
+function enterAsGuest() {
+  sessionStorage.setItem('orbitt_auth', 'guest');
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('site').style.display = 'block';
+  loadPosts();
+}
+
+if (isLoggedIn() || isGuest()) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('site').style.display = 'block';
   loadPosts();
@@ -437,8 +449,16 @@ async function loadPosts() {
     const res = await fetch('https://script.google.com/macros/s/AKfycbwMDk0Q04vZDiZ_omfewS4UVyh9UB03X8rLs-HVuCB_E99M1_F7_Wn-3zZedKsx2Q/exec?action=notion');
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
-    allPosts = data.results || [];
+    allPosts = (data.results || []).sort((a, b) => {
+      const oa = a.properties?.Order?.number ?? 9999;
+      const ob = b.properties?.Order?.number ?? 9999;
+      return oa - ob;
+    });
     document.getElementById('post-count').textContent = allPosts.length;
+    if (isGuest()) {
+      document.getElementById('plan-label').textContent = 'Free';
+      document.getElementById('plan-dot').style.background = '#aaaaaa';
+    }
     renderPosts(allPosts);
     loadAllCommentCounts();
   } catch (e) {
@@ -515,7 +535,8 @@ function getPostData(post) {
   const imageUrls = extractImageUrls(props);
   const author = props.投稿者?.rich_text?.[0]?.plain_text || props.Author?.rich_text?.[0]?.plain_text || 'ORBITT';
   const authorInitial = author.slice(0,2).toUpperCase();
-  return { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls, author, authorInitial };
+  const freeVisible = props.FreeVisible?.checkbox === true;
+  return { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls, author, authorInitial, freeVisible };
 }
 
 function extractImageUrls(props) {
@@ -540,8 +561,9 @@ function renderPosts(posts) {
     return;
   }
   container.innerHTML = posts.map((post, idx) => {
-    const { title, type, body, videoUrl, dateLabel, isNew, imageUrls, author, authorInitial } = getPostData(post);
-    const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>ファイルあり</div>` : '';
+    const { title, type, body, videoUrl, dateLabel, isNew, imageUrls, author, authorInitial, freeVisible } = getPostData(post);
+    const locked = isGuest() && !freeVisible;
+    const videoBadge = videoUrl ? `<div class="video-badge"><div class="play-dot"></div>動画あり</div>` : '';
     const previewText = body ? `<div class="post-preview">${escHtml(body)}</div>` : '';
     const imgPreview = imageUrls.length
       ? `<div class="post-image">
@@ -550,23 +572,24 @@ function renderPosts(posts) {
         </div>` : '';
     const count = commentCounts[post.id] || 0;
     const countLabel = count > 0 ? `💬 ${count}` : '💬 0';
+    const lockBadge = locked ? `<span style="font-size:10px;font-family:'Space Mono',monospace;background:rgba(255,51,102,0.15);border:1px solid rgba(255,51,102,0.4);color:#ff3366;padding:2px 8px;border-radius:20px;margin-left:auto;">🔒 MEMBER</span>` : '';
     return `
-      <div class="post-card" data-type="${type}" onclick="openModal(${idx})">
+      <div class="post-card" data-type="${type}" onclick="openModal(${idx})" style="${locked ? 'opacity:0.75;' : ''}">
         <div class="post-meta">
           <div class="post-av">${authorInitial}</div>
           <div>
             <div class="post-name">${escHtml(author)} ${isNew ? '<span style="font-size:10px;color:#ff3366;font-family:Space Mono,monospace;margin-left:6px">NEW</span>' : ''}</div>
             <div class="post-date">${dateLabel}</div>
           </div>
-          ${type ? `<div class="post-type">${type}</div>` : ''}
+          ${lockBadge || (type ? `<div class="post-type">${type}</div>` : '')}
         </div>
         ${imgPreview}
         <div class="post-title">${escHtml(title)}</div>
-        ${videoBadge}
-        ${previewText}
+        ${locked ? '' : videoBadge}
+        ${locked ? '' : previewText}
         <div class="post-footer">
           <span class="comment-count-badge ${count > 0 ? 'has-comments' : ''}" data-postid="${post.id}">${countLabel}</span>
-          <span class="read-more">続きを読む →</span>
+          <span class="read-more">${locked ? '🔒 メンバー限定' : '続きを読む →'}</span>
         </div>
       </div>`;
   }).join('');
@@ -577,14 +600,45 @@ function openModal(idx) {
   const post = allPosts[idx];
   if (!post) return;
   currentPostId = post.id;
-  const { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls, author, authorInitial } = getPostData(post);
+  const { title, type, body, bodyHtml, videoUrl, notionUrl, dateLabel, isNew, imageUrls, author, authorInitial, freeVisible } = getPostData(post);
+  const locked = isGuest() && !freeVisible;
+
+  // ゲストでロックされてる場合はロック画面を表示
+  if (locked) {
+    document.getElementById('modal-content').innerHTML = `
+      <div class="modal-meta">
+        <div class="modal-av">${authorInitial}</div>
+        <div>
+          <div class="modal-name">${escHtml(author)}</div>
+          <div class="modal-date">${dateLabel}</div>
+        </div>
+        <div class="modal-type">🔒 MEMBER</div>
+      </div>
+      <div class="modal-title">${escHtml(title)}</div>
+      <div class="modal-divider"></div>
+      <div style="text-align:center;padding:48px 24px;color:rgba(255,255,255,0.4);">
+        <div style="font-size:40px;margin-bottom:16px;">🔒</div>
+        <div style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:2px;margin-bottom:8px;">MEMBERS ONLY</div>
+        <div style="font-size:13px;margin-bottom:24px;">このコンテンツはメンバー限定です</div>
+        <button onclick="closeModal();document.getElementById('login-screen').style.display='flex';document.getElementById('site').style.display='none';sessionStorage.removeItem('orbitt_auth');" style="background:white;color:#020080;border:none;border-radius:8px;padding:10px 24px;font-size:12px;font-family:'Space Mono',monospace;cursor:pointer;letter-spacing:1px;">メンバーとしてログイン</button>
+      </div>
+    `;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.getElementById('modal-overlay').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('comments-list').innerHTML = '';
+    document.getElementById('comment-form') && (document.getElementById('comment-form').style.display = 'none');
+    return;
+  }
+
+  document.getElementById('comment-form') && (document.getElementById('comment-form').style.display = '');
 
   const videoSection = videoUrl ? `
     <a href="${videoUrl}" target="_blank" class="modal-video-link">
       <div class="modal-play-icon">
         <svg width="13" height="15" viewBox="0 0 12 14" fill="none"><path d="M1 1L11 7L1 13V1Z" fill="#0a00cc"/></svg>
       </div>
-      <span>中身を見る</span>
+      <span>動画を見る</span>
     </a>` : '';
 
   let imagesSection = '';
