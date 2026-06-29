@@ -1229,7 +1229,13 @@
         `&plan=${encodeURIComponent(data.plan)}` +
         `&credit=${encodeURIComponent(data.creditName)}` +
         `&tshirt=${encodeURIComponent(tshirtRaw)}` +
-        `&poster=${encodeURIComponent(posterRaw)}`;
+        `&poster=${encodeURIComponent(posterRaw)}` +
+        `&lastName=${encodeURIComponent(data.lastName)}` +
+        `&firstName=${encodeURIComponent(data.firstName)}` +
+        `&postcode=${encodeURIComponent(data.postcode)}` +
+        `&address1=${encodeURIComponent(data.address1)}` +
+        `&address2=${encodeURIComponent(data.address2)}` +
+        `&phone=${encodeURIComponent(data.phone)}`;
     } catch (e) {
       btn.disabled = false;
       btn.textContent = '支払いへ進む →';
