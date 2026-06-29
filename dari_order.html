@@ -1058,27 +1058,26 @@
     `;
     document.body.appendChild(modal);
   }
+function collectFormData() {
+  const s = state;
+  return {
+    timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
+    planKey:    s.plan,
+    plan:       s.planName,
+    amount:     s.amount,
+    creditName: document.getElementById('creditName')?.value || '',
+    tshirt:     s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '',
+    poster:     s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '',
+    lastName:   document.getElementById('lastName')?.value  || '',  // ★ 追加
+    firstName:  document.getElementById('firstName')?.value || '',  // ★ 追加
+    postcode:   document.getElementById('postcode')?.value  || '',  // ★ 追加
+    address1:   document.getElementById('address1')?.value  || '',  // ★ 追加
+    address2:   document.getElementById('address2')?.value  || '',  // ★ 追加
+    phone:      document.getElementById('phone')?.value     || '',  // ★ 追加
+    email:      document.getElementById('emailInput')?.value || '',
+  };
+}
 
-  function collectFormData() {
-    const s = state;
-    return {
-      timestamp:  new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }),
-      planKey:    s.plan,
-      plan:       s.planName,
-      amount:     s.amount,
-      creditName: document.getElementById('creditName')?.value || '',
-      tshirt:     s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '',
-      hoodie:     '',
-      poster:     s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '',
-      lastName:   document.getElementById('lastName')?.value || '',
-      firstName:  document.getElementById('firstName')?.value || '',
-      postcode:   document.getElementById('postcode')?.value || '',
-      address1:   document.getElementById('address1')?.value || '',
-      address2:   document.getElementById('address2')?.value || '',
-      phone:      document.getElementById('phone')?.value || '',
-      email:      document.getElementById('emailInput')?.value || '',
-    };
-  }
 
   async function postToGas(data) {
     const params = new URLSearchParams(data);
@@ -1112,39 +1111,49 @@
   }
 
   // ─── PayPay フロー（★修正: action を 'paypay' に変更） ───
-  async function choosePayPay() {
-    document.getElementById('paymentModal').remove();
-    const s = state;
-    const btn = document.getElementById('payBtn');
-    const data = { ...collectFormData(), action: 'paypay', paymethod: 'paypay' };  // ★ ここを修正
+async function choosePayPay() {
+  document.getElementById('paymentModal').remove();
+  const s = state;
+  const btn = document.getElementById('payBtn');
 
-    const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
-    const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
-
-    try {
-      btn.disabled = true;
-      btn.textContent = '送信中...';
-      await postToGas(data);
-      window.location.href =
-        `dari_thanks.html?paypay=1` +
-        `&amount=${s.amount}` +
-        `&email=${encodeURIComponent(data.email)}` +
-        `&plan=${encodeURIComponent(data.plan)}` +
-        `&credit=${encodeURIComponent(data.creditName)}` +
-        `&tshirt=${encodeURIComponent(tshirtRaw)}` +
-        `&poster=${encodeURIComponent(posterRaw)}` +
-        `&lastName=${encodeURIComponent(data.lastName)}` +
-        `&firstName=${encodeURIComponent(data.firstName)}` +
-        `&postcode=${encodeURIComponent(data.postcode)}` +
-        `&address1=${encodeURIComponent(data.address1)}` +
-        `&address2=${encodeURIComponent(data.address2)}` +
-        `&phone=${encodeURIComponent(data.phone)}`;
-    } catch (e) {
-      btn.disabled = false;
-      btn.textContent = '支払いへ進む →';
-      alert('エラーが発生しました。\n' + e.message + '\n\n時間をおいて再度お試しください。');
-    }
+  // ★ paypayAccountをユーザーに入力させてからデータ送信
+  const paypayAccount = prompt('PayPayのアカウント名（電話番号または登録名）を入力してください：');
+  if (!paypayAccount || paypayAccount.trim() === '') {
+    alert('PayPayアカウント名が入力されていません。');
+    return;
   }
-</script>
-</body>
-</html>
+
+  const data = {
+    ...collectFormData(),
+    action: 'paypay',
+    paymethod: 'paypay',
+    paypayAccount: paypayAccount.trim(),
+  };
+
+  const tshirtRaw = s.tshirtId ? `${s.tshirtName} / ${s.tshirtColor || ''} / ${s.tshirtSize || ''}` : '';
+  const posterRaw = s.posterId ? `${s.posterName} / ${s.posterSize || ''}` : '';
+
+  try {
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+    await postToGas(data);
+    window.location.href =
+      `dari_thanks.html?paypay=1` +
+      `&amount=${s.amount}` +
+      `&email=${encodeURIComponent(data.email)}` +
+      `&plan=${encodeURIComponent(data.plan)}` +
+      `&credit=${encodeURIComponent(data.creditName)}` +
+      `&tshirt=${encodeURIComponent(tshirtRaw)}` +
+      `&poster=${encodeURIComponent(posterRaw)}` +
+      `&lastName=${encodeURIComponent(data.lastName)}` +
+      `&firstName=${encodeURIComponent(data.firstName)}` +
+      `&postcode=${encodeURIComponent(data.postcode)}` +
+      `&address1=${encodeURIComponent(data.address1)}` +
+      `&address2=${encodeURIComponent(data.address2)}` +
+      `&phone=${encodeURIComponent(data.phone)}`;
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = '支払いへ進む →';
+    alert('エラーが発生しました。\n' + e.message + '\n\n時間をおいて再度お試しください。');
+  }
+}
