@@ -572,6 +572,19 @@
 </head>
 <body>
 
+<div id="maintenanceOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
+  <div style="background:#111; border:2px solid #fff; border-radius:12px; max-width:480px; width:100%; padding:40px 30px; text-align:center; color:#fff; font-family:inherit;">
+    <div style="font-size:48px; margin-bottom:16px;">🛠️</div>
+    <div style="font-size:22px; font-weight:bold; margin-bottom:12px; line-height:1.5;">ただいま点検中です</div>
+    <div style="font-size:16px; line-height:1.7; opacity:0.85; margin-bottom:28px;">
+      システムの不具合により、現在お支払い機能を一時停止しております。<br>
+      数時間後に再度お試しください。<br>
+      ご不便をおかけし申し訳ございません。
+    </div>
+    <button onclick="document.getElementById('maintenanceOverlay').remove()" style="background:#fff; color:#000; border:none; padding:12px 28px; border-radius:8px; font-size:15px; font-weight:bold; cursor:pointer;">内容だけ確認する</button>
+  </div>
+</div>
+
 <nav>
   <div class="nav-left">DARI / GBB2026 — 支援内容の選択</div>
   <a class="nav-back" href="dari_crowdfund.html">← 戻る</a>
