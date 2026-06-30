@@ -1160,7 +1160,7 @@
 
     const title = document.createElement('div');
     title.className = 'payment-modal-title';
-    title.textContent = '// 決済方法を選択';
+    title.textContent = '// ただいま点検中です。数時間後に再度お試しください';
 
     const paypalBtn = document.createElement('button');
     paypalBtn.className = 'payment-modal-btn';
@@ -1183,18 +1183,24 @@
     paypayInput.type = 'text';
     paypayInput.placeholder = '例: 090-0000-0000 / 山田太郎';
     paypayInput.className = 'payment-modal-input';
+    paypayInput.disabled = true;
+    paypayInput.style.opacity = '0.4';
 
     const paypayBtn = document.createElement('button');
     paypayBtn.className = 'payment-modal-btn';
-    paypayBtn.textContent = 'PayPay で支払う →';
+    paypayBtn.textContent = 'PayPay で支払う（一時停止中）';
+    // ★一時的にPayPayを無効化（グレーアウト）
+    paypayBtn.disabled = true;
+    paypayBtn.style.opacity = '0.4';
+    paypayBtn.style.cursor = 'not-allowed';
+    paypayBtn.style.pointerEvents = 'none';
 
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'payment-modal-cancel';
     cancelBtn.textContent = 'キャンセル';
 
     // ★ addEventListener で登録（onclick文字列ではない）
-    // paypalBtnはdisabledのためクリックは発火しません
-    paypayBtn.addEventListener('click', () => choosePayPay());
+    // paypalBtn・paypayBtnともにdisabledのためクリックは発火しません
     cancelBtn.addEventListener('click', () => modal.remove());
 
     box.appendChild(title);
