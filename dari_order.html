@@ -1158,6 +1158,17 @@
     const box = document.createElement('div');
     box.className = 'payment-modal-box';
 
+    // ★大きな点検中バナー
+    const maintenanceBanner = document.createElement('div');
+    maintenanceBanner.style.background = '#111';
+    maintenanceBanner.style.color = '#fff';
+    maintenanceBanner.style.padding = '1.5rem 1rem';
+    maintenanceBanner.style.marginBottom = '1.5rem';
+    maintenanceBanner.style.textAlign = 'center';
+    maintenanceBanner.style.lineHeight = '1.6';
+    maintenanceBanner.innerHTML = '<div style="font-size:15px;font-weight:700;letter-spacing:0.05em;margin-bottom:0.5rem;">⚠️ ただいま点検中です</div><div style="font-size:13px;color:#ddd;">数時間後に再度お試しください</div>';
+    box.appendChild(maintenanceBanner);
+
     const title = document.createElement('div');
     title.className = 'payment-modal-title';
     title.textContent = '// ただいま点検中です。数時間後に再度お試しください';
