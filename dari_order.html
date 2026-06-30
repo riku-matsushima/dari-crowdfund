@@ -1164,7 +1164,12 @@
 
     const paypalBtn = document.createElement('button');
     paypalBtn.className = 'payment-modal-btn';
-    paypalBtn.textContent = 'PayPal で支払う →';
+    paypalBtn.textContent = 'PayPal で支払う（一時停止中）';
+    // ★一時的にPayPalを無効化（グレーアウト）
+    paypalBtn.disabled = true;
+    paypalBtn.style.opacity = '0.4';
+    paypalBtn.style.cursor = 'not-allowed';
+    paypalBtn.style.pointerEvents = 'none';
 
     const divider = document.createElement('div');
     divider.className = 'payment-modal-divider';
@@ -1188,7 +1193,7 @@
     cancelBtn.textContent = 'キャンセル';
 
     // ★ addEventListener で登録（onclick文字列ではない）
-    paypalBtn.addEventListener('click', () => choosePayPal());
+    // paypalBtnはdisabledのためクリックは発火しません
     paypayBtn.addEventListener('click', () => choosePayPay());
     cancelBtn.addEventListener('click', () => modal.remove());
 
