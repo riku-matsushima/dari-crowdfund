@@ -572,18 +572,6 @@
 </head>
 <body>
 
-<div id="maintenanceOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
-  <div style="background:#111; border:2px solid #fff; border-radius:12px; max-width:480px; width:100%; padding:40px 30px; text-align:center; color:#fff; font-family:inherit;">
-    <div style="font-size:48px; margin-bottom:16px;">🛠️</div>
-    <div style="font-size:22px; font-weight:bold; margin-bottom:12px; line-height:1.5;">ただいま点検中です</div>
-    <div style="font-size:16px; line-height:1.7; opacity:0.85; margin-bottom:28px;">
-      システムの不具合により、現在お支払い機能を一時停止しております。<br>
-      数時間後に再度お試しください。<br>
-      ご不便をおかけし申し訳ございません。
-    </div>
-    <button onclick="document.getElementById('maintenanceOverlay').remove()" style="background:#fff; color:#000; border:none; padding:12px 28px; border-radius:8px; font-size:15px; font-weight:bold; cursor:pointer;">内容だけ確認する</button>
-  </div>
-</div>
 
 <nav>
   <div class="nav-left">DARI / GBB2026 — 支援内容の選択</div>
@@ -1163,7 +1151,7 @@
   }
 
   // ── 決済モーダル（★ innerHTML + onclick 廃止 → addEventListener に変更）──
-  function showPaymentModal() {
+ function showPaymentModal() {
     const modal = document.createElement('div');
     modal.id = 'paymentModal';
     modal.className = 'payment-modal-overlay';
@@ -1171,25 +1159,14 @@
     const box = document.createElement('div');
     box.className = 'payment-modal-box';
 
-    // ★大きな点検中バナー
-    const maintenanceBanner = document.createElement('div');
-    maintenanceBanner.style.background = '#111';
-    maintenanceBanner.style.color = '#fff';
-    maintenanceBanner.style.padding = '1.5rem 1rem';
-    maintenanceBanner.style.marginBottom = '1.5rem';
-    maintenanceBanner.style.textAlign = 'center';
-    maintenanceBanner.style.lineHeight = '1.6';
-    maintenanceBanner.innerHTML = '<div style="font-size:15px;font-weight:700;letter-spacing:0.05em;margin-bottom:0.5rem;">⚠️ ただいま点検中です</div><div style="font-size:13px;color:#ddd;">数時間後に再度お試しください</div>';
-    box.appendChild(maintenanceBanner);
-
     const title = document.createElement('div');
     title.className = 'payment-modal-title';
-    title.textContent = '// ただいま点検中です。数時間後に再度お試しください';
+    title.textContent = '// お支払い方法を選択してください';
 
+    // PayPal(停止中のまま)
     const paypalBtn = document.createElement('button');
     paypalBtn.className = 'payment-modal-btn';
-    paypalBtn.textContent = 'PayPal で支払う（一時停止中）';
-    // ★一時的にPayPalを無効化（グレーアウト）
+    paypalBtn.textContent = 'PayPal で支払う(一時停止中)';
     paypalBtn.disabled = true;
     paypalBtn.style.opacity = '0.4';
     paypalBtn.style.cursor = 'not-allowed';
@@ -1198,33 +1175,25 @@
     const divider = document.createElement('div');
     divider.className = 'payment-modal-divider';
 
+    // PayPay(有効化)
     const paypayLabel = document.createElement('label');
     paypayLabel.className = 'payment-modal-label';
-    paypayLabel.textContent = 'PayPay アカウント名（送金後に確認に使います）';
+    paypayLabel.textContent = 'PayPay アカウント名(送金後に確認に使います)';
 
     const paypayInput = document.createElement('input');
     paypayInput.id = 'modalPaypayAccount';
     paypayInput.type = 'text';
     paypayInput.placeholder = '例: 090-0000-0000 / 山田太郎';
     paypayInput.className = 'payment-modal-input';
-    paypayInput.disabled = true;
-    paypayInput.style.opacity = '0.4';
 
     const paypayBtn = document.createElement('button');
     paypayBtn.className = 'payment-modal-btn';
-    paypayBtn.textContent = 'PayPay で支払う（一時停止中）';
-    // ★一時的にPayPayを無効化（グレーアウト）
-    paypayBtn.disabled = true;
-    paypayBtn.style.opacity = '0.4';
-    paypayBtn.style.cursor = 'not-allowed';
-    paypayBtn.style.pointerEvents = 'none';
+    paypayBtn.textContent = 'PayPay で支払う';
+    paypayBtn.addEventListener('click', choosePayPay);
 
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'payment-modal-cancel';
     cancelBtn.textContent = 'キャンセル';
-
-    // ★ addEventListener で登録（onclick文字列ではない）
-    // paypalBtn・paypayBtnともにdisabledのためクリックは発火しません
     cancelBtn.addEventListener('click', () => modal.remove());
 
     box.appendChild(title);
@@ -1237,7 +1206,6 @@
     modal.appendChild(box);
     document.body.appendChild(modal);
   }
-
   // ── PayPal フロー ──
   async function choosePayPal() {
     document.getElementById('paymentModal')?.remove();
