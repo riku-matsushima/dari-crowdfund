@@ -1228,6 +1228,7 @@
   }
 
   // ── PayPay フロー ──
+// ── PayPay フロー ──
   async function choosePayPay() {
     const paypayInput = document.getElementById('modalPaypayAccount');
     const paypayAccount = paypayInput ? paypayInput.value.trim() : '';
@@ -1241,29 +1242,38 @@
 
     const btn = document.getElementById('payBtn');
     btn.disabled = true;
-    btn.textContent = '移動中...';
+    btn.textContent = '送信中...';
 
     const s = state;
     const formData = collectFormData();
+    const data = { ...formData, action: 'paypay', paypayAccount };
 
-    // ★ collectFormData() の結果をそのまま使う（二重構築をなくす）
-    window.location.href =
-      `dari_thanks.html?paypay=1` +
-      `&amount=${s.amount}` +
-      `&email=${encodeURIComponent(formData.email)}` +
-      `&plan=${encodeURIComponent(formData.plan)}` +
-      `&creditName=${encodeURIComponent(formData.creditName)}` +
-      `&tshirt=${encodeURIComponent(formData.tshirt)}` +
-      `&poster=${encodeURIComponent(formData.poster)}` +
-      `&lastName=${encodeURIComponent(formData.lastName)}` +
-      `&firstName=${encodeURIComponent(formData.firstName)}` +
-      `&postcode=${encodeURIComponent(formData.postcode)}` +
-      `&address1=${encodeURIComponent(formData.address1)}` +
-      `&address2=${encodeURIComponent(formData.address2)}` +
-      `&phone=${encodeURIComponent(formData.phone)}` +
-      `&paypayAccount=${encodeURIComponent(paypayAccount)}`;
+    try {
+      const json = await postToGas(data);
+      if (json.result !== 'success') {
+        throw new Error(json.message || '不明なエラーが発生しました');
+      }
+      window.location.href =
+        `dari_thanks.html?paypay=1` +
+        `&amount=${s.amount}` +
+        `&email=${encodeURIComponent(formData.email)}` +
+        `&plan=${encodeURIComponent(formData.plan)}` +
+        `&creditName=${encodeURIComponent(formData.creditName)}` +
+        `&tshirt=${encodeURIComponent(formData.tshirt)}` +
+        `&poster=${encodeURIComponent(formData.poster)}` +
+        `&lastName=${encodeURIComponent(formData.lastName)}` +
+        `&firstName=${encodeURIComponent(formData.firstName)}` +
+        `&postcode=${encodeURIComponent(formData.postcode)}` +
+        `&address1=${encodeURIComponent(formData.address1)}` +
+        `&address2=${encodeURIComponent(formData.address2)}` +
+        `&phone=${encodeURIComponent(formData.phone)}` +
+        `&paypayAccount=${encodeURIComponent(paypayAccount)}`;
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = '支払いへ進む →';
+      alert('エラーが発生しました。\n' + e.message + '\n\n時間をおいて再度お試しください。');
+    }
   }
-
   injectDigitalContentDetails();
   initAllTshirtImages();
 </script>
