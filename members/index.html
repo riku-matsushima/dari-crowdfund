@@ -450,11 +450,13 @@ async function loadPosts() {
     const res = await fetch('https://script.google.com/macros/s/AKfycbzL2q_OURaM_bSgdZWw315aKVe3Sy_G2X6s3YKFSnxtHQzuOtCxwP-eSMAyDJeBAuturw/exec?action=notion' + guestParam);
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
-    allPosts = (data.results || []).sort((a, b) => {
-      const oa = a.properties?.Order?.number ?? 9999;
-      const ob = b.properties?.Order?.number ?? 9999;
-      return oa - ob;
-    });
+    allPosts = (data.results || [])
+      .filter(post => post.properties?.Published?.checkbox === true)
+      .sort((a, b) => {
+        const oa = a.properties?.Order?.number ?? 9999;
+        const ob = b.properties?.Order?.number ?? 9999;
+        return oa - ob;
+      });
     document.getElementById('post-count').textContent = allPosts.length;
     if (isGuest()) {
       document.getElementById('plan-label').textContent = 'Free';
