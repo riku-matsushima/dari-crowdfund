@@ -416,7 +416,7 @@ async function tryLogin() {
   try {
     const params = new URLSearchParams({ action: 'auth', password: val });
     const res = await fetch(
-      'https://script.google.com/macros/s/AKfycbwMDk0Q04vZDiZ_omfewS4UVyh9UB03X8rLs-HVuCB_E99M1_F7_Wn-3zZedKsx2Q/exec?' + params,
+      'https://script.google.com/macros/s/AKfycbzL2q_OURaM_bSgdZWw315aKVe3Sy_G2X6s3YKFSnxtHQzuOtCxwP-eSMAyDJeBAuturw/exec?' + params,
       { method: 'GET' }
     );
 
@@ -446,7 +446,7 @@ document.getElementById('pw-input').addEventListener('keydown', e => {
 // ── 投稿読み込み ──
 async function loadPosts() {
   try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwMDk0Q04vZDiZ_omfewS4UVyh9UB03X8rLs-HVuCB_E99M1_F7_Wn-3zZedKsx2Q/exec?action=notion');
+    const res = await fetch('https://script.google.com/macros/s/AKfycbzL2q_OURaM_bSgdZWw315aKVe3Sy_G2X6s3YKFSnxtHQzuOtCxwP-eSMAyDJeBAuturw/exec?action=notion' + guestParam);
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
     allPosts = (data.results || []).sort((a, b) => {
