@@ -446,6 +446,7 @@ document.getElementById('pw-input').addEventListener('keydown', e => {
 // ── 投稿読み込み ──
 async function loadPosts() {
   try {
+    const guestParam = isGuest() ? '&guest=1' : '';
     const res = await fetch('https://script.google.com/macros/s/AKfycbzL2q_OURaM_bSgdZWw315aKVe3Sy_G2X6s3YKFSnxtHQzuOtCxwP-eSMAyDJeBAuturw/exec?action=notion' + guestParam);
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
