@@ -608,7 +608,7 @@
         <div class="plan-card" data-plan="entry" data-min="500" data-name="ENTRY" onclick="selectPlan(this)">
           <div class="plan-check">✓</div><div class="plan-tag">Entry</div><div class="plan-price">¥500<span class="plan-price-tilde">〜</span></div><div class="plan-price-note">以上いくらでも</div><div class="plan-name">ENTRY</div>
           <ul class="plan-perks"><li>MVエンドクレジット掲載</li></ul>
-          <div class="plan-details"><div class="details-title">// プラン詳細</div><div class="details-content">あなたの名前を作成予定のMVのエンドクレジットに掲載します。</div></div>
+          <div class="plan-details"><div class="details-title">// プラン詳細</div><div class="details-content">あなたの名前を作成予定 of MVのエンドクレジットに掲載します。</div></div>
         </div>
         <div class="plan-card" data-plan="digital" data-min="1500" data-name="DIGITAL" onclick="selectPlan(this)">
           <div class="plan-check">✓</div><div class="plan-tag">Digital</div><div class="plan-price">¥1,500<span class="plan-price-tilde">〜</span></div><div class="plan-price-note">以上いくらでも</div><div class="plan-name">DIGITAL</div>
@@ -949,7 +949,7 @@
 
     const title = document.createElement('div');
     title.className = 'payment-modal-title';
-    title.textContent = '// クラウドファンディングは終了しました';
+    title.textContent = '// digitalプラン以外は終了しました';
 
     const msg = document.createElement('p');
     msg.style.fontSize = '13px';
@@ -957,7 +957,7 @@
     msg.style.lineHeight = '1.7';
     msg.style.margin = '0.5rem 0 1.5rem';
     msg.style.color = 'var(--text)';
-    msg.textContent = 'ご支援ありがとうございました。本キャンペーンの受付は本日をもって終了し、新規のお申し込み・お支払いはできません。';
+    msg.textContent = 'こちらのプランの受付は本日をもって終了いたしました。デジタルプランは引き続きご支援いただけますので、よろしければそちらをご検討ください。';
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'payment-modal-cancel';
@@ -972,8 +972,13 @@
   }
 
   function selectPlan(card) {
-    showCampaignEndedModal();
-    return;
+    // digitalプラン以外は終了メッセージを出して処理を中断
+    if (card.dataset.plan !== 'digital') {
+      showCampaignEndedModal();
+      return;
+    }
+
+    // digitalプランの場合は今までの感じで通常通り使えるように処理
     document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     state.plan = card.dataset.plan;
@@ -1185,8 +1190,7 @@
     return await res.json();
   }
 
-  // ── 決済モーダル（★ innerHTML + onclick 廃止 → addEventListener に変更）──
- function showPaymentModal() {
+  function showPaymentModal() {
     const modal = document.createElement('div');
     modal.id = 'paymentModal';
     modal.className = 'payment-modal-overlay';
@@ -1198,7 +1202,6 @@
     title.className = 'payment-modal-title';
     title.textContent = '// お支払い方法を選択してください';
 
-    // PayPal(停止中のまま)
     const paypalBtn = document.createElement('button');
     paypalBtn.className = 'payment-modal-btn';
     paypalBtn.textContent = 'PayPal で支払う(一時停止中)';
@@ -1210,7 +1213,6 @@
     const divider = document.createElement('div');
     divider.className = 'payment-modal-divider';
 
-    // PayPay(有効化)
     const paypayLabel = document.createElement('label');
     paypayLabel.className = 'payment-modal-label';
     paypayLabel.textContent = 'PayPay アカウント名(送金後に確認に使います)';
@@ -1241,7 +1243,7 @@
     modal.appendChild(box);
     document.body.appendChild(modal);
   }
-  // ── PayPal フロー ──
+
   async function choosePayPal() {
     document.getElementById('paymentModal')?.remove();
     const btn = document.getElementById('payBtn');
@@ -1262,8 +1264,6 @@
     }
   }
 
-  // ── PayPay フロー ──
-// ── PayPay フロー ──
   async function choosePayPay() {
     const paypayInput = document.getElementById('modalPaypayAccount');
     const paypayAccount = paypayInput ? paypayInput.value.trim() : '';
