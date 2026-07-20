@@ -938,7 +938,42 @@
     selectTshirtDesign(id, name, colorsCsv, card);
   }
 
+  function showCampaignEndedModal() {
+    if (document.getElementById('endedModal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'endedModal';
+    modal.className = 'payment-modal-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'payment-modal-box';
+
+    const title = document.createElement('div');
+    title.className = 'payment-modal-title';
+    title.textContent = '// クラウドファンディングは終了しました';
+
+    const msg = document.createElement('p');
+    msg.style.fontSize = '13px';
+    msg.style.fontWeight = '300';
+    msg.style.lineHeight = '1.7';
+    msg.style.margin = '0.5rem 0 1.5rem';
+    msg.style.color = 'var(--text)';
+    msg.textContent = 'ご支援ありがとうございました。本キャンペーンの受付は本日をもって終了し、新規のお申し込み・お支払いはできません。';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'payment-modal-cancel';
+    closeBtn.textContent = '閉じる';
+    closeBtn.addEventListener('click', () => modal.remove());
+
+    box.appendChild(title);
+    box.appendChild(msg);
+    box.appendChild(closeBtn);
+    modal.appendChild(box);
+    document.body.appendChild(modal);
+  }
+
   function selectPlan(card) {
+    showCampaignEndedModal();
+    return;
     document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     state.plan = card.dataset.plan;
